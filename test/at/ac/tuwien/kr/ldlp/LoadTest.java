@@ -15,10 +15,13 @@ public class LoadTest {
 //
 //	public final static String phyUri = "file:kb/super.ldl";
 
-	public final static String uri = "http://www.kr.tuwien.ac.at/staff/xiao/ldl/role_intersection_and_union.ldl";
+//	public final static String uri = "http://www.kr.tuwien.ac.at/staff/xiao/ldl/role_intersection_and_union.ldl";
+//
+//	public final static String phyUri = "file:kb/role_intersection_and_union.ldl";
 
-	public final static String phyUri = "file:kb/role_intersection_and_union.ldl";
+	public final static String uri = "http://www.kr.tuwien.ac.at/staff/xiao/ldl/role_chain.ldl";
 
+	public final static String phyUri = "file:kb/role_chain.ldl";
 	
 	public static void main(String[] args) {
 		loadOntology(uri,phyUri);
