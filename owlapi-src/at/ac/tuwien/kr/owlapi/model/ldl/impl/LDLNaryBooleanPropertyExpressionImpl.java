@@ -278,16 +278,6 @@ public abstract class LDLNaryBooleanPropertyExpressionImpl extends OWLObjectImpl
 
 	}
 
-	@Override
-	public <O> O accept(OWLPropertyExpressionVisitorEx<O> visitor) {
-		return null;
-	}
-
-	
-	@Override
-	public <O> O accept(OWLObjectVisitorEx<O> visitor) {
-		return null;
-	}
 	
 	@Override
 	protected int compareObjectOfSameType(OWLObject object) {

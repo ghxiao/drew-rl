@@ -45,7 +45,7 @@ import org.semanticweb.owlapi.util.OWLOntologyWalker;
 import org.semanticweb.owlapi.util.OWLOntologyWalkerVisitor;
 
 /**
- * TODO describe this class please.
+ * LDLPProfileChecker
  */
 
 class LDLPProfileChecker extends OWLOntologyWalkerVisitor {

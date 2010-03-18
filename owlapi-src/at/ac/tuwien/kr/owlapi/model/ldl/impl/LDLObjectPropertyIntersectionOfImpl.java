@@ -12,6 +12,8 @@ import java.util.Set;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 import org.semanticweb.owlapi.model.OWLObjectVisitor;
+import org.semanticweb.owlapi.model.OWLObjectVisitorEx;
+import org.semanticweb.owlapi.model.OWLPropertyExpressionVisitorEx;
 
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyIntersectionOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLPropertyExpressionVisitorEx;
@@ -20,9 +22,9 @@ import at.ac.tuwien.kr.owlapi.model.ldl.LDLPropertyExpressionVisitorEx;
  * TODO describe this class please.
  */
 public class LDLObjectPropertyIntersectionOfImpl extends LDLNaryBooleanPropertyExpressionImpl implements LDLObjectPropertyIntersectionOf {
-	
+
 	public LDLObjectPropertyIntersectionOfImpl(OWLDataFactory factory, Set<? extends OWLObjectPropertyExpression> operands) {
-		super(factory,operands);
+		super(factory, operands);
 	}
 
 	@Override
@@ -32,10 +34,17 @@ public class LDLObjectPropertyIntersectionOfImpl extends LDLNaryBooleanPropertyE
 
 	@Override
 	public void accept(OWLObjectVisitor visitor) {
-		visitor.visit(this);		
+		visitor.visit(this);
 	}
 
-	
+	@Override
+	public <O> O accept(OWLPropertyExpressionVisitorEx<O> visitor) {
+		return visitor.visit(this);
+	}
 
+	@Override
+	public <O> O accept(OWLObjectVisitorEx<O> visitor) {
+		return visitor.visit(this);
+	}
 
 }

@@ -12,6 +12,8 @@ import java.util.Set;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 import org.semanticweb.owlapi.model.OWLObjectVisitor;
+import org.semanticweb.owlapi.model.OWLObjectVisitorEx;
+import org.semanticweb.owlapi.model.OWLPropertyExpressionVisitorEx;
 
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyUnionOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLPropertyExpressionVisitorEx;
@@ -33,6 +35,16 @@ public class LDLObjectPropertyUnionOfImpl extends LDLNaryBooleanPropertyExpressi
 	@Override
 	public void accept(OWLObjectVisitor visitor) {
 		visitor.visit(this);
+	}
+
+	@Override
+	public <O> O accept(OWLPropertyExpressionVisitorEx<O> visitor) {
+		return visitor.visit(this);
+	}
+
+	@Override
+	public <O> O accept(OWLObjectVisitorEx<O> visitor) {
+		return visitor.visit(this);
 	}
 
 }
