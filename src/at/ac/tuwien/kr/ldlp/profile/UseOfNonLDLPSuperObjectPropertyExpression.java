@@ -15,11 +15,11 @@ import org.semanticweb.owlapi.profiles.OWLProfileViolation;
 /**
  * TODO describe this class please.
  */
-public class UseOfNonSuperObjectPropertyExpression extends OWLProfileViolation {
+public class UseOfNonLDLPSuperObjectPropertyExpression extends OWLProfileViolation {
 
 	private OWLObjectPropertyExpression propertyExpression;
 
-	public UseOfNonSuperObjectPropertyExpression(OWLOntology ontology, OWLAxiom axiom, OWLObjectPropertyExpression propertyExpression) {
+	public UseOfNonLDLPSuperObjectPropertyExpression(OWLOntology ontology, OWLAxiom axiom, OWLObjectPropertyExpression propertyExpression) {
 		super(ontology, axiom);
 		this.propertyExpression = propertyExpression;
 	}

@@ -169,10 +169,10 @@ class LDLPProfileChecker extends OWLOntologyWalkerVisitor {
     @Override
 	public Object visit(OWLSubObjectPropertyOfAxiom axiom) {
     	if(!isLDLPSubObjectPropertyExpression(axiom.getSubProperty())) {
-            profileViolations.add(new UseOfNonSubPropertyExpression(getCurrentOntology(), axiom, axiom.getSubProperty()));
+            profileViolations.add(new UseOfNonLDLPSubPropertyExpression(getCurrentOntology(), axiom, axiom.getSubProperty()));
         }
         if(!isLDLPSuperObjectPropertyExpression(axiom.getSuperProperty())) {
-            profileViolations.add(new UseOfNonSuperObjectPropertyExpression(getCurrentOntology(), axiom, axiom.getSuperProperty()));
+            profileViolations.add(new UseOfNonLDLPSuperObjectPropertyExpression(getCurrentOntology(), axiom, axiom.getSuperProperty()));
         }
         return null;
 	}
