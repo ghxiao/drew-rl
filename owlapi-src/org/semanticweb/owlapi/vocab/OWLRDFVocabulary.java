@@ -315,7 +315,10 @@ public enum OWLRDFVocabulary {
     
     LDL_OBJECT_PROPERTY_INTERSECTION_OF(Namespaces.LDL, "objectPropertyIntersectionOf"),
     
-    LDL_OBJECT_PROPERTY_UNION_OF(Namespaces.LDL, "objectPropertyUnionOf");
+    LDL_OBJECT_PROPERTY_UNION_OF(Namespaces.LDL, "objectPropertyUnionOf"),
+    
+    LDL_OBJECT_PROPERTY_CHAIN_OF(Namespaces.LDL, "objectPropertyChainOf");
+    
     
     
     URI uri;

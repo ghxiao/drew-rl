@@ -38,7 +38,7 @@
         	\item translateToObjectPropertyExpressionSet(IRI) (A)
         	\item setupPredicateHandlers() (M)
         	\begin{itemize}
-             \item  addPredicateHandler(new TPObjectPropertyTransitiveClosureOfHandler(this));
+             \item addPredicateHandler(new TPObjectPropertyTransitiveClosureOfHandler(this));
         	\item addPredicateHandler(new TPObjectPropertyUnionOfHandler(this));
         	\item addPredicateHandler(new TPObjectPropertyIntersectionOfHandler(this));
         
@@ -46,6 +46,23 @@
         \end{itemize}
       \end{itemize}
     \end{itemize}
+	
+	For every new constructors
+	
+	\begin{itemize}
+      \item add LDLObjectPropertyChainOf
+      \item add LDLObjectPropertyChainOfImpl
+      \item add LDLObjectPropertyChainOfTranslator 
+      \item add TPObjectPropertyChainOfHandler
+      \item update ObjectPropertyExpressionTranslatorSelector
+      \item update OWLRDFVocabulary
+      \item update OWLDataFactoy
+      \item update OWLDataFactoryImpl
+      \item update OWLRDFConsumer      
+    \end{itemize}
+	
+	
+	
 	
 	\section{}
 	

@@ -3,6 +3,7 @@ package org.semanticweb.owlapi.model;
 import org.semanticweb.owlapi.vocab.OWL2Datatype;
 import org.semanticweb.owlapi.vocab.OWLFacet;
 
+import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyChainOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyIntersectionOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyTransitiveClosureOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyUnionOf;
@@ -1321,5 +1322,10 @@ public interface OWLDataFactory extends SWRLDataFactory {
 	LDLObjectPropertyUnionOf getLDLObjectPropertyUnionOf(OWLObjectPropertyExpression... operands);
 
 	LDLObjectPropertyTransitiveClosureOf getLDLObjectPropertyTransitiveClosureOf(OWLObjectPropertyExpression operand);
+
+
+	LDLObjectPropertyChainOf getLDLObjectPropertyChainOf(Set<? extends OWLObjectPropertyExpression> operands);
+
+	LDLObjectPropertyChainOf getLDLObjectPropertyChainOf(OWLObjectPropertyExpression... operands);
 
 }

@@ -13,6 +13,7 @@ import org.xml.sax.SAXException;
 
 import at.ac.tuwien.kr.owlapi.rdfxml.parser.ObjectPropertyExpressionTranslator;
 import at.ac.tuwien.kr.owlapi.rdfxml.parser.ObjectPropertyExpressionTranslatorSelector;
+import at.ac.tuwien.kr.owlapi.rdfxml.parser.TPObjectPropertyChainOfHandler;
 import at.ac.tuwien.kr.owlapi.rdfxml.parser.TPObjectPropertyIntersectionOfHandler;
 import at.ac.tuwien.kr.owlapi.rdfxml.parser.TPObjectPropertyTransitiveClosureOfHandler;
 import at.ac.tuwien.kr.owlapi.rdfxml.parser.TPObjectPropertyUnionOfHandler;
@@ -608,6 +609,9 @@ public class OWLRDFConsumer implements RDFConsumer {
         addPredicateHandler(new TPObjectPropertyTransitiveClosureOfHandler(this));
         addPredicateHandler(new TPObjectPropertyUnionOfHandler(this));
         addPredicateHandler(new TPObjectPropertyIntersectionOfHandler(this));
+        addPredicateHandler(new TPObjectPropertyChainOfHandler(this));
+        
+        
         //TODO:more
         
         
@@ -1579,7 +1583,7 @@ public class OWLRDFConsumer implements RDFConsumer {
     private Map<IRI, OWLObjectPropertyExpression> translatedProperties = new HashMap<IRI, OWLObjectPropertyExpression>();
 
     //Xiao: LDL
-    private Map<IRI, OWLObjectPropertyExpression> translatedObjectPropertyExpression = new HashMap<IRI, OWLObjectPropertyExpression>();
+    private Map<IRI, OWLObjectPropertyExpression> translatedObjectPropertyExpressions = new HashMap<IRI, OWLObjectPropertyExpression>();
     
     //xiao
     //TODO: extend it
@@ -1617,7 +1621,7 @@ public class OWLRDFConsumer implements RDFConsumer {
             ObjectPropertyExpressionTranslator translator = objectPropertyExpressionTranslatorSelector.getObjectPropertyExpressionTranslator(mainNode);
             if (translator != null) {
             	prop = translator.translate(mainNode);
-                translatedObjectPropertyExpression.put(mainNode, prop);
+                translatedObjectPropertyExpressions.put(mainNode, prop);
                 restrictionIRIs.remove(mainNode);
             }
             else {

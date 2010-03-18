@@ -14,6 +14,8 @@ public class ObjectPropertyExpressionTranslatorSelector {
 	private LDLObjectPropertyUnionOfTranslator objectPropertyUnionOfTranslator;
 	
 	private LDLObjectPropertyTransitiveClosureOfTranslator objectPropertyTransitiveClosureOfTranslator;
+	
+	private LDLObjectPropertyChainOfTranslator objectPropertyChainOfTranslator;
 
 	public ObjectPropertyExpressionTranslatorSelector(OWLRDFConsumer consumer) {
 		this.consumer = consumer;
@@ -36,6 +38,9 @@ public class ObjectPropertyExpressionTranslatorSelector {
 			return objectPropertyTransitiveClosureOfTranslator;
 		}
 		
+		if(consumer.hasPredicate(mainNode, LDL_OBJECT_PROPERTY_CHAIN_OF.getIRI())){
+			return objectPropertyChainOfTranslator;
+		}
 		
 		throw new UnsupportedOperationException();
 	}
