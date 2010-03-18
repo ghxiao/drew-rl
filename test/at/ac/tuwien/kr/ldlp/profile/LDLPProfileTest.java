@@ -10,6 +10,7 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.profiles.OWLProfileReport;
+import org.semanticweb.owlapi.profiles.OWLProfileViolation;
 import org.semanticweb.owlapi.util.SimpleIRIMapper;
 
 public class LDLPProfileTest {
@@ -25,6 +26,10 @@ public class LDLPProfileTest {
 		LDLPProfile profile = new LDLPProfile();
 		
 		OWLProfileReport report = profile.checkOntology(ontology);
+		
+		for(OWLProfileViolation v:report.getViolations()){
+			System.out.println(v);
+		}
 		
 		assertFalse(report.isInProfile());
 

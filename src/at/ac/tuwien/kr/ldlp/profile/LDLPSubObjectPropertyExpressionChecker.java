@@ -6,6 +6,7 @@ import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 import org.semanticweb.owlapi.model.OWLPropertyExpressionVisitorEx;
 
+import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyChainOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyIntersectionOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyTransitiveClosureOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyUnionOf;
@@ -54,6 +55,16 @@ public class LDLPSubObjectPropertyExpressionChecker implements LDLPropertyExpres
 	@Override
 	public Boolean visit(LDLObjectPropertyTransitiveClosureOf property) {
 		return property.getOperand().accept(this);
+	}
+
+	@Override
+	public Boolean visit(LDLObjectPropertyChainOf property) {
+		for(OWLObjectPropertyExpression op:property.getOperands()){
+			if(op.accept(this)){
+				return false;
+			}
+		}
+		return true;
 	}
 
 }

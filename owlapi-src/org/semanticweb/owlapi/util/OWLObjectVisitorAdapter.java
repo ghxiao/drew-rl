@@ -24,6 +24,7 @@ import org.semanticweb.owlapi.model.*;
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
+import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyChainOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyIntersectionOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyTransitiveClosureOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyUnionOf;
@@ -396,6 +397,12 @@ public class OWLObjectVisitorAdapter implements OWLObjectVisitor {
 
 	@Override
 	public void visit(LDLObjectPropertyTransitiveClosureOf property) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(LDLObjectPropertyChainOf property) {
 		// TODO Auto-generated method stub
 		
 	}

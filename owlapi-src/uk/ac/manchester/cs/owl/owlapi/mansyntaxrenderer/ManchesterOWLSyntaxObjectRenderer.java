@@ -5,6 +5,7 @@ import static org.coode.owlapi.manchesterowlsyntax.ManchesterOWLSyntax.*;
 import org.semanticweb.owlapi.model.*;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 
+import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyChainOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyIntersectionOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyTransitiveClosureOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyUnionOf;
@@ -1007,6 +1008,12 @@ public class ManchesterOWLSyntaxObjectRenderer extends AbstractRenderer implemen
 
 	@Override
 	public void visit(LDLObjectPropertyTransitiveClosureOf property) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(LDLObjectPropertyChainOf property) {
 		// TODO Auto-generated method stub
 		
 	}

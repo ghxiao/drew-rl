@@ -9,6 +9,8 @@ package at.ac.tuwien.kr.owlapi.model.ldl;
 
 import org.semanticweb.owlapi.model.OWLPropertyExpressionVisitorEx;
 
+import at.ac.tuwien.kr.owlapi.model.ldl.impl.LDLObjectPropertyChainOfImpl;
+
 /**
  * TODO describe this class please.
  */
@@ -18,4 +20,6 @@ public interface LDLPropertyExpressionVisitorEx<O> extends OWLPropertyExpression
 	O visit(LDLObjectPropertyUnionOf property);
 	
 	O visit(LDLObjectPropertyTransitiveClosureOf property);
+
+	O visit(LDLObjectPropertyChainOf ldlObjectPropertyChainOfImpl);
 }

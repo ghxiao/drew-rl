@@ -4,6 +4,7 @@ import org.semanticweb.owlapi.io.OWLObjectRenderer;
 import org.semanticweb.owlapi.model.*;
 import org.semanticweb.owlapi.vocab.PrefixOWLOntologyFormat;
 
+import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyChainOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyIntersectionOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyTransitiveClosureOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyUnionOf;
@@ -965,6 +966,14 @@ public class SimpleRenderer implements OWLObjectVisitor, OWLObjectRenderer {
 		sb.append("ObjectPropertyTransiviteClosureOf(");
         property.getOperand().accept(this);
         sb.append(")");		
+		
+	}
+
+	@Override
+	public void visit(LDLObjectPropertyChainOf property) {
+		sb.append("ObjectPropertyChainOf(");
+        render(property.getOperands());
+        sb.append(")");	
 		
 	}
 }
