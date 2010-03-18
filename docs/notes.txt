@@ -1,0 +1,30 @@
+What we have:
+
+* Description Logic Interface : OWL API 3.0
+* Pellet 
+* DLP (by Boris Motik)
+* DLV
+* DLV wrapper
+
+Problems:
+
+1. Transitive Closure and other role constructors can not be described in OWL2.
+	
+Important Classes and Methods	
+	org.coode.owlapi.rdfxml.parser.OWLRDFConsumer
+		translateObjectPropertyExpression(IRI)
+		
+	org.coode.owlapi.rdfxml.parser.ClassExpressionTranslatorSelector
+		getClassExpressionTranslator(IRI)
+		
+	org.coode.owlapi.rdfxml.parser.IntersectionOfTranslator
+	
+2. owl-api modifications:
+	org.semanticweb.owlapi.model.OWLDataFactory
+	uk.ac.manchester.cs.owl.owlapi.OWLDataFactoryImpl
+	
+	
+TODO:
+1. add role chain, role nominal and modify role inverse
+
+2. OWLSubObjectPropertyOfAxiomElementHandler should be updated

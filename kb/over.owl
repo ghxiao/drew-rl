@@ -1,0 +1,179 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl2xml "http://www.w3.org/2006/12/owl2-xml#" >
+    <!ENTITY over "http://www.kr.tuwien.ac.at/over.owl#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+]>
+
+
+<rdf:RDF xmlns="http://www.kr.tuwien.ac.at/over.owl#"
+     xml:base="http://www.kr.tuwien.ac.at/over.owl"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:over="http://www.kr.tuwien.ac.at/over.owl#"
+     xmlns:owl2xml="http://www.w3.org/2006/12/owl2-xml#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+    <owl:Ontology rdf:about="http://www.kr.tuwien.ac.at/over.owl"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <owl:AnnotationProperty rdf:about="&over;LDLPropertyIntersectionOf"/>
+    <owl:AnnotationProperty rdf:about="&over;LDLObjectProperty"/>
+    <owl:AnnotationProperty rdf:about="&over;LDLPropertyTransitiveClosure"/>
+    <owl:AnnotationProperty rdf:about="&owl;incompatibleWith"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.kr.tuwien.ac.at/over.owl#E -->
+
+    <owl:ObjectProperty rdf:about="&over;E">
+        <LDLPropertyIntersectionOf rdf:resource="&over;genid1"/>
+        <rdfs:subPropertyOf rdf:resource="&owl;topObjectProperty"/>
+    </owl:ObjectProperty>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="&over;E"/>
+        <LDLObjectProperty rdf:resource="&over;E1"/>
+        <LDLObjectProperty rdf:resource="&over;E2"/>
+        <owl:annotatedProperty rdf:resource="&over;LDLPropertyIntersectionOf"/>
+        <owl:annotatedTarget rdf:resource="&over;genid1"/>
+    </owl:Axiom>
+    
+
+
+    <!-- http://www.kr.tuwien.ac.at/over.owl#E1 -->
+
+    <owl:ObjectProperty rdf:about="&over;E1"/>
+    
+
+
+    <!-- http://www.kr.tuwien.ac.at/over.owl#E2 -->
+
+    <owl:ObjectProperty rdf:about="&over;E2">
+        <rdfs:subPropertyOf rdf:resource="&owl;topObjectProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.kr.tuwien.ac.at/over.owl#PapToRev -->
+
+    <owl:ObjectProperty rdf:about="&over;PapToRev"/>
+    
+
+
+    <!-- http://www.kr.tuwien.ac.at/over.owl#Super -->
+
+    <owl:ObjectProperty rdf:about="&over;Super"/>
+    
+
+
+    <!-- http://www.kr.tuwien.ac.at/over.owl#SuperClousre -->
+
+    <owl:ObjectProperty rdf:about="&over;SuperClousre">
+        <LDLPropertyTransitiveClosure rdf:resource="&over;Super"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.w3.org/2002/07/owl#topObjectProperty -->
+
+    <owl:ObjectProperty rdf:about="&owl;topObjectProperty"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.kr.tuwien.ac.at/over.owl#Over -->
+
+    <owl:Class rdf:about="&over;Over">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty>
+                    <rdf:Description>
+                        <owl:inverseOf rdf:resource="&over;Super"/>
+                    </rdf:Description>
+                </owl:onProperty>
+                <owl:allValuesFrom rdf:resource="&over;Over"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.w3.org/2002/07/owl#Thing -->
+
+    <owl:Class rdf:about="&owl;Thing"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.kr.tuwien.ac.at/over.owl#a -->
+
+    <owl:Thing rdf:about="&over;a">
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <Super rdf:resource="&over;b"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.kr.tuwien.ac.at/over.owl#b -->
+
+    <owl:Thing rdf:about="&over;b">
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <Super rdf:resource="&over;c"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.kr.tuwien.ac.at/over.owl#c -->
+
+    <owl:NamedIndividual rdf:about="&over;c"/>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 3.0.0.1413) http://owlapi.sourceforge.net -->
+

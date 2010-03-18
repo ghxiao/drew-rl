@@ -1,0 +1,53 @@
+\documentclass{article}
+
+\begin{document}
+	\title{Development of LDL}
+	\author{Guohui Xiao}
+	%\institute{KBS Group, TU Wien}
+	\maketitle
+	
+	\section{Extending OWL-API with More Role Constructors}
+	
+	OWL API 3.0 is targted on OWL 2 which is based on description logic SROIQ. 
+	In SROIQ, we do not have much role constructors.
+	
+	We extend OWL-API with the following role constructors:
+	
+	\begin{itemize}
+    \item Role conjunction: LDLObjectPropertyIntersectionOf
+    \item Role intersection: LDLObjectPropertyUnionOf
+    \item Role transitive closure: LDLObjectPropertyTransitiveClosureOf
+    \item Role inversion: LDLObjectPropertyInversionOf
+    \item Role nominals: LDLObjectPropertyOneOf
+    \item Role chain: LDLObjectPropertyChainOf
+    \end{itemize}
+	
+	Note that, in OWL2, we already have role inversion and chain. 
+	However, the syntaxes are very restricted. 
+	In LDL, we will release this, so we need to add new constructors.
+	
+	Affected java classes in owl-api 3.0:
+	
+	\begin{itemize}
+      \item org.coode.owlapi.rdfxml.parser
+      \begin{itemize}
+        \item class OWLRDFConsumer 
+        	\begin{itemize}
+        	\item objectPropertyExpressionTranslatorSelector (A)
+        	\item translatedObjectPropertyExpression (A)
+        	\item translateToObjectPropertyExpressionSet(IRI) (A)
+        	\item setupPredicateHandlers() (M)
+        	\begin{itemize}
+             \item  addPredicateHandler(new TPObjectPropertyTransitiveClosureOfHandler(this));
+        	\item addPredicateHandler(new TPObjectPropertyUnionOfHandler(this));
+        	\item addPredicateHandler(new TPObjectPropertyIntersectionOfHandler(this));
+        
+              \end{itemize}
+        \end{itemize}
+      \end{itemize}
+    \end{itemize}
+	
+	\section{}
+	
+	
+\end{document}
