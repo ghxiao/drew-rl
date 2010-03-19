@@ -37,8 +37,6 @@
                 <ldl:objectPropertyIntersectionOf rdf:parseType="Collection">
                     <rdf:Description rdf:about="#F1"/>
                     <rdf:Description rdf:about="#F2"/>
-                    <rdf:Description rdf:about="#E1"/>
-            		<rdf:Description rdf:about="#E2"/>
                 </ldl:objectPropertyIntersectionOf>
             </owl:ObjectProperty>
         </rdfs:subPropertyOf>

@@ -17,12 +17,15 @@ public class ObjectPropertyExpressionTranslatorSelector {
 	
 	private LDLObjectPropertyChainOfTranslator objectPropertyChainOfTranslator;
 
+	private OWLObjectPropertyInverseOfTranslator ObjectPropertyInverseOfTranslator;
+	
 	public ObjectPropertyExpressionTranslatorSelector(OWLRDFConsumer consumer) {
 		this.consumer = consumer;
 		objectPropertyIntersectionOfTranslator = new LDLObjectPropertyIntersectionOfTranslator(consumer);
 		objectPropertyUnionOfTranslator = new LDLObjectPropertyUnionOfTranslator(consumer);
 		objectPropertyTransitiveClosureOfTranslator = new LDLObjectPropertyTransitiveClosureOfTranslator(consumer);
 		objectPropertyChainOfTranslator = new LDLObjectPropertyChainOfTranslator(consumer);
+		ObjectPropertyInverseOfTranslator = new OWLObjectPropertyInverseOfTranslator(consumer);
 	}
 
 	public ObjectPropertyExpressionTranslator getObjectPropertyExpressionTranslator(IRI mainNode) {
@@ -41,6 +44,10 @@ public class ObjectPropertyExpressionTranslatorSelector {
 		
 		if(consumer.hasPredicate(mainNode, LDL_OBJECT_PROPERTY_CHAIN_OF.getIRI())){
 			return objectPropertyChainOfTranslator;
+		}
+		
+		if(consumer.hasPredicate(mainNode, OWL_INVERSE_OF.getIRI())){
+			return ObjectPropertyInverseOfTranslator;
 		}
 		
 		throw new UnsupportedOperationException();
