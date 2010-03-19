@@ -11,9 +11,9 @@ import org.semanticweb.owlapi.reasoner.ReasonerInterruptedException;
 import org.semanticweb.owlapi.reasoner.TimeOutException;
 import org.semanticweb.owlapi.reasoner.UnsupportedEntailmentTypeException;
 
-import at.ac.tuwien.kr.datalog.DatalogEngine;
+import at.ac.tuwien.kr.datalog.DatalogReasoner;
 import at.ac.tuwien.kr.datalog.DatalogQuery;
-import at.ac.tuwien.kr.datalog.XSBDatalogEngine;
+import at.ac.tuwien.kr.datalog.XSBDatalogReasoner;
 
 import edu.unika.aifb.kaon.datalog.program.Program;
 
@@ -25,12 +25,12 @@ public class LDLPReasoner extends OWLReasonerAdapter {
 
 	LDLPCompiler compiler;
 	
-	DatalogEngine datalogEngine;
+	DatalogReasoner datalogEngine;
 
 	protected LDLPReasoner(OWLOntology rootOntology, OWLReasonerConfiguration configuration, BufferingMode bufferingMode) {
 		super(rootOntology, configuration, bufferingMode);
 		compiler = new LDLPCompiler();
-		datalogEngine = new XSBDatalogEngine();
+		datalogEngine = new XSBDatalogReasoner();
 	}
 
 	@Override

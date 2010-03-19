@@ -12,7 +12,7 @@ import edu.unika.aifb.kaon.datalog.program.Program;
 /**
  * TODO describe this class please.
  */
-public interface DatalogEngine {
+public interface DatalogReasoner {
 
 	boolean query(Program program, DatalogQuery query);
 

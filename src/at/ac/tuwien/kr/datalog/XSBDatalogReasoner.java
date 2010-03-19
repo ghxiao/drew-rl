@@ -12,7 +12,7 @@ import edu.unika.aifb.kaon.datalog.program.Program;
 /**
  * TODO describe this class please.
  */
-public class XSBDatalogEngine implements DatalogEngine {
+public class XSBDatalogReasoner implements DatalogReasoner {
 
 	@Override
 	public boolean query(Program program, DatalogQuery query) {
