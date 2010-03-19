@@ -7,6 +7,8 @@
  */
 package at.ac.tuwien.kr.ldlp;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -39,6 +41,7 @@ import org.semanticweb.owlapi.model.OWLInverseObjectPropertiesAxiom;
 import org.semanticweb.owlapi.model.OWLIrreflexiveObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLNegativeDataPropertyAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLNegativeObjectPropertyAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLObjectAllValuesFrom;
 import org.semanticweb.owlapi.model.OWLObjectPropertyAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLObjectPropertyDomainAxiom;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
@@ -57,6 +60,10 @@ import org.semanticweb.owlapi.model.SWRLRule;
 
 import at.ac.tuwien.kr.datalog.DatalogQuery;
 
+import edu.stanford.db.lp.Literal;
+import edu.stanford.db.lp.ProgramClause;
+import edu.stanford.db.lp.Term;
+import edu.stanford.db.lp.VariableTerm;
 import edu.unika.aifb.kaon.datalog.program.Program;
 import edu.unika.aifb.kaon.datalog.program.Rule;
 
@@ -65,13 +72,18 @@ import edu.unika.aifb.kaon.datalog.program.Rule;
  */
 public class LDLPCompiler implements OWLAxiomVisitor {
 
-	List<Rule> rules;
+	VariableTerm X = new VariableTerm("X");
+	VariableTerm Y = new VariableTerm("Y");
+	VariableTerm Z = new VariableTerm("Z");
+
+	List<ProgramClause> clauses;
 
 	Set<OWLClassExpression> classExpressions;
 
 	Set<OWLObjectPropertyExpression> objectPropertyExpressions;
 
-	public Program complileLDLPOntology(OWLOntology ontology) {
+	public List<ProgramClause> complileLDLPOntology(OWLOntology ontology) {
+		reset();
 		for (OWLAxiom axiom : ontology.getAxioms()) {
 			axiom.accept(this);
 		}
@@ -80,7 +92,13 @@ public class LDLPCompiler implements OWLAxiomVisitor {
 
 		complieProperties();
 
-		return new Program((Rule[]) rules.toArray());
+		return clauses;
+	}
+
+	private void reset() {
+		clauses = new ArrayList<ProgramClause>();
+		classExpressions = new HashSet<OWLClassExpression>();
+		objectPropertyExpressions = new HashSet<OWLObjectPropertyExpression>();
 	}
 
 	private void complieProperties() {
@@ -97,14 +115,34 @@ public class LDLPCompiler implements OWLAxiomVisitor {
 
 	@Override
 	public void visit(OWLDeclarationAxiom axiom) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void visit(OWLSubClassOfAxiom axiom) {
-		// TODO Auto-generated method stub
+		final OWLClassExpression subClass = axiom.getSubClass();
+		final OWLClassExpression superClass = axiom.getSuperClass();
+		Literal[] head = null;
+		Literal[] body = null;
 
+		if (!(superClass instanceof OWLObjectAllValuesFrom)) {
+			head = new Literal[1];
+			head[0] = new Literal(superClass.toString(), new Term[] { X });
+			body = new Literal[1];
+			body[0] = new Literal(subClass.toString(), new Term[] { X });
+		} else {
+			OWLObjectAllValuesFrom E_only_A = (OWLObjectAllValuesFrom) superClass;
+			final OWLClassExpression A = E_only_A.getFiller();
+			final OWLObjectPropertyExpression E = E_only_A.getProperty();
+			head = new Literal[1];
+			head[0] = new Literal(A.toString(), new Term[] { Y });
+			body = new Literal[2];
+			body[0] = new Literal(subClass.toString(), new Term[] { X });
+			body[1] = new Literal(E.toString(), new Term[] { X, Y });
+		}
+
+		ProgramClause clause = new ProgramClause(head, body);
+		clauses.add(clause);
 	}
 
 	@Override
@@ -193,8 +231,14 @@ public class LDLPCompiler implements OWLAxiomVisitor {
 
 	@Override
 	public void visit(OWLSubObjectPropertyOfAxiom axiom) {
-		// TODO Auto-generated method stub
-
+		final OWLObjectPropertyExpression subProperty = axiom.getSubProperty();
+		final OWLObjectPropertyExpression superProperty = axiom.getSuperProperty();
+		Literal[] head = new Literal[1];
+		head[0] = new Literal(superProperty.toString(), new Term[] { X, Y });
+		Literal[] body = new Literal[1];
+		body[0] = new Literal(subProperty.toString(), new Term[] { X, Y });
+		ProgramClause clause = new ProgramClause(head, body);
+		clauses.add(clause);
 	}
 
 	@Override

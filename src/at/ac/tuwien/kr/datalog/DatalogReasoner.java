@@ -7,6 +7,9 @@
  */
 package at.ac.tuwien.kr.datalog;
 
+import java.util.List;
+
+import edu.stanford.db.lp.ProgramClause;
 import edu.unika.aifb.kaon.datalog.program.Program;
 
 /**
@@ -14,6 +17,6 @@ import edu.unika.aifb.kaon.datalog.program.Program;
  */
 public interface DatalogReasoner {
 
-	boolean query(Program program, DatalogQuery query);
+	boolean query(List<ProgramClause> program, DatalogQuery query);
 
 }

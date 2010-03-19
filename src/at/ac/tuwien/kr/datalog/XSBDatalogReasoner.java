@@ -7,6 +7,9 @@
  */
 package at.ac.tuwien.kr.datalog;
 
+import java.util.List;
+
+import edu.stanford.db.lp.ProgramClause;
 import edu.unika.aifb.kaon.datalog.program.Program;
 
 /**
@@ -15,7 +18,7 @@ import edu.unika.aifb.kaon.datalog.program.Program;
 public class XSBDatalogReasoner implements DatalogReasoner {
 
 	@Override
-	public boolean query(Program program, DatalogQuery query) {
+	public boolean query(List<ProgramClause> program, DatalogQuery query) {
 		// TODO Auto-generated method stub
 		return false;
 	}
