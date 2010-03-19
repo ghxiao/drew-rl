@@ -23,15 +23,6 @@
      xmlns:ldl="http://www.kr.tuwien.ac.at/staff/xiao/ldl/ldl#">
     <owl:Ontology rdf:about=""/>
     
-    <!-- 
-    ///////////////////////////////////////////////////////////////////////////////////////
-    //
-    // Object Properties
-    //
-    ///////////////////////////////////////////////////////////////////////////////////////
-     -->
-
-
     <owl:ObjectProperty rdf:about="#E1"/>
     
     <owl:ObjectProperty rdf:about="#E2"/>
@@ -40,23 +31,14 @@
     
     <owl:ObjectProperty rdf:about="#F2"/>
 
-
-    <!-- 
-    ///////////////////////////////////////////////////////////////////////////////////////
-    //
-    // Classes
-    //
-    ///////////////////////////////////////////////////////////////////////////////////////
-     -->
-
-    <!-- http://www.kr.tuwien.ac.at/over.owl#Over -->
-
      <owl:ObjectProperty>
         <rdfs:subPropertyOf>
             <owl:ObjectProperty>
                 <ldl:objectPropertyIntersectionOf rdf:parseType="Collection">
                     <rdf:Description rdf:about="#F1"/>
                     <rdf:Description rdf:about="#F2"/>
+                    <rdf:Description rdf:about="#E1"/>
+            		<rdf:Description rdf:about="#E2"/>
                 </ldl:objectPropertyIntersectionOf>
             </owl:ObjectProperty>
         </rdfs:subPropertyOf>

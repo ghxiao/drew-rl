@@ -25,7 +25,6 @@ public class LoadTest {
 	
 	public static void main(String[] args) {
 		loadOntology(uri,phyUri);
-
 	}
 
 	private static void loadOntology(String uri,String phyUri) {

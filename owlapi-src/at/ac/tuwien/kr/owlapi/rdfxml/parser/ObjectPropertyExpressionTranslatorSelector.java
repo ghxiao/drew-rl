@@ -22,6 +22,7 @@ public class ObjectPropertyExpressionTranslatorSelector {
 		objectPropertyIntersectionOfTranslator = new LDLObjectPropertyIntersectionOfTranslator(consumer);
 		objectPropertyUnionOfTranslator = new LDLObjectPropertyUnionOfTranslator(consumer);
 		objectPropertyTransitiveClosureOfTranslator = new LDLObjectPropertyTransitiveClosureOfTranslator(consumer);
+		objectPropertyChainOfTranslator = new LDLObjectPropertyChainOfTranslator(consumer);
 	}
 
 	public ObjectPropertyExpressionTranslator getObjectPropertyExpressionTranslator(IRI mainNode) {

@@ -12,6 +12,7 @@ import java.util.Set;
 import org.coode.owlapi.rdfxml.parser.OWLRDFConsumer;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
+import org.semanticweb.owlapi.vocab.OWLRDFVocabulary;
 
 /**
  * TODO describe this class please.
@@ -29,8 +30,7 @@ public class LDLObjectPropertyChainOfTranslator extends AbstractNaryBooleanObjec
 
 	@Override
 	protected IRI getPredicateIRI() {
-		// TODO Auto-generated method stub
-		return null;
+		return OWLRDFVocabulary.LDL_OBJECT_PROPERTY_CHAIN_OF.getIRI();
 	}
 
 }
