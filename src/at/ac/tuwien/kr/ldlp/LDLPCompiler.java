@@ -57,6 +57,7 @@ import org.semanticweb.owlapi.model.OWLSubPropertyChainOfAxiom;
 import org.semanticweb.owlapi.model.OWLSymmetricObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLTransitiveObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.SWRLRule;
+import org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter;
 
 import at.ac.tuwien.kr.datalog.DatalogQuery;
 
@@ -70,11 +71,13 @@ import edu.unika.aifb.kaon.datalog.program.Rule;
 /**
  * LDLPCompiler: compile an LDLp KB to a datalog program
  */
-public class LDLPCompiler implements OWLAxiomVisitor {
+public class LDLPCompiler {
 
 	VariableTerm X = new VariableTerm("X");
 	VariableTerm Y = new VariableTerm("Y");
 	VariableTerm Z = new VariableTerm("Z");
+	
+	AxiomCompiler axiomCompiler =new AxiomCompiler();
 
 	List<ProgramClause> clauses;
 
@@ -85,7 +88,7 @@ public class LDLPCompiler implements OWLAxiomVisitor {
 	public List<ProgramClause> complileLDLPOntology(OWLOntology ontology) {
 		reset();
 		for (OWLAxiom axiom : ontology.getAxioms()) {
-			axiom.accept(this);
+			axiom.accept(axiomCompiler);
 		}
 
 		compileClasses();
@@ -113,263 +116,44 @@ public class LDLPCompiler implements OWLAxiomVisitor {
 		return null;
 	}
 
-	@Override
-	public void visit(OWLDeclarationAxiom axiom) {
+	class AxiomCompiler extends OWLAxiomVisitorAdapter{
+		@Override
+		public void visit(OWLSubClassOfAxiom axiom) {
+			final OWLClassExpression subClass = axiom.getSubClass();
+			final OWLClassExpression superClass = axiom.getSuperClass();
+			Literal[] head = null;
+			Literal[] body = null;
 
-	}
+			if (!(superClass instanceof OWLObjectAllValuesFrom)) {
+				head = new Literal[1];
+				head[0] = new Literal(superClass.toString(), new Term[] { X });
+				body = new Literal[1];
+				body[0] = new Literal(subClass.toString(), new Term[] { X });
+			} else {
+				OWLObjectAllValuesFrom E_only_A = (OWLObjectAllValuesFrom) superClass;
+				final OWLClassExpression A = E_only_A.getFiller();
+				final OWLObjectPropertyExpression E = E_only_A.getProperty();
+				head = new Literal[1];
+				head[0] = new Literal(A.toString(), new Term[] { Y });
+				body = new Literal[2];
+				body[0] = new Literal(subClass.toString(), new Term[] { X });
+				body[1] = new Literal(E.toString(), new Term[] { X, Y });
+			}
 
-	@Override
-	public void visit(OWLSubClassOfAxiom axiom) {
-		final OWLClassExpression subClass = axiom.getSubClass();
-		final OWLClassExpression superClass = axiom.getSuperClass();
-		Literal[] head = null;
-		Literal[] body = null;
-
-		if (!(superClass instanceof OWLObjectAllValuesFrom)) {
-			head = new Literal[1];
-			head[0] = new Literal(superClass.toString(), new Term[] { X });
-			body = new Literal[1];
-			body[0] = new Literal(subClass.toString(), new Term[] { X });
-		} else {
-			OWLObjectAllValuesFrom E_only_A = (OWLObjectAllValuesFrom) superClass;
-			final OWLClassExpression A = E_only_A.getFiller();
-			final OWLObjectPropertyExpression E = E_only_A.getProperty();
-			head = new Literal[1];
-			head[0] = new Literal(A.toString(), new Term[] { Y });
-			body = new Literal[2];
-			body[0] = new Literal(subClass.toString(), new Term[] { X });
-			body[1] = new Literal(E.toString(), new Term[] { X, Y });
+			ProgramClause clause = new ProgramClause(head, body);
+			clauses.add(clause);
 		}
-
-		ProgramClause clause = new ProgramClause(head, body);
-		clauses.add(clause);
-	}
-
-	@Override
-	public void visit(OWLNegativeObjectPropertyAssertionAxiom axiom) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void visit(OWLAsymmetricObjectPropertyAxiom axiom) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void visit(OWLReflexiveObjectPropertyAxiom axiom) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void visit(OWLDisjointClassesAxiom axiom) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void visit(OWLDataPropertyDomainAxiom axiom) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void visit(OWLObjectPropertyDomainAxiom axiom) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void visit(OWLEquivalentObjectPropertiesAxiom axiom) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void visit(OWLNegativeDataPropertyAssertionAxiom axiom) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void visit(OWLDifferentIndividualsAxiom axiom) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void visit(OWLDisjointDataPropertiesAxiom axiom) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void visit(OWLDisjointObjectPropertiesAxiom axiom) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void visit(OWLObjectPropertyRangeAxiom axiom) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void visit(OWLObjectPropertyAssertionAxiom axiom) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void visit(OWLFunctionalObjectPropertyAxiom axiom) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void visit(OWLSubObjectPropertyOfAxiom axiom) {
-		final OWLObjectPropertyExpression subProperty = axiom.getSubProperty();
-		final OWLObjectPropertyExpression superProperty = axiom.getSuperProperty();
-		Literal[] head = new Literal[1];
-		head[0] = new Literal(superProperty.toString(), new Term[] { X, Y });
-		Literal[] body = new Literal[1];
-		body[0] = new Literal(subProperty.toString(), new Term[] { X, Y });
-		ProgramClause clause = new ProgramClause(head, body);
-		clauses.add(clause);
-	}
-
-	@Override
-	public void visit(OWLDisjointUnionAxiom axiom) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void visit(OWLSymmetricObjectPropertyAxiom axiom) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void visit(OWLDataPropertyRangeAxiom axiom) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void visit(OWLFunctionalDataPropertyAxiom axiom) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void visit(OWLEquivalentDataPropertiesAxiom axiom) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void visit(OWLClassAssertionAxiom axiom) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void visit(OWLEquivalentClassesAxiom axiom) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void visit(OWLDataPropertyAssertionAxiom axiom) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void visit(OWLTransitiveObjectPropertyAxiom axiom) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void visit(OWLIrreflexiveObjectPropertyAxiom axiom) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void visit(OWLSubDataPropertyOfAxiom axiom) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void visit(OWLInverseFunctionalObjectPropertyAxiom axiom) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void visit(OWLSameIndividualAxiom axiom) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void visit(OWLSubPropertyChainOfAxiom axiom) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void visit(OWLInverseObjectPropertiesAxiom axiom) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void visit(OWLHasKeyAxiom axiom) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void visit(OWLDatatypeDefinitionAxiom axiom) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void visit(SWRLRule rule) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void visit(OWLAnnotationAssertionAxiom axiom) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void visit(OWLSubAnnotationPropertyOfAxiom axiom) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void visit(OWLAnnotationPropertyDomainAxiom axiom) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void visit(OWLAnnotationPropertyRangeAxiom axiom) {
-		// TODO Auto-generated method stub
-
+		
+		@Override
+		public void visit(OWLSubObjectPropertyOfAxiom axiom) {
+			final OWLObjectPropertyExpression subProperty = axiom.getSubProperty();
+			final OWLObjectPropertyExpression superProperty = axiom.getSuperProperty();
+			Literal[] head = new Literal[1];
+			head[0] = new Literal(superProperty.toString(), new Term[] { X, Y });
+			Literal[] body = new Literal[1];
+			body[0] = new Literal(subProperty.toString(), new Term[] { X, Y });
+			ProgramClause clause = new ProgramClause(head, body);
+			clauses.add(clause);
+		}
 	}
 }
