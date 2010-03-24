@@ -13,7 +13,8 @@ public class XSBHello {
 		XSBCore core = new XSBCore();
 
 		// initialization parameter
-		String[] xsbargs = { "/local/xsb/XSB", "-n", "--quietload" };
+//		String[] xsbargs = { "/local/xsb/XSB", "-n", "--quietload" };
+		String[] xsbargs= {"/home/staff/xiao/local/xsb/xsb3.2", "--noprompt", "--quietload"};
 
 		int i;
 
