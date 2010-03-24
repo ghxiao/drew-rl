@@ -10,7 +10,6 @@ package at.ac.tuwien.kr.datalog;
 import java.util.List;
 
 import edu.stanford.db.lp.ProgramClause;
-import edu.unika.aifb.kaon.datalog.program.Program;
 
 /**
  * TODO describe this class please.
