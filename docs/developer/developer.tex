@@ -80,12 +80,17 @@
 	
 	In XSBHello.java
 	\begin{verbatim}
-    	String[] xsbargs= {"/home/staff/xiao/local/xsb/xsb3.2", "--noprompt", "--quietload"};
+    	String[] xsbargs= {"/home/staff/xiao/local/xsb/xsb3.2", 
+    	"--noprompt", "--quietload"};
     \end{verbatim}
 	
+	To run XSBHello, we must add the following to the VM variables:
+	\begin{verbatim}
+       -Djava.library.path=/home/staff/xiao/local/xsb/xsb3.2/lib:
+       /home/staff/xiao/local/xsb
+    \end{verbatim}
 	
-	
-	
+	problem: How to compile a class expression as a legal predicate?
 	
 	
 \end{document}

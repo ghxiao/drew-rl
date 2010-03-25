@@ -9,13 +9,15 @@ package at.ac.tuwien.kr.datalog;
 
 import java.util.List;
 
+import edu.stanford.db.lp.Literal;
 import edu.stanford.db.lp.ProgramClause;
+import edu.stanford.db.lp.Term;
 
 /**
  * TODO describe this class please.
  */
 public interface DatalogReasoner {
 
-	boolean query(List<ProgramClause> program, DatalogQuery query);
+	boolean query(List<ProgramClause> program, Literal query);
 
 }

@@ -133,7 +133,7 @@ public class LDLPCompiler {
 
 	}
 
-	public DatalogQuery compileClassAssertionAxiom(OWLClassAssertionAxiom classAssertionAxiom) {
+	public Literal compileClassAssertionAxiom(OWLClassAssertionAxiom classAssertionAxiom) {
 		return null;
 	}
 }

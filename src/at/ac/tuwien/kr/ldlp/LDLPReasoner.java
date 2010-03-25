@@ -17,6 +17,7 @@ import at.ac.tuwien.kr.datalog.DatalogReasoner;
 import at.ac.tuwien.kr.datalog.DatalogQuery;
 import at.ac.tuwien.kr.datalog.XSBDatalogReasoner;
 
+import edu.stanford.db.lp.Literal;
 import edu.stanford.db.lp.ProgramClause;
 import edu.unika.aifb.kaon.datalog.program.Program;
 
@@ -51,7 +52,8 @@ public class LDLPReasoner extends OWLReasonerAdapter {
 			program = compiler.complileLDLPOntology(this.getRootOntology());
 			compiled = true;
 		}
-		DatalogQuery query = compiler.compileClassAssertionAxiom(classAssertionAxiom);
+		
+		Literal query = compiler.compileClassAssertionAxiom(classAssertionAxiom);
 		
 		return datalogEngine.query(program, query);
 

@@ -63,4 +63,33 @@ public class ProgramClause extends FormulaObject {
 
 		return sb.toString();
 	}
+	
+	
+	public String toStringWithoutDot() {
+		StringBuilder sb = new StringBuilder();
+		boolean start = true;
+		for (Literal literal : head) {
+			if (!start) {
+				sb.append(",");
+			}
+			sb.append(literal);
+			start = false;
+		}
+
+		if (body.length != 0) {
+			sb.append(":-");
+		}
+
+		start = true;
+		for (Literal literal : body) {
+			if (!start) {
+				sb.append(",");
+			}
+			sb.append(literal);
+			start = false;
+		}
+		
+
+		return sb.toString();
+	}
 }

@@ -1,0 +1,4 @@
+#setenv PATH /usr/local/jdk1.3/bin:$PATH
+export CLASSPATH=.:~/local/xsb/xsb3.2:~/local/xsb/xsb3.2/src
+#export LD_LIBRARY_PATH=~/local/xsb/xsb3.2/lib:~/local/xsb
+export LD_LIBRARY_PATH=/home/staff/xiao/local/xsb/xsb3.2/lib:/home/staff/xiao/local/xsb
