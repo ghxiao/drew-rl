@@ -33,11 +33,7 @@ import edu.stanford.db.lp.VariableTerm;
 
 class AxiomCompiler extends OWLAxiomVisitorAdapter {
 
-	StringWriter sw = new StringWriter();
-
-	SimpleShortFormProvider simpleShortFormProvider = new SimpleShortFormProvider();
-
-	ManchesterOWLSyntaxObjectRenderer render = new ManchesterOWLSyntaxObjectRenderer(sw, simpleShortFormProvider);
+	DatalogObjectFactory datalogObjectFactory = DatalogObjectFactory.getInstance();
 
 	VariableTerm X = new VariableTerm("X");
 	VariableTerm Y = new VariableTerm("Y");
@@ -55,15 +51,18 @@ class AxiomCompiler extends OWLAxiomVisitorAdapter {
 
 	@Override
 	public void visit(OWLObjectPropertyAssertionAxiom axiom) {
-		OWLObjectPropertyExpression cls = axiom.getProperty();
+		OWLObjectPropertyExpression property = axiom.getProperty();
 		final OWLIndividual subject = axiom.getSubject();
 		final OWLIndividual object = axiom.getObject();
 		Literal[] head = null;
 		Literal[] body = null;
 		head = new Literal[1];
-		cls.accept(render);
-		String predicate = sw.toString();
-		head[0] = new Literal(predicate, new Term[] { new ConstTerm(subject.toString()), new ConstTerm(object.toString()) });
+
+		String predicate = datalogObjectFactory.getPredicate(property);
+		String a = datalogObjectFactory.getConst(subject);
+		String b = datalogObjectFactory.getConst(object);
+
+		head[0] = new Literal(predicate, new Term[] { new ConstTerm(a), new ConstTerm(b) });
 		body = new Literal[0];
 		ProgramClause clause = new ProgramClause(head, body);
 		clauses.add(clause);
@@ -73,12 +72,12 @@ class AxiomCompiler extends OWLAxiomVisitorAdapter {
 	public void visit(OWLClassAssertionAxiom axiom) {
 		OWLClassExpression cls = axiom.getClassExpression();
 		OWLIndividual individual = axiom.getIndividual();
-		Literal[] head = null;
+		Literal[] head = new Literal[1];
 		Literal[] body = null;
-		head = new Literal[1];
-		cls.accept(render);
-		String predicate = sw.toString();
-		head[0] = new Literal(predicate, new Term[] { new ConstTerm(individual.toString()) });
+
+		String predicate = datalogObjectFactory.getPredicate(cls);
+		String a = datalogObjectFactory.getConst(individual);
+		head[0] = new Literal(predicate, new Term[] { new ConstTerm(a) });
 		body = new Literal[0];
 		ProgramClause clause = new ProgramClause(head, body);
 		clauses.add(clause);
@@ -93,18 +92,18 @@ class AxiomCompiler extends OWLAxiomVisitorAdapter {
 
 		if (!(superClass instanceof OWLObjectAllValuesFrom)) {
 			head = new Literal[1];
-			head[0] = new Literal(superClass.toString(), new Term[] { X });
+			head[0] = new Literal(datalogObjectFactory.getPredicate(superClass), new Term[] { X });
 			body = new Literal[1];
-			body[0] = new Literal(subClass.toString(), new Term[] { X });
+			body[0] = new Literal(datalogObjectFactory.getPredicate(subClass), new Term[] { X });
 		} else {
 			OWLObjectAllValuesFrom E_only_A = (OWLObjectAllValuesFrom) superClass;
 			final OWLClassExpression A = E_only_A.getFiller();
 			final OWLObjectPropertyExpression E = E_only_A.getProperty();
 			head = new Literal[1];
-			head[0] = new Literal(A.toString(), new Term[] { Y });
+			head[0] = new Literal(datalogObjectFactory.getPredicate(A), new Term[] { Y });
 			body = new Literal[2];
-			body[0] = new Literal(subClass.toString(), new Term[] { X });
-			body[1] = new Literal(E.toString(), new Term[] { X, Y });
+			body[0] = new Literal(datalogObjectFactory.getPredicate(subClass), new Term[] { X });
+			body[1] = new Literal(datalogObjectFactory.getPredicate(E), new Term[] { X, Y });
 		}
 
 		ProgramClause clause = new ProgramClause(head, body);
@@ -116,9 +115,9 @@ class AxiomCompiler extends OWLAxiomVisitorAdapter {
 		final OWLObjectPropertyExpression subProperty = axiom.getSubProperty();
 		final OWLObjectPropertyExpression superProperty = axiom.getSuperProperty();
 		Literal[] head = new Literal[1];
-		head[0] = new Literal(superProperty.toString(), new Term[] { X, Y });
+		head[0] = new Literal(datalogObjectFactory.getPredicate(superProperty), new Term[] { X, Y });
 		Literal[] body = new Literal[1];
-		body[0] = new Literal(subProperty.toString(), new Term[] { X, Y });
+		body[0] = new Literal(datalogObjectFactory.getPredicate(subProperty), new Term[] { X, Y });
 		ProgramClause clause = new ProgramClause(head, body);
 		clauses.add(clause);
 	}
