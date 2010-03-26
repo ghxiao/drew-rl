@@ -9,9 +9,10 @@ package at.ac.tuwien.kr.ldlp.reasoner;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLObject;
 
 /**
@@ -35,8 +36,24 @@ public class DatalogObjectFactory {
 
 	int currentPredicateMax = -1;
 
+	public String getTopPrediate(){
+		return "top";
+	}
+	
+	public String getEqual(){
+		return "=";
+	}
+	
+	public String getNotEqual(){
+		return "=\\=";
+	}
+	
 	public String getPredicate(OWLObject owlObject) {
 
+		if(owlObject instanceof OWLClass && ((OWLEntity)owlObject).isTopEntity()){
+			return getTopPrediate();
+		}
+		
 		int index = 0;
 		if (owlObject2PredicateMap.containsKey(owlObject)) {
 			index = owlObject2PredicateMap.get(owlObject);

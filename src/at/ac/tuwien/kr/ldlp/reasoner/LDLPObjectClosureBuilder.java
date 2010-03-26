@@ -66,7 +66,19 @@ class LDLPObjectClosureBuilder extends OWLAxiomVisitorAdapter implements OWLClas
 	}
 
 	public LDLPObjectClosure build(OWLOntology ontology) {
-		for (OWLAxiom axiom : ontology.getAxioms()) {
+		final Set<OWLAxiom> axioms = ontology.getAxioms();
+		return build(axioms);
+	}
+
+	public LDLPObjectClosure build(final Set<OWLAxiom> axioms) {
+		for (OWLAxiom axiom : axioms) {
+			axiom.accept(this);
+		}
+		return closure;
+	}
+	
+	public LDLPObjectClosure build(final OWLAxiom... axioms) {
+		for (OWLAxiom axiom : axioms) {
 			axiom.accept(this);
 		}
 		return closure;

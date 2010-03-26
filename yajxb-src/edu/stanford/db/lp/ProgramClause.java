@@ -8,6 +8,8 @@
  */
 package edu.stanford.db.lp;
 
+import java.util.Arrays;
+
 public class ProgramClause extends FormulaObject {
 
 	Literal[] head;
@@ -91,5 +93,41 @@ public class ProgramClause extends FormulaObject {
 		
 
 		return sb.toString();
+	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + Arrays.hashCode(body);
+		result = prime * result + Arrays.hashCode(head);
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (!(obj instanceof ProgramClause)) {
+			return false;
+		}
+		ProgramClause other = (ProgramClause) obj;
+		if (!Arrays.equals(body, other.body)) {
+			return false;
+		}
+		if (!Arrays.equals(head, other.head)) {
+			return false;
+		}
+		return true;
 	}
 }
