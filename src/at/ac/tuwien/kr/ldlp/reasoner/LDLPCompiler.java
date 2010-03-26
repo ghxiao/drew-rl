@@ -72,7 +72,9 @@ public class LDLPCompiler {
 
 	AxiomCompiler axiomCompiler;
 
-	ClosureBuilder closureBuilder;
+	LDLPObjectClosure closure = new LDLPObjectClosure();
+	
+	LDLPObjectClosureBuilder closureBuilder;
 
 	List<ProgramClause> clauses;
 
@@ -120,8 +122,8 @@ public class LDLPCompiler {
 		classExpressionsClosure = new HashSet<OWLClassExpression>();
 		objectPropertyExpressionsClosure = new HashSet<OWLObjectPropertyExpression>();
 		individualsClosure = new HashSet<OWLIndividual>();
-		closureBuilder = new ClosureBuilder(classExpressionsClosure, objectPropertyExpressionsClosure, individualsClosure);
-		ClosureCompiler closureProcesser = new ClosureCompiler(clauses);
+		//closureBuilder = new LDLPObjectClosureBuilder(closure);
+		//ClosureCompiler closureProcesser = new ClosureCompiler(clauses);
 		
 	}
 

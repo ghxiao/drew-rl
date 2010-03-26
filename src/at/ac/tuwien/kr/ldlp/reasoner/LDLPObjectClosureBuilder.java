@@ -10,6 +10,7 @@ package at.ac.tuwien.kr.ldlp.reasoner;
 import java.util.Set;
 
 import org.semanticweb.owlapi.model.OWLAnonymousIndividual;
+import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLClassExpression;
@@ -39,10 +40,13 @@ import org.semanticweb.owlapi.model.OWLObjectPropertyAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 import org.semanticweb.owlapi.model.OWLObjectSomeValuesFrom;
 import org.semanticweb.owlapi.model.OWLObjectUnionOf;
+import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLPropertyExpressionVisitor;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.model.OWLSubObjectPropertyOfAxiom;
 import org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter;
+
+import com.sun.corba.se.pept.transport.Acceptor;
 
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyChainOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyIntersectionOf;
@@ -53,18 +57,19 @@ import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyUnionOf;
  * TODO describe this class please.
  */
 
-class ClosureBuilder extends OWLAxiomVisitorAdapter implements OWLClassExpressionVisitor, OWLPropertyExpressionVisitor, OWLIndividualVisitor {
-	Set<OWLClassExpression> classExpressionsClosure;
+class LDLPObjectClosureBuilder extends OWLAxiomVisitorAdapter implements OWLClassExpressionVisitor, OWLPropertyExpressionVisitor, OWLIndividualVisitor {
 
-	Set<OWLObjectPropertyExpression> objectPropertyExpressionsClosure;
+	LDLPObjectClosure closure = new LDLPObjectClosure();
 
-	Set<OWLIndividual> individualsClosure;
+	public LDLPObjectClosureBuilder() {
 
-	public ClosureBuilder(Set<OWLClassExpression> classExpressionsClosure, Set<OWLObjectPropertyExpression> objectPropertyExpressionsClosure,
-			Set<OWLIndividual> individualsClosure) {
-		this.classExpressionsClosure = classExpressionsClosure;
-		this.objectPropertyExpressionsClosure = objectPropertyExpressionsClosure;
-		this.individualsClosure = individualsClosure;
+	}
+
+	public LDLPObjectClosure build(OWLOntology ontology) {
+		for (OWLAxiom axiom : ontology.getAxioms()) {
+			axiom.accept(this);
+		}
+		return closure;
 	}
 
 	@Override
@@ -113,12 +118,12 @@ class ClosureBuilder extends OWLAxiomVisitorAdapter implements OWLClassExpressio
 
 	@Override
 	public void visit(OWLClass ce) {
-		classExpressionsClosure.add(ce);
+		closure.addNamedClasses(ce);
 	}
 
 	@Override
 	public void visit(OWLObjectIntersectionOf ce) {
-		classExpressionsClosure.add(ce);
+		closure.addComplexClass(ce);
 		for (OWLClassExpression op : ce.getOperands()) {
 			op.accept(this);
 		}
@@ -126,7 +131,7 @@ class ClosureBuilder extends OWLAxiomVisitorAdapter implements OWLClassExpressio
 
 	@Override
 	public void visit(OWLObjectUnionOf ce) {
-		classExpressionsClosure.add(ce);
+		closure.addComplexClass(ce);
 		for (OWLClassExpression op : ce.getOperands()) {
 			op.accept(this);
 		}
@@ -134,14 +139,15 @@ class ClosureBuilder extends OWLAxiomVisitorAdapter implements OWLClassExpressio
 
 	@Override
 	public void visit(OWLObjectComplementOf ce) {
-		classExpressionsClosure.add(ce);
+		// this is not possible for LDLP
+		closure.addComplexClass(ce);
 		ce.getOperand().accept(this);
 
 	}
 
 	@Override
 	public void visit(OWLObjectSomeValuesFrom ce) {
-		classExpressionsClosure.add(ce);
+		closure.addComplexClass(ce);
 		ce.getProperty().accept(this);
 		ce.getFiller().accept(this);
 	}
@@ -149,19 +155,21 @@ class ClosureBuilder extends OWLAxiomVisitorAdapter implements OWLClassExpressio
 	@Override
 	public void visit(OWLObjectAllValuesFrom ce) {
 		// TODO: Fix me if the expression is not in normal form
-
+		closure.addComplexClass(ce);
+		ce.getProperty().accept(this);
+		ce.getFiller().accept(this);
 	}
 
 	@Override
 	public void visit(OWLObjectHasValue ce) {
-		classExpressionsClosure.add(ce);
+		closure.addComplexClass(ce);
 		ce.getProperty().accept(this);
 		ce.getValue().accept(this);
 	}
 
 	@Override
 	public void visit(OWLObjectMinCardinality ce) {
-		classExpressionsClosure.add(ce);
+		closure.addComplexClass(ce);
 		ce.getProperty().accept(this);
 		ce.getFiller().accept(this);
 	}
@@ -222,12 +230,12 @@ class ClosureBuilder extends OWLAxiomVisitorAdapter implements OWLClassExpressio
 
 	@Override
 	public void visit(OWLObjectProperty property) {
-		objectPropertyExpressionsClosure.add(property);
+		closure.addNamedProperty(property);
 	}
 
 	@Override
 	public void visit(OWLObjectInverseOf property) {
-		objectPropertyExpressionsClosure.add(property);
+		closure.addComplexProperty(property);
 		property.getInverse().accept(this);
 	}
 
@@ -238,7 +246,7 @@ class ClosureBuilder extends OWLAxiomVisitorAdapter implements OWLClassExpressio
 
 	@Override
 	public void visit(LDLObjectPropertyIntersectionOf property) {
-		objectPropertyExpressionsClosure.add(property);
+		closure.addComplexProperty(property);
 		for (OWLObjectPropertyExpression operand : property.getOperands()) {
 			operand.accept(this);
 		}
@@ -246,7 +254,7 @@ class ClosureBuilder extends OWLAxiomVisitorAdapter implements OWLClassExpressio
 
 	@Override
 	public void visit(LDLObjectPropertyUnionOf property) {
-		objectPropertyExpressionsClosure.add(property);
+		closure.addComplexProperty(property);
 		for (OWLObjectPropertyExpression operand : property.getOperands()) {
 			operand.accept(this);
 		}
@@ -254,14 +262,14 @@ class ClosureBuilder extends OWLAxiomVisitorAdapter implements OWLClassExpressio
 
 	@Override
 	public void visit(LDLObjectPropertyTransitiveClosureOf property) {
-		objectPropertyExpressionsClosure.add(property);
+		closure.addComplexProperty(property);
 		property.getOperand().accept(this);
 
 	}
 
 	@Override
 	public void visit(LDLObjectPropertyChainOf property) {
-		objectPropertyExpressionsClosure.add(property);
+		closure.addComplexProperty(property);
 		for (OWLObjectPropertyExpression operand : property.getOperands()) {
 			operand.accept(this);
 		}
@@ -269,7 +277,7 @@ class ClosureBuilder extends OWLAxiomVisitorAdapter implements OWLClassExpressio
 
 	@Override
 	public void visit(OWLNamedIndividual individual) {
-		individualsClosure.add(individual);
+		closure.addNamedIndividual(individual);
 		// OWLObjectOneOf oneOf = dataFactory.getOWLObjectOneOf(individual);
 
 	}

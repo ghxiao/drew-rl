@@ -145,13 +145,13 @@ public class LDLObjectPropertyTransitiveClosureImpl extends OWLObjectImpl implem
 
 	@Override
 	public void accept(OWLPropertyExpressionVisitor visitor) {
-		throw new UnsupportedOperationException();
+		visitor.visit(this);
 
 	}
 
 	@Override
 	public <O> O accept(OWLPropertyExpressionVisitorEx<O> visitor) {
-		throw new UnsupportedOperationException();
+		return visitor.visit(this);
 
 	}
 
@@ -333,4 +333,5 @@ public class LDLObjectPropertyTransitiveClosureImpl extends OWLObjectImpl implem
 		throw new UnsupportedOperationException();
 	}
 
+	
 }
