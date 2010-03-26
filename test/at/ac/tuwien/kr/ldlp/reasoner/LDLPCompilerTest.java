@@ -1,4 +1,13 @@
-package at.ac.tuwien.kr.ldlp;
+/*
+ * @(#)LDLPCompilerTest.java 2010-3-19 
+ *
+ * Author: Guohui Xiao
+ * Technical University of Vienna
+ * KBS Group
+ */
+package at.ac.tuwien.kr.ldlp.reasoner;
+
+import java.util.List;
 
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
@@ -8,24 +17,20 @@ import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.util.SimpleIRIMapper;
 
-public class LoadTest {
-	private static OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
-	
-//	public final static String uri = "http://www.kr.tuwien.ac.at/staff/xiao/ldl/super.ldl";
-//
-//	public final static String phyUri = "file:kb/super.ldl";
+import at.ac.tuwien.kr.ldlp.reasoner.LDLPCompiler;
 
-//	public final static String uri = "http://www.kr.tuwien.ac.at/staff/xiao/ldl/role_intersection_and_union.ldl";
-//
-//	public final static String phyUri = "file:kb/role_intersection_and_union.ldl";
+import edu.stanford.db.lp.ProgramClause;
 
-//	public final static String uri = "http://www.kr.tuwien.ac.at/staff/xiao/ldl/role_chain.ldl";
-//
-//	public final static String phyUri = "file:kb/role_chain.ldl";
-//	
+
+/**
+ * TODO describe this class please.
+ */
+public class LDLPCompilerTest {
 	public final static String uri = "http://www.kr.tuwien.ac.at/staff/xiao/ldl/role_inverse.ldl";
 
 	public final static String phyUri = "file:kb/role_inverse.ldl";
+
+	private static OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
 	
 	public static void main(String[] args) {
 		loadOntology(uri,phyUri);
@@ -48,6 +53,17 @@ public class LoadTest {
 			}
 
 			System.out.println(ontology);
+			
+			System.out.println("------------------------------------------------------");
+			
+			System.out.println("Compiled:");
+			
+			LDLPCompiler compiler = new LDLPCompiler();
+			final List<ProgramClause> datalogClauses = compiler.complileLDLPOntology(ontology);
+			
+			for(ProgramClause clause:datalogClauses){
+				System.out.println(clause);
+			}
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
 		}

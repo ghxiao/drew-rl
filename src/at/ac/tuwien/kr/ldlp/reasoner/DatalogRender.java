@@ -1,4 +1,4 @@
-package at.ac.tuwien.kr.ldlp;
+package at.ac.tuwien.kr.ldlp.reasoner;
 
 import java.io.Writer;
 

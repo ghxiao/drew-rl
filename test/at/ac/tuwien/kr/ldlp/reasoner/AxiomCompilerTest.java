@@ -1,4 +1,4 @@
-package at.ac.tuwien.kr.ldlp;
+package at.ac.tuwien.kr.ldlp.reasoner;
 
 import static org.junit.Assert.*;
 
@@ -22,6 +22,8 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.model.OWLSubObjectPropertyOfAxiom;
 import org.semanticweb.owlapi.util.SimpleIRIMapper;
+
+import at.ac.tuwien.kr.ldlp.reasoner.AxiomCompiler;
 
 import edu.stanford.db.lp.ProgramClause;
 

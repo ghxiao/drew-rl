@@ -5,7 +5,7 @@
  * Technical University of Vienna
  * KBS Group
  */
-package at.ac.tuwien.kr.ldlp;
+package at.ac.tuwien.kr.ldlp.reasoner;
 
 import java.util.Set;
 
