@@ -7,8 +7,11 @@
  */
 package at.ac.tuwien.kr.ldlp.reasoner;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
+import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLIndividual;
@@ -18,6 +21,8 @@ import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.model.OWLSubObjectPropertyOfAxiom;
 import org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import edu.stanford.db.lp.ConstTerm;
 import edu.stanford.db.lp.Literal;
@@ -25,10 +30,10 @@ import edu.stanford.db.lp.ProgramClause;
 import edu.stanford.db.lp.Term;
 import edu.stanford.db.lp.VariableTerm;
 
-class AxiomCompiler extends OWLAxiomVisitorAdapter {
+public class AxiomCompiler extends OWLAxiomVisitorAdapter {
 
 	DatalogObjectFactory datalogObjectFactory = DatalogObjectFactory.getInstance();
-
+	final static Logger logger = LoggerFactory.getLogger(ClosureCompiler.class);
 	VariableTerm X = new VariableTerm("X");
 	VariableTerm Y = new VariableTerm("Y");
 	VariableTerm Z = new VariableTerm("Z");
@@ -39,8 +44,15 @@ class AxiomCompiler extends OWLAxiomVisitorAdapter {
 		return clauses;
 	}
 
-	public AxiomCompiler(List<ProgramClause> clauses) {
-		this.clauses = clauses;
+	public AxiomCompiler() {
+		this.clauses = new ArrayList<ProgramClause>();
+	}
+
+	public List<ProgramClause> compile(OWLAxiom... axioms) {
+		for (OWLAxiom owlAxiom : axioms) {
+			owlAxiom.accept(this);
+		}
+		return clauses;
 	}
 
 	@Override
@@ -60,6 +72,7 @@ class AxiomCompiler extends OWLAxiomVisitorAdapter {
 		body = new Literal[0];
 		ProgramClause clause = new ProgramClause(head, body);
 		clauses.add(clause);
+		logger.debug("{}\n\t->\n{}", axiom, clause);
 	}
 
 	@Override
@@ -75,6 +88,7 @@ class AxiomCompiler extends OWLAxiomVisitorAdapter {
 		body = new Literal[0];
 		ProgramClause clause = new ProgramClause(head, body);
 		clauses.add(clause);
+		logger.debug("{}\n\t->\n{}", axiom, clause);
 	}
 
 	@Override
@@ -102,6 +116,7 @@ class AxiomCompiler extends OWLAxiomVisitorAdapter {
 
 		ProgramClause clause = new ProgramClause(head, body);
 		clauses.add(clause);
+		logger.debug("{}\n\t->\n{}", axiom, clause);
 	}
 
 	@Override
@@ -114,5 +129,14 @@ class AxiomCompiler extends OWLAxiomVisitorAdapter {
 		body[0] = new Literal(datalogObjectFactory.getPredicate(subProperty), new Term[] { X, Y });
 		ProgramClause clause = new ProgramClause(head, body);
 		clauses.add(clause);
+		logger.debug("{}\n\t->\n{}", axiom, clause);
+	}
+
+	public List<ProgramClause> compile(Set<OWLAxiom> axioms) {
+		for (OWLAxiom owlAxiom : axioms) {
+			owlAxiom.accept(this);
+		}
+		return clauses;
+
 	}
 }

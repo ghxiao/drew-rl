@@ -59,7 +59,7 @@ public class LDLPCompilerTest {
 			System.out.println("Compiled:");
 			
 			LDLPCompiler compiler = new LDLPCompiler();
-			final List<ProgramClause> datalogClauses = compiler.complileLDLPOntology(ontology);
+			final List<ProgramClause> datalogClauses = compiler.complile(ontology);
 			
 			for(ProgramClause clause:datalogClauses){
 				System.out.println(clause);

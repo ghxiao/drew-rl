@@ -32,6 +32,8 @@ import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 import org.semanticweb.owlapi.model.OWLObjectSomeValuesFrom;
 import org.semanticweb.owlapi.model.OWLObjectUnionOf;
 import org.semanticweb.owlapi.model.OWLPropertyExpressionVisitor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyChainOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyIntersectionOf;
@@ -42,7 +44,9 @@ import edu.stanford.db.lp.ProgramClause;
 import edu.stanford.db.lp.Term;
 import edu.stanford.db.lp.VariableTerm;
 
-class ClosureCompiler implements OWLClassExpressionVisitor, OWLPropertyExpressionVisitor, OWLIndividualVisitor {
+public class ClosureCompiler implements OWLClassExpressionVisitor, OWLPropertyExpressionVisitor, OWLIndividualVisitor {
+
+	final static Logger logger = LoggerFactory.getLogger(ClosureCompiler.class);
 
 	DatalogObjectFactory datalogObjectFactory = DatalogObjectFactory.getInstance();
 
@@ -87,12 +91,17 @@ class ClosureCompiler implements OWLClassExpressionVisitor, OWLPropertyExpressio
 	 */
 	@Override
 	public void visit(OWLClass ce) {
+		if (ce.isTopEntity()) {
+			return;
+		}
+
 		Literal[] head = new Literal[1];
 		head[0] = new Literal(TOP, X);
 		Literal[] body = new Literal[1];
 		String predicate = datalogObjectFactory.getPredicate(ce);
 		body[0] = new Literal(predicate, X);
 		ProgramClause clause = new ProgramClause(head, body);
+		logger.debug("{}\n\t->\n{}", ce, clause);
 		clauses.add(clause);
 	}
 
@@ -115,7 +124,11 @@ class ClosureCompiler implements OWLClassExpressionVisitor, OWLPropertyExpressio
 			i++;
 		}
 
-		clauses.add(new ProgramClause(head, body));
+		final ProgramClause clause = new ProgramClause(head, body);
+
+		logger.debug("{}\n\t->\n{}", ce, clause);
+
+		clauses.add(clause);
 
 	}
 
@@ -140,7 +153,9 @@ class ClosureCompiler implements OWLClassExpressionVisitor, OWLPropertyExpressio
 
 			body[0] = new Literal(datalogObjectFactory.getPredicate(operand), new Term[] { X });
 
-			clauses.add(new ProgramClause(head, body));
+			final ProgramClause clause = new ProgramClause(head, body);
+			clauses.add(clause);
+			logger.debug("{}\n\t->\n{}", ce, clause);
 			i++;
 		}
 
@@ -164,7 +179,9 @@ class ClosureCompiler implements OWLClassExpressionVisitor, OWLPropertyExpressio
 		Literal[] body = new Literal[2];
 		body[0] = new Literal(datalogObjectFactory.getPredicate(ce.getProperty()), new Term[] { X, Y });
 		body[1] = new Literal(datalogObjectFactory.getPredicate(ce.getFiller()), new Term[] { Y });
-		clauses.add(new ProgramClause(head, body));
+		final ProgramClause clause = new ProgramClause(head, body);
+		clauses.add(clause);
+		logger.debug("{}\n\t->\n{}", ce, clause);
 
 	}
 
@@ -217,7 +234,9 @@ class ClosureCompiler implements OWLClassExpressionVisitor, OWLPropertyExpressio
 		}
 		Literal[] body = new Literal[0];
 		body = bodyLiterals.toArray(body);
-		clauses.add(new ProgramClause(head, body));
+		final ProgramClause clause = new ProgramClause(head, body);
+		clauses.add(clause);
+		logger.debug("{}\n\t->\n{}", ce, clause);
 	}
 
 	@Override
@@ -277,6 +296,10 @@ class ClosureCompiler implements OWLClassExpressionVisitor, OWLPropertyExpressio
 
 	@Override
 	public void visit(OWLObjectProperty property) {
+		if (property.isTopEntity()) {
+			return;
+		}
+
 		Literal[] head = new Literal[1];
 		head[0] = new Literal(TOP, X, Y);
 		Literal[] body = new Literal[1];
@@ -284,6 +307,7 @@ class ClosureCompiler implements OWLClassExpressionVisitor, OWLPropertyExpressio
 		body[0] = new Literal(predicate, X, Y);
 		ProgramClause clause = new ProgramClause(head, body);
 		clauses.add(clause);
+		logger.debug("{}\n\t->\n{}", property, clause);
 	}
 
 	@Override
@@ -296,6 +320,7 @@ class ClosureCompiler implements OWLClassExpressionVisitor, OWLPropertyExpressio
 		body[0] = new Literal(predicate, Y, X);
 		ProgramClause clause = new ProgramClause(head, body);
 		clauses.add(clause);
+		logger.debug("{}\n\t->\n{}", property, clause);
 	}
 
 	@Override
@@ -317,7 +342,9 @@ class ClosureCompiler implements OWLClassExpressionVisitor, OWLPropertyExpressio
 			i++;
 		}
 
-		clauses.add(new ProgramClause(head, body));
+		final ProgramClause clause = new ProgramClause(head, body);
+		clauses.add(clause);
+		logger.debug("{}\n\t->\n{}", property, clause);
 	}
 
 	@Override
@@ -331,7 +358,9 @@ class ClosureCompiler implements OWLClassExpressionVisitor, OWLPropertyExpressio
 
 			body[0] = new Literal(datalogObjectFactory.getPredicate(operand), new Term[] { X, Y });
 
-			clauses.add(new ProgramClause(head, body));
+			final ProgramClause clause = new ProgramClause(head, body);
+			clauses.add(clause);
+			logger.debug("{}\n\t->\n{}", property, clause);
 		}
 
 	}
@@ -346,11 +375,15 @@ class ClosureCompiler implements OWLClassExpressionVisitor, OWLPropertyExpressio
 		head[0] = new Literal(datalogObjectFactory.getPredicate(property), new Term[] { X, Y });
 		Literal[] body1 = new Literal[1];
 		body1[0] = new Literal(datalogObjectFactory.getPredicate(operand), new Term[] { X, Y });
-		clauses.add(new ProgramClause(head, body1));
+		final ProgramClause clause1 = new ProgramClause(head, body1);
+		logger.debug("{}\n\t->\n{}", property, clause1);
+		clauses.add(clause1);
 		Literal[] body2 = new Literal[2];
 		body2[0] = new Literal(datalogObjectFactory.getPredicate(operand), new Term[] { X, Y });
 		body2[1] = new Literal(datalogObjectFactory.getPredicate(property), new Term[] { Y, Z });
-		clauses.add(new ProgramClause(head, body2));
+		final ProgramClause clause2 = new ProgramClause(head, body2);
+		clauses.add(clause2);
+		logger.debug("{}\n\t->\n{}", property, clause2);
 	}
 
 	// compose(E1, E2, ... En)(X1,Xn+1):- E1(X1,X2), E2(X2,X3), ... ,
@@ -372,7 +405,9 @@ class ClosureCompiler implements OWLClassExpressionVisitor, OWLPropertyExpressio
 			body[i] = new Literal(datalogObjectFactory.getPredicate(operand), new Term[] { Xs[i], Xs[i + 1] });
 			i++;
 		}
-		clauses.add(new ProgramClause(head, body));
+		final ProgramClause clause = new ProgramClause(head, body);
+		clauses.add(clause);
+		logger.debug("{}\n\t->\n{}", property, clause);
 
 	}
 

@@ -28,13 +28,13 @@ public class LDLPReasoner extends OWLReasonerAdapter {
 	boolean compiled;
 
 	LDLPCompiler compiler;
-	
-	DatalogReasoner datalogEngine;
+
+	DatalogReasoner datalogReasoner;
 
 	protected LDLPReasoner(OWLOntology rootOntology, OWLReasonerConfiguration configuration, BufferingMode bufferingMode) {
 		super(rootOntology, configuration, bufferingMode);
 		compiler = new LDLPCompiler();
-		datalogEngine = new XSBDatalogReasoner();
+		datalogReasoner = new XSBDatalogReasoner();
 	}
 
 	@Override
@@ -46,18 +46,15 @@ public class LDLPReasoner extends OWLReasonerAdapter {
 
 		OWLClassAssertionAxiom classAssertionAxiom = (OWLClassAssertionAxiom) axiom;
 
-		
-
 		if (!compiled) {
-			program = compiler.complileLDLPOntology(this.getRootOntology());
+			program = compiler.complile(this.getRootOntology());
 			compiled = true;
 		}
-		
-		Literal query = compiler.compileClassAssertionAxiom(classAssertionAxiom);
-		
-		return datalogEngine.query(program, query);
 
-		
+		Literal query = null;
+		// compiler.compileClassAssertionAxiom(classAssertionAxiom);
+
+		return datalogReasoner.query(program, query);
 
 	}
 

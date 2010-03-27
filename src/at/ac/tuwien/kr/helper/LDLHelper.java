@@ -8,12 +8,15 @@
 package at.ac.tuwien.kr.helper;
 
 import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLIndividual;
+import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLObjectAllValuesFrom;
 import org.semanticweb.owlapi.model.OWLObjectInverseOf;
 import org.semanticweb.owlapi.model.OWLObjectMinCardinality;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
@@ -21,6 +24,8 @@ import org.semanticweb.owlapi.model.OWLObjectPropertyAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 import org.semanticweb.owlapi.model.OWLObjectSomeValuesFrom;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
+import org.semanticweb.owlapi.model.OWLSubObjectPropertyOfAxiom;
 
 import at.ac.tuwien.kr.ldlp.reasoner.DatalogObjectFactory;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyChainOf;
@@ -37,6 +42,30 @@ public class LDLHelper {
 
 	private static OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
 	private static OWLDataFactory factory = manager.getOWLDataFactory();
+
+	public static OWLClass cls(String iri) {
+		return factory.getOWLClass(IRI.create(iri));
+	}
+	
+	public static OWLObjectProperty prop(String iri) {
+		return factory.getOWLObjectProperty(IRI.create(iri));
+	}
+	
+	public static OWLNamedIndividual ind(String iri) {
+		return factory.getOWLNamedIndividual(IRI.create(iri));
+	}
+	
+	public static OWLClass topClass() {
+		return factory.getOWLThing();
+	}
+	
+	public static OWLSubClassOfAxiom sub(OWLClassExpression sub, OWLClassExpression sup){
+		return factory.getOWLSubClassOfAxiom(sub, sup);
+	}
+	
+	public static OWLSubObjectPropertyOfAxiom sub(OWLObjectProperty sub, OWLObjectProperty sup){
+		return factory.getOWLSubObjectPropertyOfAxiom(sub, sup);
+	}
 
 	public static OWLClassExpression and(OWLClassExpression... operands) {
 		return factory.getOWLObjectIntersectionOf(operands);
@@ -62,10 +91,14 @@ public class LDLHelper {
 		return factory.getOWLObjectPropertyAssertionAxiom(prop, a, b);
 	}
 
-	public static OWLObjectSomeValuesFrom some(OWLObjectProperty prop, OWLClassExpression cls) {
+	public static OWLObjectSomeValuesFrom some(OWLObjectPropertyExpression prop, OWLClassExpression cls) {
 		return factory.getOWLObjectSomeValuesFrom(prop, cls);
 	}
 
+	public static OWLObjectAllValuesFrom all(OWLObjectPropertyExpression prop, OWLClassExpression cls) {
+		return factory.getOWLObjectAllValuesFrom(prop, cls);
+	}
+	
 	public static OWLObjectInverseOf inv(OWLObjectPropertyExpression prop) {
 		return factory.getOWLObjectInverseOf(prop);
 	}

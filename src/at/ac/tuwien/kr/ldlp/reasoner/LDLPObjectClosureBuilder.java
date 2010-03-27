@@ -57,7 +57,7 @@ import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyUnionOf;
  * TODO describe this class please.
  */
 
-class LDLPObjectClosureBuilder extends OWLAxiomVisitorAdapter implements OWLClassExpressionVisitor, OWLPropertyExpressionVisitor, OWLIndividualVisitor {
+public class LDLPObjectClosureBuilder extends OWLAxiomVisitorAdapter implements OWLClassExpressionVisitor, OWLPropertyExpressionVisitor, OWLIndividualVisitor {
 
 	LDLPObjectClosure closure = new LDLPObjectClosure();
 

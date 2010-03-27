@@ -66,76 +66,44 @@ import edu.stanford.db.lp.VariableTerm;
  */
 public class LDLPCompiler {
 
-	VariableTerm X = new VariableTerm("X");
-	VariableTerm Y = new VariableTerm("Y");
-	VariableTerm Z = new VariableTerm("Z");
-
-	AxiomCompiler axiomCompiler;
-
-	LDLPObjectClosure closure = new LDLPObjectClosure();
-	
-	LDLPObjectClosureBuilder closureBuilder;
-
 	List<ProgramClause> clauses;
 
-	Set<OWLClassExpression> classExpressionsClosure;
+	public List<ProgramClause> complile(OWLOntology ontology) {
+		final Set<OWLAxiom> axioms = ontology.getAxioms();
+		return compile(axioms);
+	}
 
-	Set<OWLObjectPropertyExpression> objectPropertyExpressionsClosure;
-
-	Set<OWLIndividual> individualsClosure;
-
-	private OWLOntology ontology;
-
-	OWLDataFactory dataFactory;
-
-	public List<ProgramClause> complileLDLPOntology(OWLOntology ontology) {
-		this.ontology = ontology;
+	public List<ProgramClause> compile(final Set<OWLAxiom> axioms) {
 		reset();
-		for (OWLAxiom axiom : ontology.getAxioms()) {
-			complieAxiom(axiom);
-		}
 
-		for (OWLAxiom axiom : ontology.getAxioms()) {
-			updateClosure(axiom);
-		}
+		AxiomCompiler axiomCompiler = new AxiomCompiler();
+		final List<ProgramClause> clauses = axiomCompiler.compile(axioms);
 
-		compileClasses();
-
-		complieProperties();
-
+		LDLPObjectClosureBuilder closureBuilder = new LDLPObjectClosureBuilder();
+		final LDLPObjectClosure closure = closureBuilder.build(axioms);
+		ClosureCompiler closureCompiler = new ClosureCompiler();
+		final List<ProgramClause> clauses1 = closureCompiler.compile(closure);
+		clauses.addAll(clauses1);
 		return clauses;
 	}
+	
+	public List<ProgramClause> compile(OWLAxiom... axioms) {
+		reset();
 
-	private void updateClosure(OWLAxiom axiom) {
+		AxiomCompiler axiomCompiler = new AxiomCompiler();
+		final List<ProgramClause> clauses = axiomCompiler.compile(axioms);
 
-		axiom.accept(closureBuilder);
-	}
-
-	private void complieAxiom(OWLAxiom axiom) {
-		axiom.accept(axiomCompiler);
-	}
+		LDLPObjectClosureBuilder closureBuilder = new LDLPObjectClosureBuilder();
+		final LDLPObjectClosure closure = closureBuilder.build(axioms);
+		ClosureCompiler closureCompiler = new ClosureCompiler();
+		final List<ProgramClause> clauses1 = closureCompiler.compile(closure);
+		clauses.addAll(clauses1);
+		return clauses;
+	}	
 
 	private void reset() {
-		dataFactory = ontology.getOWLOntologyManager().getOWLDataFactory();
+
 		clauses = new ArrayList<ProgramClause>();
-		axiomCompiler = new AxiomCompiler(clauses);
-		classExpressionsClosure = new HashSet<OWLClassExpression>();
-		objectPropertyExpressionsClosure = new HashSet<OWLObjectPropertyExpression>();
-		individualsClosure = new HashSet<OWLIndividual>();
-		//closureBuilder = new LDLPObjectClosureBuilder(closure);
-		//ClosureCompiler closureProcesser = new ClosureCompiler(clauses);
-		
 	}
 
-	private void complieProperties() {
-
-	}
-
-	private void compileClasses() {
-
-	}
-
-	public Literal compileClassAssertionAxiom(OWLClassAssertionAxiom classAssertionAxiom) {
-		return null;
-	}
 }
