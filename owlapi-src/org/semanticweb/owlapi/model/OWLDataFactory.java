@@ -5,8 +5,10 @@ import org.semanticweb.owlapi.vocab.OWLFacet;
 
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyChainOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyIntersectionOf;
+import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyOneOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyTransitiveClosureOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyUnionOf;
+import at.ac.tuwien.kr.owlapi.model.ldl.OWLIndividualPair;
 
 import java.util.List;
 import java.util.Set;
@@ -1327,5 +1329,9 @@ public interface OWLDataFactory extends SWRLDataFactory {
 	LDLObjectPropertyChainOf getLDLObjectPropertyChainOf(Set<? extends OWLObjectPropertyExpression> operands);
 
 	LDLObjectPropertyChainOf getLDLObjectPropertyChainOf(OWLObjectPropertyExpression... operands);
+
+	LDLObjectPropertyOneOf getLDLObjectPropertyOneOf(Set<OWLIndividualPair> operands);
+	
+	LDLObjectPropertyOneOf getLDLObjectPropertyOneOf(OWLIndividualPair... operands);
 
 }

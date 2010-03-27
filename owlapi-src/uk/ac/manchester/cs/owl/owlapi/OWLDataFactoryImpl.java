@@ -9,10 +9,13 @@ import org.semanticweb.owlapi.vocab.XSDVocabulary;
 
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyChainOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyIntersectionOf;
+import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyOneOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyTransitiveClosureOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyUnionOf;
+import at.ac.tuwien.kr.owlapi.model.ldl.OWLIndividualPair;
 import at.ac.tuwien.kr.owlapi.model.ldl.impl.LDLObjectPropertyChainOfImpl;
 import at.ac.tuwien.kr.owlapi.model.ldl.impl.LDLObjectPropertyIntersectionOfImpl;
+import at.ac.tuwien.kr.owlapi.model.ldl.impl.LDLObjectPropertyOneOfImpl;
 import at.ac.tuwien.kr.owlapi.model.ldl.impl.LDLObjectPropertyTransitiveClosureImpl;
 import at.ac.tuwien.kr.owlapi.model.ldl.impl.LDLObjectPropertyUnionOfImpl;
 
@@ -1258,5 +1261,15 @@ public class OWLDataFactoryImpl implements OWLDataFactory {
 	@Override
 	public LDLObjectPropertyChainOf getLDLObjectPropertyChainOf(OWLObjectPropertyExpression... operands) {
 		return getLDLObjectPropertyChainOf(CollectionFactory.createSet(operands));
+	}
+
+	@Override
+	public LDLObjectPropertyOneOf getLDLObjectPropertyOneOf(Set<OWLIndividualPair> operands) {
+		return new LDLObjectPropertyOneOfImpl(this, operands);
+	}
+
+	@Override
+	public LDLObjectPropertyOneOf getLDLObjectPropertyOneOf(OWLIndividualPair... operands) {
+		return getLDLObjectPropertyOneOf(CollectionFactory.createSet(operands));
 	}
 }

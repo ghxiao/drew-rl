@@ -8,6 +8,7 @@ import org.semanticweb.owlapi.util.DefaultPrefixManager;
 
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyChainOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyIntersectionOf;
+import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyOneOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyTransitiveClosureOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyUnionOf;
 
@@ -1113,6 +1114,12 @@ public class OWLObjectRenderer implements OWLObjectVisitor {
 
 	@Override
 	public void visit(LDLObjectPropertyChainOf property) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(LDLObjectPropertyOneOf property) {
 		// TODO Auto-generated method stub
 		
 	}

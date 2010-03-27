@@ -30,7 +30,9 @@ import org.semanticweb.owlapi.model.OWLSubObjectPropertyOfAxiom;
 
 import at.ac.tuwien.kr.ldlp.reasoner.DatalogObjectFactory;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyChainOf;
+import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyOneOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyTransitiveClosureOf;
+import at.ac.tuwien.kr.owlapi.model.ldl.OWLIndividualPair;
 
 import edu.stanford.db.lp.Literal;
 import edu.stanford.db.lp.ProgramClause;
@@ -65,7 +67,7 @@ public class LDLHelper {
 		return factory.getOWLSubClassOfAxiom(sub, sup);
 	}
 
-	public static OWLSubObjectPropertyOfAxiom sub(OWLObjectProperty sub, OWLObjectProperty sup) {
+	public static OWLSubObjectPropertyOfAxiom sub(OWLObjectPropertyExpression sub, OWLObjectPropertyExpression sup) {
 		return factory.getOWLSubObjectPropertyOfAxiom(sub, sup);
 	}
 
@@ -119,6 +121,10 @@ public class LDLHelper {
 
 	public static OWLObjectOneOf oneOf(OWLIndividual... individuals) {
 		return factory.getOWLObjectOneOf(individuals);
+	}
+	
+	public static LDLObjectPropertyOneOf oneOf(OWLIndividualPair... pairs) {
+		return factory.getLDLObjectPropertyOneOf(pairs);
 	}
 
 	public static ProgramClause clause(Literal[] head, Literal[] body) {

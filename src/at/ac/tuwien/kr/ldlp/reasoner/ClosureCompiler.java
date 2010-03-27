@@ -38,8 +38,10 @@ import org.slf4j.LoggerFactory;
 
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyChainOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyIntersectionOf;
+import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyOneOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyTransitiveClosureOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyUnionOf;
+import at.ac.tuwien.kr.owlapi.model.ldl.OWLIndividualPair;
 import edu.stanford.db.lp.Literal;
 import edu.stanford.db.lp.ProgramClause;
 import edu.stanford.db.lp.StringTerm;
@@ -438,14 +440,40 @@ public class ClosureCompiler implements OWLClassExpressionVisitor, OWLPropertyEx
 
 	@Override
 	public void visit(OWLNamedIndividual individual) {
-		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException();
 
 	}
 
 	@Override
 	public void visit(OWLAnonymousIndividual individual) {
-		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException();
 
+	}
+
+	/**
+	 * <pre>
+	 * 	{<o11,o12>,<o21,o22>)
+	 * 
+	 * {<o11,o12>,<o21,o22>)(o11,o12).
+	 * {<o11,o12>,<o21,o22>)(o21,o22).
+	 * </pre>
+	 * 
+	 */
+	@Override
+	public void visit(LDLObjectPropertyOneOf property) {
+		final Set<OWLIndividualPair> individualPairs = property.getOperands();
+		final String predicate = datalogObjectFactory.getPredicate(property);
+		for (OWLIndividualPair pair : individualPairs) {
+			Literal[] head = new Literal[1];
+			final String constant1 = datalogObjectFactory.getConst(pair.getFirst());
+			final String constant2 = datalogObjectFactory.getConst(pair.getSecond());
+			head[0] = new Literal(predicate, new StringTerm(constant1),new StringTerm(constant2));
+			Literal[] body = new Literal[0];
+			final ProgramClause clause = new ProgramClause(head, body);
+			clauses.add(clause);
+			logger.debug("{}\n\t->\n{}", property, clause);
+		}
+		
 	}
 
 }

@@ -8,6 +8,7 @@ import org.semanticweb.owlapi.model.OWLPropertyExpressionVisitorEx;
 
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyChainOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyIntersectionOf;
+import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyOneOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyTransitiveClosureOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyUnionOf;
 
@@ -63,6 +64,11 @@ public class LDLPSubObjectPropertyExpressionChecker implements OWLPropertyExpres
 				return false;
 			}
 		}
+		return true;
+	}
+
+	@Override
+	public Boolean visit(LDLObjectPropertyOneOf property) {
 		return true;
 	}
 

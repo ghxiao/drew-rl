@@ -28,9 +28,12 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
+import org.semanticweb.owlapi.model.OWLSubObjectPropertyOfAxiom;
 
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyChainOf;
+import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyOneOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyTransitiveClosureOf;
+import at.ac.tuwien.kr.owlapi.model.ldl.OWLIndividualPair;
 
 import edu.stanford.db.lp.ProgramClause;
 import edu.stanford.db.lp.Term;
@@ -163,9 +166,9 @@ public class ClosureCompilerTest {
 		final List<ProgramClause> clauses = closureCompiler.compile(closure);
 		assertTrue(clauses.contains(clause(head(literal(p(E_min_2_C), X)), //
 				body(literal(p(E), X, Y1), literal(p(C), Y1), literal(p(E), X, Y2), //
-					literal(p(C), Y2), literal(NOTEQUAL, Y1, Y2)))));
+						literal(p(C), Y2), literal(NOTEQUAL, Y1, Y2)))));
 	}
-	
+
 	/**
 	 * <pre>
 	 * 	{o1,o2}
@@ -176,14 +179,13 @@ public class ClosureCompilerTest {
 	 */
 	@Test
 	public void testVisitOWLObjectOneOf() {
-		final OWLObjectOneOf cls = oneOf(a,b);
-		final OWLSubClassOfAxiom axiom = sub(cls,A);
+		final OWLObjectOneOf cls = oneOf(a, b);
+		final OWLSubClassOfAxiom axiom = sub(cls, A);
 		closure = builder.build(axiom);
 		final List<ProgramClause> clauses = closureCompiler.compile(closure);
 		assertTrue(clauses.contains(clause(head(literal(p(cls), term(a))), body())));
 		assertTrue(clauses.contains(clause(head(literal(p(cls), term(b))), body())));
 	}
-
 
 	// E(X,Y):-inv(E)(Y,X).
 	@Test
@@ -235,17 +237,27 @@ public class ClosureCompilerTest {
 		closure = builder.build(axiom);
 		final List<ProgramClause> clauses = closureCompiler.compile(closure);
 		assertTrue(clauses.contains(clause(head(literal(p(E_o_F), X1, X3)), body(literal(p(E), X1, X2), literal(p(F), X2, X3)))));
-
 	}
 
+	/**
+	 * <pre>
+	 * 	{<o11,o12>,<o21,o22>)
+	 * 
+	 * {<o11,o12>,<o21,o22>)(o11,o12).
+	 * {<o11,o12>,<o21,o22>)(o21,o22).
+	 * </pre>
+	 * 
+	 */
 	@Test
-	public void testVisitOWLNamedIndividual() {
-		fail("Not yet implemented"); // TODO
-	}
-
-	@Test
-	public void testVisitOWLAnonymousIndividual() {
-		fail("Not yet implemented"); // TODO
+	public void testVisitOWLObjectPropertyOneOf() {
+		OWLIndividualPair pair1 = new OWLIndividualPair(a, b);
+		OWLIndividualPair pair2 = new OWLIndividualPair(b, c);
+		final LDLObjectPropertyOneOf prop = oneOf(pair1, pair2);
+		final OWLSubObjectPropertyOfAxiom axiom = sub(prop, E);
+		closure = builder.build(axiom);
+		final List<ProgramClause> clauses = closureCompiler.compile(closure);
+		assertTrue(clauses.contains(clause(head(literal(p(prop), term(a), term(b))), body())));
+		assertTrue(clauses.contains(clause(head(literal(p(prop), term(b), term(c))), body())));
 	}
 
 }

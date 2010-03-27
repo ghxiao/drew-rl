@@ -2,6 +2,7 @@ package org.semanticweb.owlapi.model;
 
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyChainOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyIntersectionOf;
+import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyOneOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyTransitiveClosureOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyUnionOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.impl.LDLObjectPropertyChainOfImpl;
@@ -50,5 +51,7 @@ public interface OWLPropertyExpressionVisitorEx<O> {
 
 	O visit(LDLObjectPropertyTransitiveClosureOf property);
 
-	O visit(LDLObjectPropertyChainOf ldlObjectPropertyChainOfImpl);
+	O visit(LDLObjectPropertyChainOf property);
+	
+	O visit(LDLObjectPropertyOneOf property);
 }
