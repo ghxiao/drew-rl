@@ -11,6 +11,9 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/datalog.jar"/>
+	<classpathentry kind="lib" path="lib/log4j-1.2.15.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-api-1.5.11.jar" sourcepath="lib/slf4j-api-1.5.11-sources.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-log4j12-1.5.11.jar" sourcepath="lib/slf4j-log4j12-1.5.11-sources.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

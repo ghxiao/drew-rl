@@ -5,7 +5,7 @@
  * Technical University of Vienna
  * KBS Group
  */
-package sax;
+package misc;
 
 import java.io.FileReader;
 import java.io.IOException;
