@@ -10,6 +10,8 @@ package edu.stanford.db.lp;
 
 import java.util.Arrays;
 
+import at.ac.tuwien.kr.ldlp.reasoner.DatalogObjectFactory;
+
 public class Literal {
 	String predicateSymbol;
 	Term[] args;
@@ -21,12 +23,10 @@ public class Literal {
 		this.polarity = polarity;
 	}
 
-	
-	
-//	public Literal(String predicateSymbol, Term[] args) {
-//		this(true, predicateSymbol, args);
-//	}
-	
+	// public Literal(String predicateSymbol, Term[] args) {
+	// this(true, predicateSymbol, args);
+	// }
+
 	public Literal(String predicateSymbol, Term... args) {
 		this(true, predicateSymbol, args);
 	}
@@ -55,22 +55,36 @@ public class Literal {
 		String out = "";
 		if (!polarity)
 			out = out.concat("not ");
-		out = out.concat(predicateSymbol);
-		if ((args != null) && (args.length > 0)) {
-			out = out.concat("(");
-			for (int i = 0; i < args.length; i++) {
-				out = out.concat(args[i].toString());
-				if (i < args.length - 1)
-					out = out.concat(",");
+
+		DatalogObjectFactory factory = new DatalogObjectFactory();
+		final String notEqual = factory.getNotEqual();
+
+		if (!predicateSymbol.equals(notEqual)) {
+			out = out.concat(predicateSymbol);
+			if ((args != null) && (args.length > 0)) {
+				out = out.concat("(");
+				for (int i = 0; i < args.length; i++) {
+					out = out.concat(args[i].toString());
+					if (i < args.length - 1)
+						out = out.concat(",");
+				}
+				out = out.concat(")");
 			}
-			out = out.concat(")");
+		} else {
+			if (args.length != 2) {
+				throw new IllegalArgumentException("args.length != 2");
+			}
+			out = out.concat(args[0].toString());
+			out = out.concat(notEqual);
+			out = out.concat(args[1].toString());
 		}
+
 		return out;
 	}
 
-
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -83,9 +97,9 @@ public class Literal {
 		return result;
 	}
 
-
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override

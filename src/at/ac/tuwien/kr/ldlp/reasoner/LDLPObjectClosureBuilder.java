@@ -76,7 +76,7 @@ public class LDLPObjectClosureBuilder extends OWLAxiomVisitorAdapter implements 
 		}
 		return closure;
 	}
-	
+
 	public LDLPObjectClosure build(final OWLAxiom... axioms) {
 		for (OWLAxiom axiom : axioms) {
 			axiom.accept(this);
@@ -203,10 +203,7 @@ public class LDLPObjectClosureBuilder extends OWLAxiomVisitorAdapter implements 
 
 	@Override
 	public void visit(OWLObjectOneOf ce) {
-		// TODO:
-		for (OWLIndividual i : ce.getIndividuals()) {
-			i.accept(this);
-		}
+		closure.addComplexClass(ce);
 	}
 
 	@Override

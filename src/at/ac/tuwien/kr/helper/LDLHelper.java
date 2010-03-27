@@ -19,6 +19,7 @@ import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLObjectAllValuesFrom;
 import org.semanticweb.owlapi.model.OWLObjectInverseOf;
 import org.semanticweb.owlapi.model.OWLObjectMinCardinality;
+import org.semanticweb.owlapi.model.OWLObjectOneOf;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLObjectPropertyAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
@@ -33,6 +34,7 @@ import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyTransitiveClosureOf;
 
 import edu.stanford.db.lp.Literal;
 import edu.stanford.db.lp.ProgramClause;
+import edu.stanford.db.lp.StringTerm;
 import edu.stanford.db.lp.Term;
 
 /**
@@ -46,24 +48,24 @@ public class LDLHelper {
 	public static OWLClass cls(String iri) {
 		return factory.getOWLClass(IRI.create(iri));
 	}
-	
+
 	public static OWLObjectProperty prop(String iri) {
 		return factory.getOWLObjectProperty(IRI.create(iri));
 	}
-	
+
 	public static OWLNamedIndividual ind(String iri) {
 		return factory.getOWLNamedIndividual(IRI.create(iri));
 	}
-	
+
 	public static OWLClass topClass() {
 		return factory.getOWLThing();
 	}
-	
-	public static OWLSubClassOfAxiom sub(OWLClassExpression sub, OWLClassExpression sup){
+
+	public static OWLSubClassOfAxiom sub(OWLClassExpression sub, OWLClassExpression sup) {
 		return factory.getOWLSubClassOfAxiom(sub, sup);
 	}
-	
-	public static OWLSubObjectPropertyOfAxiom sub(OWLObjectProperty sub, OWLObjectProperty sup){
+
+	public static OWLSubObjectPropertyOfAxiom sub(OWLObjectProperty sub, OWLObjectProperty sup) {
 		return factory.getOWLSubObjectPropertyOfAxiom(sub, sup);
 	}
 
@@ -98,7 +100,7 @@ public class LDLHelper {
 	public static OWLObjectAllValuesFrom all(OWLObjectPropertyExpression prop, OWLClassExpression cls) {
 		return factory.getOWLObjectAllValuesFrom(prop, cls);
 	}
-	
+
 	public static OWLObjectInverseOf inv(OWLObjectPropertyExpression prop) {
 		return factory.getOWLObjectInverseOf(prop);
 	}
@@ -113,6 +115,10 @@ public class LDLHelper {
 
 	public static OWLObjectMinCardinality min(int n, OWLObjectPropertyExpression property, OWLClassExpression cls) {
 		return factory.getOWLObjectMinCardinality(n, property, cls);
+	}
+
+	public static OWLObjectOneOf oneOf(OWLIndividual... individuals) {
+		return factory.getOWLObjectOneOf(individuals);
 	}
 
 	public static ProgramClause clause(Literal[] head, Literal[] body) {
@@ -135,4 +141,11 @@ public class LDLHelper {
 		DatalogObjectFactory factory = DatalogObjectFactory.getInstance();
 		return factory.getPredicate(owlObject);
 	}
+
+	public static Term term(OWLIndividual individual) {
+		DatalogObjectFactory factory = DatalogObjectFactory.getInstance();
+		final String const1 = factory.getConst(individual);
+		return new StringTerm(const1);
+	}
+
 }

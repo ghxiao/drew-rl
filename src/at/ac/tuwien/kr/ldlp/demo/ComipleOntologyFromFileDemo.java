@@ -29,8 +29,8 @@ public class ComipleOntologyFromFileDemo {
 
 	 public final static String uri =
 	 "http://www.kr.tuwien.ac.at/staff/xiao/ldl/super.ldl";
-	
-	 public final static String phyUri = "file:kb/super.ldl";
+	 
+	 public final static String phyUri = "file:src/at/ac/tuwien/kr/ldlp/demo/super.ldl";
 
 	// public final static String uri =
 	// "http://www.kr.tuwien.ac.at/staff/xiao/ldl/role_intersection_and_union.ldl";

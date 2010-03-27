@@ -91,6 +91,7 @@ public class AxiomCompiler extends OWLAxiomVisitorAdapter {
 		logger.debug("{}\n\t->\n{}", axiom, clause);
 	}
 
+	
 	@Override
 	public void visit(OWLSubClassOfAxiom axiom) {
 		final OWLClassExpression subClass = axiom.getSubClass();

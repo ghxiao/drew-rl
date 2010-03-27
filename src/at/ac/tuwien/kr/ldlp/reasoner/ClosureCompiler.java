@@ -15,6 +15,7 @@ import org.semanticweb.owlapi.model.OWLDataMaxCardinality;
 import org.semanticweb.owlapi.model.OWLDataMinCardinality;
 import org.semanticweb.owlapi.model.OWLDataProperty;
 import org.semanticweb.owlapi.model.OWLDataSomeValuesFrom;
+import org.semanticweb.owlapi.model.OWLIndividual;
 import org.semanticweb.owlapi.model.OWLIndividualVisitor;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObjectAllValuesFrom;
@@ -41,6 +42,7 @@ import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyTransitiveClosureOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyUnionOf;
 import edu.stanford.db.lp.Literal;
 import edu.stanford.db.lp.ProgramClause;
+import edu.stanford.db.lp.StringTerm;
 import edu.stanford.db.lp.Term;
 import edu.stanford.db.lp.VariableTerm;
 
@@ -54,7 +56,8 @@ public class ClosureCompiler implements OWLClassExpressionVisitor, OWLPropertyEx
 	VariableTerm Y = new VariableTerm("Y");
 	VariableTerm Z = new VariableTerm("Z");
 
-	String TOP = datalogObjectFactory.getTopPrediate();
+	String TOP1 = datalogObjectFactory.getTop1();
+	String TOP2 = datalogObjectFactory.getTop2();
 	String NOTEQUAL = datalogObjectFactory.getNotEqual();
 
 	private List<ProgramClause> clauses;
@@ -96,7 +99,7 @@ public class ClosureCompiler implements OWLClassExpressionVisitor, OWLPropertyEx
 		}
 
 		Literal[] head = new Literal[1];
-		head[0] = new Literal(TOP, X);
+		head[0] = new Literal(TOP1, X);
 		Literal[] body = new Literal[1];
 		String predicate = datalogObjectFactory.getPredicate(ce);
 		body[0] = new Literal(predicate, X);
@@ -257,10 +260,30 @@ public class ClosureCompiler implements OWLClassExpressionVisitor, OWLPropertyEx
 
 	}
 
+	/**
+	 * <pre>
+	 * 	{o1,o2}
+	 * 
+	 * {o1,o2)(o1).
+	 * {o1,o2}(o2).
+	 * </pre>
+	 * 
+	 * @see org.semanticweb.owlapi.model.OWLClassExpressionVisitor#visit(org.semanticweb.owlapi.model.OWLObjectOneOf)
+	 * 
+	 */
 	@Override
 	public void visit(OWLObjectOneOf ce) {
-		// TODO Auto-generated method stub
-		// Xiao:Take care of it!!!!
+		final Set<OWLIndividual> individuals = ce.getIndividuals();
+		final String predicate = datalogObjectFactory.getPredicate(ce);
+		for (OWLIndividual ind : individuals) {
+			Literal[] head = new Literal[1];
+			final String constant = datalogObjectFactory.getConst(ind);
+			head[0] = new Literal(predicate, new StringTerm(constant));
+			Literal[] body = new Literal[0];
+			final ProgramClause clause = new ProgramClause(head, body);
+			clauses.add(clause);
+			logger.debug("{}\n\t->\n{}", ce, clause);
+		}
 	}
 
 	@Override
@@ -301,7 +324,7 @@ public class ClosureCompiler implements OWLClassExpressionVisitor, OWLPropertyEx
 		}
 
 		Literal[] head = new Literal[1];
-		head[0] = new Literal(TOP, X, Y);
+		head[0] = new Literal(TOP2, X, Y);
 		Literal[] body = new Literal[1];
 		String predicate = datalogObjectFactory.getPredicate(property);
 		body[0] = new Literal(predicate, X, Y);
@@ -366,22 +389,24 @@ public class ClosureCompiler implements OWLClassExpressionVisitor, OWLPropertyEx
 	}
 
 	// trans(E)(X,Y):-E(X,Y)
-	// trans(E)(X,Y):-E(X),trans(X,Y).
+	// trans(E)(X,Z):-E(X,Y),trans(Y,Z).
 	@Override
 	public void visit(LDLObjectPropertyTransitiveClosureOf property) {
 		final OWLObjectPropertyExpression operand = property.getOperand();
 
-		Literal[] head = new Literal[1];
-		head[0] = new Literal(datalogObjectFactory.getPredicate(property), new Term[] { X, Y });
+		Literal[] head1 = new Literal[1];
+		head1[0] = new Literal(datalogObjectFactory.getPredicate(property), new Term[] { X, Y });
 		Literal[] body1 = new Literal[1];
 		body1[0] = new Literal(datalogObjectFactory.getPredicate(operand), new Term[] { X, Y });
-		final ProgramClause clause1 = new ProgramClause(head, body1);
+		final ProgramClause clause1 = new ProgramClause(head1, body1);
 		logger.debug("{}\n\t->\n{}", property, clause1);
 		clauses.add(clause1);
+		Literal[] head2 = new Literal[1];
+		head2[0] = new Literal(datalogObjectFactory.getPredicate(property), new Term[] { X, Z });
 		Literal[] body2 = new Literal[2];
 		body2[0] = new Literal(datalogObjectFactory.getPredicate(operand), new Term[] { X, Y });
 		body2[1] = new Literal(datalogObjectFactory.getPredicate(property), new Term[] { Y, Z });
-		final ProgramClause clause2 = new ProgramClause(head, body2);
+		final ProgramClause clause2 = new ProgramClause(head2, body2);
 		clauses.add(clause2);
 		logger.debug("{}\n\t->\n{}", property, clause2);
 	}

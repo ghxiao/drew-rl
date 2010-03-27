@@ -20,17 +20,20 @@ import org.semanticweb.owlapi.model.OWLIndividual;
 import org.semanticweb.owlapi.model.OWLObjectIntersectionOf;
 import org.semanticweb.owlapi.model.OWLObjectInverseOf;
 import org.semanticweb.owlapi.model.OWLObjectMinCardinality;
+import org.semanticweb.owlapi.model.OWLObjectOneOf;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLObjectPropertyAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyChainOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyTransitiveClosureOf;
 
 import edu.stanford.db.lp.ProgramClause;
+import edu.stanford.db.lp.Term;
 import edu.stanford.db.lp.VariableTerm;
 
 import static at.ac.tuwien.kr.helper.LDLHelper.*;
@@ -59,7 +62,8 @@ public class ClosureCompilerTest {
 	OWLOntology ontology;
 	public ClosureCompiler closureCompiler;
 	LDLPObjectClosure closure;
-	private String TOP = DatalogObjectFactory.getInstance().getTopPrediate();
+	private String TOP1 = DatalogObjectFactory.getInstance().getTop1();
+	private String TOP2 = DatalogObjectFactory.getInstance().getTop2();
 	private String NOTEQUAL = DatalogObjectFactory.getInstance().getNotEqual();
 
 	@Before
@@ -101,7 +105,7 @@ public class ClosureCompilerTest {
 		final List<ProgramClause> clauses = closureCompiler.compile(closure);
 
 		assertEquals(1, clauses.size());
-		assertEquals("top(X):-p1(X).", clauses.get(0).toString());
+		assertEquals("top1(X):-p1(X).", clauses.get(0).toString());
 
 	}
 
@@ -113,7 +117,7 @@ public class ClosureCompilerTest {
 		final OWLClassExpression A_and_B_and_C = and(A, B, C);
 		closure = builder.build(assert$(A_and_B_and_C, a));
 		final List<ProgramClause> clauses = closureCompiler.compile(closure);
-		assertTrue(clauses.contains(clause(head(literal(TOP, X)), body(literal(p(A), X)))));
+		assertTrue(clauses.contains(clause(head(literal(TOP1, X)), body(literal(p(A), X)))));
 		assertTrue(clauses.contains(clause(head(literal(p(A_and_B_and_C), X)), body(literal(p(A), X), literal(p(B), X), literal(p(C), X)))));
 	}
 
@@ -126,7 +130,7 @@ public class ClosureCompilerTest {
 		final OWLClassExpression A_or_B_or_C = or(A, B, C);
 		closure = builder.build(assert$(A_or_B_or_C, a));
 		final List<ProgramClause> clauses = closureCompiler.compile(closure);
-		assertTrue(clauses.contains(clause(head(literal(TOP, X)), body(literal(p(A), X)))));
+		assertTrue(clauses.contains(clause(head(literal(TOP1, X)), body(literal(p(A), X)))));
 		assertTrue(clauses.contains(clause(head(literal(p(A_or_B_or_C), X)), body(literal(p(A), X)))));
 	}
 
@@ -137,7 +141,7 @@ public class ClosureCompilerTest {
 		final OWLClassExpression E_some_A = some(E, A);
 		closure = builder.build(assert$(E_some_A, a));
 		final List<ProgramClause> clauses = closureCompiler.compile(closure);
-		assertTrue(clauses.contains(clause(head(literal(TOP, X)), body(literal(p(A), X)))));
+		assertTrue(clauses.contains(clause(head(literal(TOP1, X)), body(literal(p(A), X)))));
 		assertTrue(clauses.contains(clause(head(literal(p(E_some_A), X)), body(literal(p(E), X, Y), literal(p(A), Y)))));
 	}
 
@@ -161,11 +165,25 @@ public class ClosureCompilerTest {
 				body(literal(p(E), X, Y1), literal(p(C), Y1), literal(p(E), X, Y2), //
 					literal(p(C), Y2), literal(NOTEQUAL, Y1, Y2)))));
 	}
-
+	
+	/**
+	 * <pre>
+	 * 	{o1,o2}
+	 * 
+	 * {o1,o2)(o1).
+	 * {o1,o2}(o2).
+	 * </pre>
+	 */
 	@Test
 	public void testVisitOWLObjectOneOf() {
-		fail("Not yet implemented"); // TODO
+		final OWLObjectOneOf cls = oneOf(a,b);
+		final OWLSubClassOfAxiom axiom = sub(cls,A);
+		closure = builder.build(axiom);
+		final List<ProgramClause> clauses = closureCompiler.compile(closure);
+		assertTrue(clauses.contains(clause(head(literal(p(cls), term(a))), body())));
+		assertTrue(clauses.contains(clause(head(literal(p(cls), term(b))), body())));
 	}
+
 
 	// E(X,Y):-inv(E)(Y,X).
 	@Test
@@ -183,7 +201,7 @@ public class ClosureCompilerTest {
 		final OWLObjectPropertyExpression E_and_F = and(E, F);
 		closure = builder.build(assert$(E_and_F, a, b));
 		final List<ProgramClause> clauses = closureCompiler.compile(closure);
-		assertTrue(clauses.contains(clause(head(literal(TOP, X, Y)), body(literal(p(E), X, Y)))));
+		assertTrue(clauses.contains(clause(head(literal(TOP2, X, Y)), body(literal(p(E), X, Y)))));
 		assertTrue(clauses.contains(clause(head(literal(p(E_and_F), X, Y)), body(literal(p(E), X, Y), literal(p(F), X, Y)))));
 	}
 
@@ -192,12 +210,12 @@ public class ClosureCompilerTest {
 		final OWLObjectPropertyExpression E_or_F = or(E, F);
 		closure = builder.build(assert$(E_or_F, a, b));
 		final List<ProgramClause> clauses = closureCompiler.compile(closure);
-		assertTrue(clauses.contains(clause(head(literal(TOP, X, Y)), body(literal(p(E), X, Y)))));
+		assertTrue(clauses.contains(clause(head(literal(TOP2, X, Y)), body(literal(p(E), X, Y)))));
 		assertTrue(clauses.contains(clause(head(literal(p(E_or_F), X, Y)), body(literal(p(E), X, Y)))));
 	}
 
 	// trans(E)(X,Y):-E(X,Y)
-	// trans(E)(X,Y):-E(X),trans(X,Y).
+	// trans(E)(X,Z):-E(X,Y),trans(Y,Z).
 	@Test
 	public void testVisitLDLObjectPropertyTransitiveClosureOf() {
 		final LDLObjectPropertyTransitiveClosureOf trans_E = trans(E);
@@ -205,7 +223,7 @@ public class ClosureCompilerTest {
 		closure = builder.build(axiom);
 		final List<ProgramClause> clauses = closureCompiler.compile(closure);
 		assertTrue(clauses.contains(clause(head(literal(p(trans_E), X, Y)), body(literal(p(E), X, Y)))));
-		assertTrue(clauses.contains(clause(head(literal(p(trans_E), X, Y)), body(literal(p(E), X, Y), literal(p(trans_E), Y, Z)))));
+		assertTrue(clauses.contains(clause(head(literal(p(trans_E), X, Z)), body(literal(p(E), X, Y), literal(p(trans_E), Y, Z)))));
 	}
 
 	// compose(E1, E2, ... En)(X1,Xn+1):- E1(X1,X2), E2(X2,X3), ... ,

@@ -14,6 +14,7 @@ import java.util.Map;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,7 +31,7 @@ public class DatalogObjectFactory {
 		return instance;
 	}
 
-	private DatalogObjectFactory() {
+	public DatalogObjectFactory() {
 
 	}
 
@@ -40,8 +41,14 @@ public class DatalogObjectFactory {
 
 	int currentPredicateMax = -1;
 
-	public String getTopPrediate() {
-		return "top";
+	final String TOP = "top";
+
+	public String getTop1() {
+		return TOP + "1";
+	}
+
+	public String getTop2() {
+		return TOP + "2";
 	}
 
 	public String getEqual() {
@@ -49,13 +56,15 @@ public class DatalogObjectFactory {
 	}
 
 	public String getNotEqual() {
-		return "=\\=";
+		return "!=";
 	}
 
 	public String getPredicate(OWLObject owlObject) {
 
 		if (owlObject instanceof OWLClass && ((OWLEntity) owlObject).isTopEntity()) {
-			return getTopPrediate();
+			return getTop1();
+		} else if (owlObject instanceof OWLObjectProperty && ((OWLEntity) owlObject).isTopEntity()) {
+			return getTop2();
 		}
 
 		int index = 0;
