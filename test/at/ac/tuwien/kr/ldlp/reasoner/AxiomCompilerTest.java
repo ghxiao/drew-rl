@@ -45,7 +45,8 @@ public class AxiomCompilerTest {
 	@Before
 	public void setUp() {
 		clauses = new ArrayList<ProgramClause>();
-		axiomCompiler = new AxiomCompiler(clauses);
+		axiomCompiler = new AxiomCompiler();
+		
 		manager = OWLManager.createOWLOntologyManager();
 		factory = manager.getOWLDataFactory();
 		A = factory.getOWLClass(IRI.create("A"));
@@ -64,6 +65,7 @@ public class AxiomCompilerTest {
 	public void testVisitOWLClassAssertionAxiom1() {
 		final OWLClassAssertionAxiom a_is_A = factory.getOWLClassAssertionAxiom(A, a);
 		a_is_A.accept(axiomCompiler);
+		
 		assertEquals(1, clauses.size());
 		assertEquals("p1(o1).", clauses.get(0).toString());
 	}
