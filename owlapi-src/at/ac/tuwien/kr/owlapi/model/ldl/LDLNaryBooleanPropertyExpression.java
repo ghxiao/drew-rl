@@ -26,5 +26,5 @@ public interface LDLNaryBooleanPropertyExpression extends OWLObjectPropertyExpre
      */
     List<OWLObjectPropertyExpression> getOperandsAsList();
     
-    public <O> O accept(LDLPropertyExpressionVisitorEx<O> visitor);
+   
 }

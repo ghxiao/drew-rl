@@ -16,18 +16,10 @@ import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
-import org.semanticweb.owlapi.model.OWLObjectVisitor;
-import org.semanticweb.owlapi.model.OWLObjectVisitorEx;
 import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.model.OWLPropertyExpressionVisitor;
-import org.semanticweb.owlapi.model.OWLPropertyExpressionVisitorEx;
 
 import uk.ac.manchester.cs.owl.owlapi.OWLObjectImpl;
-
-
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLNaryBooleanPropertyExpression;
-import at.ac.tuwien.kr.owlapi.model.ldl.LDLPropertyExpressionVisitorEx;
-
 public abstract class LDLNaryBooleanPropertyExpressionImpl extends OWLObjectImpl implements LDLNaryBooleanPropertyExpression {
 
 	public LDLNaryBooleanPropertyExpressionImpl(OWLDataFactory factory, Set<? extends OWLObjectPropertyExpression> operands) {

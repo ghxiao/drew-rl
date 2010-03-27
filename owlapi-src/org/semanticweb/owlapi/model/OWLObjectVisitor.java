@@ -1,7 +1,5 @@
 package org.semanticweb.owlapi.model;
 
-import at.ac.tuwien.kr.owlapi.model.ldl.LDLPropertyExpressionVisitorEx;
-import at.ac.tuwien.kr.owlapi.model.ldl.impl.LDLObjectPropertyTransitiveClosureImpl;
 /*
  * Copyright (C) 2006, University of Manchester
  *
@@ -25,17 +23,18 @@ import at.ac.tuwien.kr.owlapi.model.ldl.impl.LDLObjectPropertyTransitiveClosureI
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-
 //Xiao:LDL update
 
 /**
  * Author: Matthew Horridge<br>
  * The University Of Manchester<br>
  * Bio-Health Informatics Group<br>
- * Date: 15-Nov-2006<br><br>
+ * Date: 15-Nov-2006<br>
+ * <br>
  */
-public interface OWLObjectVisitor extends OWLAxiomVisitor, OWLClassExpressionVisitor, OWLDataVisitor, OWLPropertyExpressionVisitor, OWLEntityVisitor, OWLAnnotationAxiomVisitor, OWLIndividualVisitor, OWLAnnotationValueVisitor, OWLAnnotationObjectVisitor, SWRLObjectVisitor {
+public interface OWLObjectVisitor extends OWLAxiomVisitor, OWLClassExpressionVisitor, OWLDataVisitor, OWLPropertyExpressionVisitor, OWLEntityVisitor,
+		OWLAnnotationAxiomVisitor, OWLIndividualVisitor, OWLAnnotationValueVisitor, OWLAnnotationObjectVisitor, SWRLObjectVisitor {
 
-    public void visit(OWLOntology ontology);
-	
+	public void visit(OWLOntology ontology);
+
 }

@@ -9,9 +9,8 @@ import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyChainOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyIntersectionOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyTransitiveClosureOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyUnionOf;
-import at.ac.tuwien.kr.owlapi.model.ldl.LDLPropertyExpressionVisitorEx;
 
-public class LDLPSuperObjectPropertyExpressionChecker implements LDLPropertyExpressionVisitorEx<Boolean> {
+public class LDLPSuperObjectPropertyExpressionChecker implements OWLPropertyExpressionVisitorEx<Boolean> {
 
 	@Override
 	public Boolean visit(OWLObjectProperty property) {
