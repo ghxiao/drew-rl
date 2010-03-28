@@ -20,4 +20,5 @@ public interface DatalogReasoner {
 
 	boolean query(List<ProgramClause> program, ProgramClause query);
 
+	public enum TYPE { XSB, DLV};
 }

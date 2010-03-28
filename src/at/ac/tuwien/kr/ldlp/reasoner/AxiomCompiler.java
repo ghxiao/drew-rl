@@ -34,7 +34,7 @@ public class AxiomCompiler extends OWLAxiomVisitorAdapter {
 
 	DatalogObjectFactory datalogObjectFactory = DatalogObjectFactory
 			.getInstance();
-	final static Logger logger = LoggerFactory.getLogger(ClosureCompiler.class);
+	final static Logger logger = LoggerFactory.getLogger(AxiomCompiler.class);
 	VariableTerm X = new VariableTerm("X");
 	VariableTerm Y = new VariableTerm("Y");
 	VariableTerm Z = new VariableTerm("Z");

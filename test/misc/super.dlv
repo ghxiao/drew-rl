@@ -1,0 +1,13 @@
+p1(X):-p2(X).
+top1(o1).
+top1(o2).
+p3(o3,o1).
+top1(o3).
+p1(Y):-p1(X),p4(X,Y).
+p3(o1,o2).
+top1(X):-p1(X).
+p2(X):-p5(X,Y1),top1(Y1),p5(X,Y2),top1(Y2),Y1!=Y2.
+top2(X,Y):-p5(X,Y).
+top2(X,Y):-p3(X,Y).
+p4(X,Y):-p3(X,Y).
+p4(X,Z):-p3(X,Y),p4(Y,Z).

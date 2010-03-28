@@ -18,7 +18,9 @@ import org.slf4j.LoggerFactory;
 
 import at.ac.tuwien.kr.datalog.DatalogReasoner;
 import at.ac.tuwien.kr.datalog.DatalogQuery;
+import at.ac.tuwien.kr.datalog.DlvDatalogReasoner;
 import at.ac.tuwien.kr.datalog.XSBDatalogReasoner;
+import at.ac.tuwien.kr.datalog.DatalogReasoner.TYPE;
 
 import edu.stanford.db.lp.Literal;
 import edu.stanford.db.lp.ProgramClause;
@@ -26,7 +28,7 @@ import edu.unika.aifb.kaon.datalog.program.Program;
 
 public class LDLPReasoner extends OWLReasonerAdapter {
 	final static Logger logger = LoggerFactory.getLogger(ClosureCompiler.class);
-	
+
 	List<ProgramClause> program;
 
 	boolean compiled;
@@ -40,11 +42,21 @@ public class LDLPReasoner extends OWLReasonerAdapter {
 	protected LDLPReasoner(OWLOntology rootOntology, OWLReasonerConfiguration configuration, BufferingMode bufferingMode) {
 		super(rootOntology, configuration, bufferingMode);
 		compiler = new LDLPCompiler();
-		datalogReasoner = new XSBDatalogReasoner();
+		//datalogReasoner = new XSBDatalogReasoner();
 	}
 
 	public LDLPReasoner(OWLOntology rootOntology) {
+		this(rootOntology, TYPE.DLV);
+	}
+
+	public LDLPReasoner(OWLOntology rootOntology, DatalogReasoner.TYPE type) {
+
 		this(rootOntology, new SimpleConfiguration(), null);
+		if (type == TYPE.DLV) {
+			datalogReasoner = new DlvDatalogReasoner();
+		}else if(type == TYPE.XSB){
+			datalogReasoner = new XSBDatalogReasoner();
+		}
 	}
 
 	@Override
@@ -62,7 +74,7 @@ public class LDLPReasoner extends OWLReasonerAdapter {
 			program = compiler.complile(this.getRootOntology());
 			logger.debug("Program Compiling Finished");
 			compiled = true;
-			
+
 		}
 
 		ProgramClause query = axiomCompiler.compileOWLAxiom(axiom);

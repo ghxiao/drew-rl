@@ -29,6 +29,7 @@ import org.slf4j.LoggerFactory;
 import at.ac.tuwien.kr.ldlp.reasoner.ClosureCompiler;
 import at.ac.tuwien.kr.ldlp.reasoner.LDLPCompiler;
 import at.ac.tuwien.kr.ldlp.reasoner.LDLPReasoner;
+import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyTransitiveClosureOf;
 import edu.stanford.db.lp.ProgramClause;
 
 /**
@@ -113,8 +114,11 @@ public class ECAI2010Demo {
 				.create(uri + "#b"));
 		OWLNamedIndividual c = owlDataFactory.getOWLNamedIndividual(IRI
 				.create(uri + "#c"));
+		
+		final LDLObjectPropertyTransitiveClosureOf transSuper = owlDataFactory.getLDLObjectPropertyTransitiveClosureOf(Super);
+		
 		OWLObjectPropertyAssertionAxiom axiom = owlDataFactory
-				.getOWLObjectPropertyAssertionAxiom(Super, a, c);
+				.getOWLObjectPropertyAssertionAxiom(transSuper, a, c);
 
 		System.out
 				.println("-------------------------------------------------------");
