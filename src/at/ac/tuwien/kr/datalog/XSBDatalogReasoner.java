@@ -23,7 +23,7 @@ import edu.stanford.db.xsb.XSBCore;
 public class XSBDatalogReasoner implements DatalogReasoner {
 
 	@Override
-	public boolean query(List<ProgramClause> program, Literal query) {
+	public boolean query(List<ProgramClause> program, ProgramClause query) {
 		// create engine (there can only be one engine loaded!)
 		XSBCore core = new XSBCore();
 
@@ -47,11 +47,10 @@ public class XSBDatalogReasoner implements DatalogReasoner {
 			i = core.xsb_command_string(command);
 		}
 
-		
-		int t = core.xsb_query_string(query.toString()+".");
-		
+		int t = core.xsb_query_string(query.toString() + ".");
+
 		System.out.println(t);
-		
+
 		// thats it....
 		i = core.xsb_close();
 		return t == 0;
@@ -86,7 +85,7 @@ public class XSBDatalogReasoner implements DatalogReasoner {
 		List<ProgramClause> program = Collections.singletonList(p_a);
 		Literal query = pa;
 
-		//i = core.xsb_command_string("table(p/1).");
+		// i = core.xsb_command_string("table(p/1).");
 		// core.xsb_command_string("assert(p(a)).");
 		//	
 		// // assert rules defining the predicate members (using
@@ -94,17 +93,17 @@ public class XSBDatalogReasoner implements DatalogReasoner {
 		// // (since Java uses unicode, the glue code translates to to ASCII)
 		//
 		for (ProgramClause clause : program) {
-			//i = core.xsb_assert_rule(clause);
+			// i = core.xsb_assert_rule(clause);
 			String command = String.format("assert(%s).", clause
 					.toStringWithoutDot());
 			System.out.println(command);
 			i = core.xsb_command_string(command);
 		}
 
-		int t = core.xsb_query_string(query.toString()+".");
+		int t = core.xsb_query_string(query.toString() + ".");
 
-//		 core.xsb_query_java(new ProgramClause(new Literal[] {},
-//		 new Literal[] { query }));
+		// core.xsb_query_java(new ProgramClause(new Literal[] {},
+		// new Literal[] { query }));
 		// // get answers and print them..
 		// while (i == 0) {
 		// Term[] term = core.xsb_getAnswerSubstitution();

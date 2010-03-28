@@ -26,7 +26,7 @@ public class XSBDatalogReasonerTest {
 		Literal[] body = new Literal[0];
 		ProgramClause pa_program = new ProgramClause(head,body);
 		
-		boolean q = reasoner.query(Collections.singletonList(pa_program), pa);
+		boolean q = reasoner.query(Collections.singletonList(pa_program), pa_program);
 		assertTrue(q);
 		}
 
@@ -45,7 +45,7 @@ public class XSBDatalogReasonerTest {
 		Literal[] body = new Literal[0];
 		ProgramClause pa_program = new ProgramClause(head,body);
 		
-		boolean q = reasoner.query(Collections.singletonList(pa_program), pb);
+		boolean q = reasoner.query(Collections.singletonList(pa_program), pa_program);
 		assertFalse(q);
 	}
 }

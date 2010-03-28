@@ -32,7 +32,8 @@ import edu.stanford.db.lp.VariableTerm;
 
 public class AxiomCompiler extends OWLAxiomVisitorAdapter {
 
-	DatalogObjectFactory datalogObjectFactory = DatalogObjectFactory.getInstance();
+	DatalogObjectFactory datalogObjectFactory = DatalogObjectFactory
+			.getInstance();
 	final static Logger logger = LoggerFactory.getLogger(ClosureCompiler.class);
 	VariableTerm X = new VariableTerm("X");
 	VariableTerm Y = new VariableTerm("Y");
@@ -45,15 +46,25 @@ public class AxiomCompiler extends OWLAxiomVisitorAdapter {
 	}
 
 	public AxiomCompiler() {
-		this.clauses = new ArrayList<ProgramClause>();
+
 	}
 
+	public ProgramClause compileOWLAxiom(OWLAxiom axiom) {
+		this.clauses = new ArrayList<ProgramClause>();
+
+		axiom.accept(this);
+
+		return clauses.get(0);
+	}
+	
 	public List<ProgramClause> compile(OWLAxiom... axioms) {
+		this.clauses = new ArrayList<ProgramClause>();
 		for (OWLAxiom owlAxiom : axioms) {
 			owlAxiom.accept(this);
 		}
 		return clauses;
 	}
+	
 
 	@Override
 	public void visit(OWLObjectPropertyAssertionAxiom axiom) {
@@ -68,7 +79,8 @@ public class AxiomCompiler extends OWLAxiomVisitorAdapter {
 		String a = datalogObjectFactory.getConst(subject);
 		String b = datalogObjectFactory.getConst(object);
 
-		head[0] = new Literal(predicate, new Term[] { new ConstTerm(a), new ConstTerm(b) });
+		head[0] = new Literal(predicate, new Term[] { new ConstTerm(a),
+				new ConstTerm(b) });
 		body = new Literal[0];
 		ProgramClause clause = new ProgramClause(head, body);
 		clauses.add(clause);
@@ -91,7 +103,6 @@ public class AxiomCompiler extends OWLAxiomVisitorAdapter {
 		logger.debug("{}\n\t->\n{}", axiom, clause);
 	}
 
-	
 	@Override
 	public void visit(OWLSubClassOfAxiom axiom) {
 		final OWLClassExpression subClass = axiom.getSubClass();
@@ -101,18 +112,24 @@ public class AxiomCompiler extends OWLAxiomVisitorAdapter {
 
 		if (!(superClass instanceof OWLObjectAllValuesFrom)) {
 			head = new Literal[1];
-			head[0] = new Literal(datalogObjectFactory.getPredicate(superClass), new Term[] { X });
+			head[0] = new Literal(
+					datalogObjectFactory.getPredicate(superClass),
+					new Term[] { X });
 			body = new Literal[1];
-			body[0] = new Literal(datalogObjectFactory.getPredicate(subClass), new Term[] { X });
+			body[0] = new Literal(datalogObjectFactory.getPredicate(subClass),
+					new Term[] { X });
 		} else {
 			OWLObjectAllValuesFrom E_only_A = (OWLObjectAllValuesFrom) superClass;
 			final OWLClassExpression A = E_only_A.getFiller();
 			final OWLObjectPropertyExpression E = E_only_A.getProperty();
 			head = new Literal[1];
-			head[0] = new Literal(datalogObjectFactory.getPredicate(A), new Term[] { Y });
+			head[0] = new Literal(datalogObjectFactory.getPredicate(A),
+					new Term[] { Y });
 			body = new Literal[2];
-			body[0] = new Literal(datalogObjectFactory.getPredicate(subClass), new Term[] { X });
-			body[1] = new Literal(datalogObjectFactory.getPredicate(E), new Term[] { X, Y });
+			body[0] = new Literal(datalogObjectFactory.getPredicate(subClass),
+					new Term[] { X });
+			body[1] = new Literal(datalogObjectFactory.getPredicate(E),
+					new Term[] { X, Y });
 		}
 
 		ProgramClause clause = new ProgramClause(head, body);
@@ -123,17 +140,21 @@ public class AxiomCompiler extends OWLAxiomVisitorAdapter {
 	@Override
 	public void visit(OWLSubObjectPropertyOfAxiom axiom) {
 		final OWLObjectPropertyExpression subProperty = axiom.getSubProperty();
-		final OWLObjectPropertyExpression superProperty = axiom.getSuperProperty();
+		final OWLObjectPropertyExpression superProperty = axiom
+				.getSuperProperty();
 		Literal[] head = new Literal[1];
-		head[0] = new Literal(datalogObjectFactory.getPredicate(superProperty), new Term[] { X, Y });
+		head[0] = new Literal(datalogObjectFactory.getPredicate(superProperty),
+				new Term[] { X, Y });
 		Literal[] body = new Literal[1];
-		body[0] = new Literal(datalogObjectFactory.getPredicate(subProperty), new Term[] { X, Y });
+		body[0] = new Literal(datalogObjectFactory.getPredicate(subProperty),
+				new Term[] { X, Y });
 		ProgramClause clause = new ProgramClause(head, body);
 		clauses.add(clause);
 		logger.debug("{}\n\t->\n{}", axiom, clause);
 	}
 
 	public List<ProgramClause> compile(Set<OWLAxiom> axioms) {
+		this.clauses = new ArrayList<ProgramClause>();
 		for (OWLAxiom owlAxiom : axioms) {
 			owlAxiom.accept(this);
 		}

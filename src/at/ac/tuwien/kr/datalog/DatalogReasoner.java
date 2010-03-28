@@ -18,6 +18,6 @@ import edu.stanford.db.lp.Term;
  */
 public interface DatalogReasoner {
 
-	boolean query(List<ProgramClause> program, Literal query);
+	boolean query(List<ProgramClause> program, ProgramClause query);
 
 }
