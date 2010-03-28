@@ -13,6 +13,8 @@ import org.semanticweb.owlapi.reasoner.ReasonerInterruptedException;
 import org.semanticweb.owlapi.reasoner.SimpleConfiguration;
 import org.semanticweb.owlapi.reasoner.TimeOutException;
 import org.semanticweb.owlapi.reasoner.UnsupportedEntailmentTypeException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import at.ac.tuwien.kr.datalog.DatalogReasoner;
 import at.ac.tuwien.kr.datalog.DatalogQuery;
@@ -23,13 +25,14 @@ import edu.stanford.db.lp.ProgramClause;
 import edu.unika.aifb.kaon.datalog.program.Program;
 
 public class LDLPReasoner extends OWLReasonerAdapter {
-
+	final static Logger logger = LoggerFactory.getLogger(ClosureCompiler.class);
+	
 	List<ProgramClause> program;
 
 	boolean compiled;
 
 	LDLPCompiler compiler;
-	
+
 	AxiomCompiler axiomCompiler = new AxiomCompiler();
 
 	DatalogReasoner datalogReasoner;
@@ -41,25 +44,27 @@ public class LDLPReasoner extends OWLReasonerAdapter {
 	}
 
 	public LDLPReasoner(OWLOntology rootOntology) {
-		super(rootOntology, new SimpleConfiguration(), null);
+		this(rootOntology, new SimpleConfiguration(), null);
 	}
 
 	@Override
 	public boolean isEntailed(OWLAxiom axiom) throws ReasonerInterruptedException, UnsupportedEntailmentTypeException, TimeOutException,
 			AxiomNotInProfileException, FreshEntitiesException {
 
-//		if (!(axiom instanceof OWLClassAssertionAxiom))
-//			throw new UnsupportedOperationException();
+		// if (!(axiom instanceof OWLClassAssertionAxiom))
+		// throw new UnsupportedOperationException();
 
-		//OWLClassAssertionAxiom classAssertionAxiom = (OWLClassAssertionAxiom) axiom;
+		// OWLClassAssertionAxiom classAssertionAxiom = (OWLClassAssertionAxiom)
+		// axiom;
 
 		if (!compiled) {
+			logger.debug("Program Compiling Started");
 			program = compiler.complile(this.getRootOntology());
+			logger.debug("Program Compiling Finished");
 			compiled = true;
+			
 		}
 
-		
-		
 		ProgramClause query = axiomCompiler.compileOWLAxiom(axiom);
 		// compiler.compileClassAssertionAxiom(classAssertionAxiom);
 

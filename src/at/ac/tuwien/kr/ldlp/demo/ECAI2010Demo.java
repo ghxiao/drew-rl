@@ -23,7 +23,10 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.util.SimpleIRIMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import at.ac.tuwien.kr.ldlp.reasoner.ClosureCompiler;
 import at.ac.tuwien.kr.ldlp.reasoner.LDLPCompiler;
 import at.ac.tuwien.kr.ldlp.reasoner.LDLPReasoner;
 import edu.stanford.db.lp.ProgramClause;
@@ -32,6 +35,9 @@ import edu.stanford.db.lp.ProgramClause;
  * TODO describe this class please.
  */
 public class ECAI2010Demo {
+	
+	final static Logger logger = LoggerFactory.getLogger(ClosureCompiler.class);
+	
 	private static OWLOntologyManager manager = OWLManager
 			.createOWLOntologyManager();
 
