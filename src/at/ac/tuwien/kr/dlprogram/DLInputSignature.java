@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * TODO describe this class please.
  */
-public class DLInputOperationSet {
+public class DLInputSignature {
 
 	List<DLInputOperation> ops;
 }

@@ -18,8 +18,10 @@ public class DLAtomPredicate extends Predicate{
 		super(name, arity);
 	}
 
-	DLInputOperationSet ops;
+	DLInputSignature inputSigature;
 	
 	//only DL concept or role name allowed 
 	OWLObject query;
+	
+	
 }
