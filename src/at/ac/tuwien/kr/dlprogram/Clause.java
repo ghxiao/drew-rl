@@ -61,8 +61,8 @@ public class Clause implements Cloneable, Comparable<Clause> {
 	 * 
 	 * @return predicates in positive literals
 	 */
-	public Set<Predicate> getPositivePredicates() {
-		Set<Predicate> result = new HashSet<Predicate>();
+	public Set<NormalPredicate> getPositivePredicates() {
+		Set<NormalPredicate> result = new HashSet<NormalPredicate>();
 
 		for (Literal literal : positives) {
 			result.add(literal.getPredicate());
@@ -76,8 +76,8 @@ public class Clause implements Cloneable, Comparable<Clause> {
 	 * 
 	 * @return predicates in negative literals
 	 */
-	public Set<Predicate> getNegativePredicates() {
-		Set<Predicate> result = new HashSet<Predicate>();
+	public Set<NormalPredicate> getNegativePredicates() {
+		Set<NormalPredicate> result = new HashSet<NormalPredicate>();
 
 		for (Literal literal : negatives) {
 			result.add(literal.getPredicate());

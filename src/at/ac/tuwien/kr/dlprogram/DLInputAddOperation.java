@@ -4,7 +4,7 @@ import org.semanticweb.owlapi.model.OWLLogicalEntity;
 
 public class DLInputAddOperation extends DLInputOperation {
 
-	public DLInputAddOperation(OWLLogicalEntity dlPredicate, Predicate inputPredicate) {
+	public DLInputAddOperation(OWLLogicalEntity dlPredicate, NormalPredicate inputPredicate) {
 		super(dlPredicate, inputPredicate);	
 	}
 

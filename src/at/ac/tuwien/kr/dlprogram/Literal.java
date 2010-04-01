@@ -11,11 +11,11 @@ import java.util.List;
  * @author Samuel
  */
 public class Literal implements Cloneable, Comparable<Literal> {
-	public static final Literal TRUE = new Literal(Predicate.TRUE, null);
+	public static final Literal TRUE = new Literal(NormalPredicate.TRUE, null);
 
-	public static final Literal FALSE = new Literal(Predicate.FALSE, null);
+	public static final Literal FALSE = new Literal(NormalPredicate.FALSE, null);
 
-	private Predicate predicate;
+	private NormalPredicate predicate;
 
 	private ArrayList<Term> terms = new ArrayList<Term>();
 
@@ -32,7 +32,7 @@ public class Literal implements Cloneable, Comparable<Literal> {
 	 * @param predicate
 	 * @param terms
 	 */
-	public Literal(Predicate predicate, List<Term> terms) {
+	public Literal(NormalPredicate predicate, List<Term> terms) {
 		this.predicate = predicate;
 
 		if (terms != null) {
@@ -45,7 +45,7 @@ public class Literal implements Cloneable, Comparable<Literal> {
 	 * 
 	 * @param predicate
 	 */
-	public void setPredicate(Predicate predicate) {
+	public void setPredicate(NormalPredicate predicate) {
 		this.predicate = predicate;
 	}
 
@@ -54,7 +54,7 @@ public class Literal implements Cloneable, Comparable<Literal> {
 	 * 
 	 * @return
 	 */
-	public Predicate getPredicate() {
+	public NormalPredicate getPredicate() {
 		return predicate;
 	}
 

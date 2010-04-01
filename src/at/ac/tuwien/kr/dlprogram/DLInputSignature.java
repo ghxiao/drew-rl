@@ -14,5 +14,41 @@ import java.util.List;
  */
 public class DLInputSignature {
 
-	List<DLInputOperation> ops;
+	List<DLInputOperation> operations;
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		boolean first = true;
+
+		for (DLInputOperation op : operations) {
+			if (!first)
+				sb.append(",");
+			sb.append(op);
+			first = false;
+		}
+
+		return sb.toString();
+	}
+
+	/**
+	 * @return the operations
+	 */
+	public List<DLInputOperation> getOperations() {
+		return operations;
+	}
+
+	/**
+	 * @param operations
+	 *            the operations to set
+	 */
+	public void setOperations(List<DLInputOperation> operations) {
+		this.operations = operations;
+	}
+
 }

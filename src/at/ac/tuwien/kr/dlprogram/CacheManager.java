@@ -7,7 +7,7 @@ import java.util.Map;
 public class CacheManager {
 	private static final CacheManager instance = new CacheManager();
 
-	private Map<String, Predicate> predicates = new HashMap<String, Predicate>();
+	private Map<String, NormalPredicate> predicates = new HashMap<String, NormalPredicate>();
 
 	private Map<String, Variable> vars = new HashMap<String, Variable>();
 
@@ -23,14 +23,14 @@ public class CacheManager {
 		return instance;
 	}
 
-	public Predicate getPredicate(String name, int arity) {
+	public NormalPredicate getPredicate(String name, int arity) {
 		String key = name + "/" + arity;
 
-		Predicate result = predicates.get(key);
+		NormalPredicate result = predicates.get(key);
 		if (result != null) {
 			return result;
 		} else {
-			Predicate predicate = new Predicate(name, arity);
+			NormalPredicate predicate = new NormalPredicate(name, arity);
 			predicates.put(key, predicate);
 			return predicate;
 		}
@@ -81,11 +81,11 @@ public class CacheManager {
 		// clear predicate map
 		predicates.clear();
 
-		for (Predicate predicate : Predicate.logics) {
+		for (NormalPredicate predicate : NormalPredicate.logics) {
 			predicates.put(predicate.toString(), predicate);
 		}
 
-		for (Predicate predicate : Predicate.builtins) {
+		for (NormalPredicate predicate : NormalPredicate.builtins) {
 			predicates.put(predicate.toString(), predicate);
 		}
 

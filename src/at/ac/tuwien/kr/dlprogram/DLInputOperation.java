@@ -17,7 +17,7 @@ public abstract class DLInputOperation {
 	// only DL concept or role name allowed
 	OWLLogicalEntity dlPredicate;
 
-	Predicate inputPredicate;
+	NormalPredicate inputPredicate;
 
 	/**
 	 * @return the dlPredicate
@@ -29,7 +29,7 @@ public abstract class DLInputOperation {
 	public DLInputOperation() {
 	}
 
-	public DLInputOperation(OWLLogicalEntity dlPredicate, Predicate inputPredicate) {
+	public DLInputOperation(OWLLogicalEntity dlPredicate, NormalPredicate inputPredicate) {
 		super();
 		this.dlPredicate = dlPredicate;
 		this.inputPredicate = inputPredicate;
@@ -46,7 +46,7 @@ public abstract class DLInputOperation {
 	/**
 	 * @return the inputPredicate
 	 */
-	public Predicate getInputPredicate() {
+	public NormalPredicate getInputPredicate() {
 		return inputPredicate;
 	}
 
@@ -54,7 +54,7 @@ public abstract class DLInputOperation {
 	 * @param inputPredicate
 	 *            the inputPredicate to set
 	 */
-	public void setInputPredicate(Predicate inputPredicate) {
+	public void setInputPredicate(NormalPredicate inputPredicate) {
 		this.inputPredicate = inputPredicate;
 	}
 }

@@ -213,7 +213,7 @@ public class ProgramParser implements ProgramParserConstants {
 //Predicate predicate() ://{//	Predicate predicate = new Predicate();//}//{//	<IDENTIFIER>//	{//		predicate.setName(token.image);//		return predicate;//	}//}
   final public Literal literal() throws ParseException {
   Literal literal = new Literal();
-  Predicate predicate;
+  NormalPredicate predicate;
   String name;
   Term term;
   int arity = 0;

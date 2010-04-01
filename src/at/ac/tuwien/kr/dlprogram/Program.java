@@ -29,7 +29,7 @@ public class Program implements Cloneable {
 	 * @param type the type of interested clauses
 	 * @return set of clauses of the given type about the predicate
 	 */
-	public List<Clause> getClausesAboutPredicate(Predicate predicate, ClauseType type) {
+	public List<Clause> getClausesAboutPredicate(NormalPredicate predicate, ClauseType type) {
 		List<Clause> result = new ArrayList<Clause>();
 
 		for (Clause clause : clauses) {

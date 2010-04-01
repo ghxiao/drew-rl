@@ -7,21 +7,67 @@
  */
 package at.ac.tuwien.kr.dlprogram;
 
+import org.semanticweb.owlapi.model.OWLLogicalEntity;
 import org.semanticweb.owlapi.model.OWLObject;
 
 /**
  * TODO describe this class please.
  */
-public class DLAtomPredicate extends Predicate{
-
-	DLAtomPredicate(String name, int arity) {
-		super(name, arity);
-	}
+public class DLAtomPredicate implements Predicate {
 
 	DLInputSignature inputSigature;
-	
-	//only DL concept or role name allowed 
-	OWLObject query;
-	
-	
+
+	// only DL concept or role name allowed
+	OWLLogicalEntity query;
+
+	public DLAtomPredicate(DLInputSignature inputSigature, OWLLogicalEntity query) {
+		super();
+		this.inputSigature = inputSigature;
+		this.query = query;
+	}
+
+	/**
+	 * @return the inputSigature
+	 */
+	public DLInputSignature getInputSigature() {
+		return inputSigature;
+	}
+
+	/**
+	 * @param inputSigature
+	 *            the inputSigature to set
+	 */
+	public void setInputSigature(DLInputSignature inputSigature) {
+		this.inputSigature = inputSigature;
+	}
+
+	/**
+	 * @return the query
+	 */
+	public OWLLogicalEntity getQuery() {
+		return query;
+	}
+
+	/**
+	 * @param query
+	 *            the query to set
+	 */
+	public void setQuery(OWLLogicalEntity query) {
+		this.query = query;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("DL[");
+		builder.append(inputSigature);
+		builder.append(";");
+		builder.append(query.getIRI());
+		builder.append("]");
+		return builder.toString();
+	}
+
 }
