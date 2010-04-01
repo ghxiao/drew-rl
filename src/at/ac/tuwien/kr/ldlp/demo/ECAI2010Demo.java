@@ -36,9 +36,9 @@ import edu.stanford.db.lp.ProgramClause;
  * TODO describe this class please.
  */
 public class ECAI2010Demo {
-	
+
 	final static Logger logger = LoggerFactory.getLogger(ClosureCompiler.class);
-	
+
 	private static OWLOntologyManager manager = OWLManager
 			.createOWLOntologyManager();
 
@@ -108,25 +108,38 @@ public class ECAI2010Demo {
 		OWLDataFactory owlDataFactory = manager.getOWLDataFactory();
 		OWLObjectPropertyExpression Super = owlDataFactory
 				.getOWLObjectProperty(IRI.create(uri + "#Super"));
+
+		LDLObjectPropertyTransitiveClosureOf TransSuper = owlDataFactory
+				.getLDLObjectPropertyTransitiveClosureOf(Super);
+
 		OWLNamedIndividual a = owlDataFactory.getOWLNamedIndividual(IRI
 				.create(uri + "#a"));
 		OWLNamedIndividual b = owlDataFactory.getOWLNamedIndividual(IRI
 				.create(uri + "#b"));
 		OWLNamedIndividual c = owlDataFactory.getOWLNamedIndividual(IRI
 				.create(uri + "#c"));
-		
-		final LDLObjectPropertyTransitiveClosureOf transSuper = owlDataFactory.getLDLObjectPropertyTransitiveClosureOf(Super);
-		
-		OWLObjectPropertyAssertionAxiom axiom = owlDataFactory
-				.getOWLObjectPropertyAssertionAxiom(transSuper, a, c);
+		OWLObjectPropertyAssertionAxiom axiom1 = owlDataFactory
+				.getOWLObjectPropertyAssertionAxiom(Super, a, c);
 
 		System.out
 				.println("-------------------------------------------------------");
-		System.out.println("Query " + axiom);
+		System.out.println("Query " + axiom1);
 
 		LDLPReasoner reasoner = new LDLPReasoner(ontology);
-		boolean entailed = reasoner.isEntailed(axiom);
-		System.out.println(entailed);
+		boolean entailed = reasoner.isEntailed(axiom1);
+		System.out.println("Result:" + entailed);
+
+		OWLObjectPropertyAssertionAxiom axiom2 = owlDataFactory
+				.getOWLObjectPropertyAssertionAxiom(TransSuper, a, c);
+
+		System.out
+				.println("-------------------------------------------------------");
+		System.out.println("Query " + axiom2);
+
+		
+		entailed = reasoner.isEntailed(axiom2);
+		System.out.println("Result:" + entailed);
+
 	}
 
 }

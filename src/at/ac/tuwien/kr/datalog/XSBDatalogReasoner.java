@@ -10,6 +10,9 @@ package at.ac.tuwien.kr.datalog;
 import java.util.Collections;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import edu.stanford.db.lp.ConstTerm;
 import edu.stanford.db.lp.Literal;
 import edu.stanford.db.lp.ProgramClause;
@@ -22,6 +25,8 @@ import edu.stanford.db.xsb.XSBCore;
  */
 public class XSBDatalogReasoner implements DatalogReasoner {
 
+	final static Logger logger = LoggerFactory.getLogger(XSBDatalogReasoner.class);
+
 	@Override
 	public boolean query(List<ProgramClause> program, ProgramClause query) {
 		// create engine (there can only be one engine loaded!)
@@ -32,10 +37,14 @@ public class XSBDatalogReasoner implements DatalogReasoner {
 		String[] xsbargs = { "/home/staff/xiao/local/xsb/xsb3.2", "--noprompt",
 				"--quietload" };
 
+		logger.debug("initilizing XSB with args: [{} {} {}]", xsbargs);
+
 		int i;
 
 		// initialize XSB
 		i = core.xsb_init(xsbargs);
+
+		logger.debug("XSB initialized (i={})", i);
 
 		// assert rules defining the predicate members (using
 		// XSB-ASCII-representation of rules)
@@ -44,15 +53,21 @@ public class XSBDatalogReasoner implements DatalogReasoner {
 		for (ProgramClause clause : program) {
 			String command = String.format("assert(%s).", clause
 					.toStringWithoutDot());
-			i = core.xsb_command_string(command);
+			logger.debug("XSB Command: {} ", command);
+			i = core.xsb_assert_rule(clause);
+			
+			//i = core.xsb_command_string(command);
 		}
 
+		logger.debug("Query: {} ", query);
 		int t = core.xsb_query_string(query.toString() + ".");
 
+		logger.debug("XSB Query Result: {} ", t);
 		System.out.println(t);
 
 		// thats it....
 		i = core.xsb_close();
+		logger.debug("XSB Closed: {} ", i);
 		return t == 0;
 	}
 
