@@ -12,12 +12,14 @@ import org.semanticweb.owlapi.model.OWLLogicalEntity;
 /**
  * TODO describe this class please.
  */
-public abstract class DLInputOperation {
+public class DLInputOperation {
 
 	// only DL concept or role name allowed
 	OWLLogicalEntity dlPredicate;
 
 	NormalPredicate inputPredicate;
+
+	DLInputOperationType type;
 
 	/**
 	 * @return the dlPredicate
@@ -29,10 +31,15 @@ public abstract class DLInputOperation {
 	public DLInputOperation() {
 	}
 
-	public DLInputOperation(OWLLogicalEntity dlPredicate, NormalPredicate inputPredicate) {
+	public DLInputOperation(OWLLogicalEntity dlPredicate, NormalPredicate inputPredicate, DLInputOperationType type) {
 		super();
 		this.dlPredicate = dlPredicate;
 		this.inputPredicate = inputPredicate;
+		this.type = type;
+	}
+
+	public DLInputOperation(OWLLogicalEntity dlPredicate, NormalPredicate inputPredicate) {
+		this(dlPredicate, inputPredicate, DLInputOperationType.U_PLUS);
 	}
 
 	/**
@@ -56,5 +63,34 @@ public abstract class DLInputOperation {
 	 */
 	public void setInputPredicate(NormalPredicate inputPredicate) {
 		this.inputPredicate = inputPredicate;
+	}
+
+	/**
+	 * @return the type
+	 */
+	public DLInputOperationType getType() {
+		return type;
+	}
+
+	/**
+	 * @param type
+	 *            the type to set
+	 */
+	public void setType(DLInputOperationType type) {
+		this.type = type;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append(dlPredicate.getIRI());
+		builder.append(" ");
+		builder.append(type);
+		builder.append(" ");
+		builder.append(inputPredicate.getName());
+		return builder.toString();
 	}
 }

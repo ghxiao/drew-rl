@@ -6,7 +6,7 @@ package at.ac.tuwien.kr.dlprogram;
  * 
  * @author Samuel
  */
-public class NormalPredicate implements Predicate, Cloneable, Comparable<NormalPredicate> {
+public class NormalPredicate implements Predicate, Cloneable {
 	public static final NormalPredicate GREATER = new NormalPredicate(">", 2, PredicateType.BUILTIN);
 
 	public static final NormalPredicate GREATEREQUAL = new NormalPredicate(">=", 2, PredicateType.BUILTIN);
@@ -178,5 +178,17 @@ public class NormalPredicate implements Predicate, Cloneable, Comparable<NormalP
 	@Override
 	public int hashCode() {
 		return hash;
+	}
+
+	@Override
+	public int compareTo(Predicate o) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setArity(int arity) {
+		this.arity = arity;
+		
 	}
 }

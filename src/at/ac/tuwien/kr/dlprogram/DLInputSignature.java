@@ -7,6 +7,7 @@
  */
 package at.ac.tuwien.kr.dlprogram;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,7 +15,7 @@ import java.util.List;
  */
 public class DLInputSignature {
 
-	List<DLInputOperation> operations;
+	List<DLInputOperation> operations = new ArrayList<DLInputOperation>();
 
 	/*
 	 * (non-Javadoc)

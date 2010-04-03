@@ -23,7 +23,8 @@ public class Clause implements Cloneable, Comparable<Clause> {
 	/**
 	 * Set the head of the clause.
 	 * 
-	 * @param head the head literal
+	 * @param head
+	 *            the head literal
 	 */
 	public void setHead(Literal head) {
 		this.head = head;
@@ -61,8 +62,8 @@ public class Clause implements Cloneable, Comparable<Clause> {
 	 * 
 	 * @return predicates in positive literals
 	 */
-	public Set<NormalPredicate> getPositivePredicates() {
-		Set<NormalPredicate> result = new HashSet<NormalPredicate>();
+	public Set<Predicate> getPositivePredicates() {
+		Set<Predicate> result = new HashSet<Predicate>();
 
 		for (Literal literal : positives) {
 			result.add(literal.getPredicate());
@@ -76,8 +77,8 @@ public class Clause implements Cloneable, Comparable<Clause> {
 	 * 
 	 * @return predicates in negative literals
 	 */
-	public Set<NormalPredicate> getNegativePredicates() {
-		Set<NormalPredicate> result = new HashSet<NormalPredicate>();
+	public Set<Predicate> getNegativePredicates() {
+		Set<Predicate> result = new HashSet<Predicate>();
 
 		for (Literal literal : negatives) {
 			result.add(literal.getPredicate());
@@ -87,7 +88,8 @@ public class Clause implements Cloneable, Comparable<Clause> {
 	}
 
 	/**
-	 * Get all body literals. Positive literals are placed before negative literals.
+	 * Get all body literals. Positive literals are placed before negative
+	 * literals.
 	 * 
 	 * @return all body literals
 	 */
@@ -101,7 +103,8 @@ public class Clause implements Cloneable, Comparable<Clause> {
 	}
 
 	/**
-	 * Get normal body literals, aka, literals without built-in and logical predicates.
+	 * Get normal body literals, aka, literals without built-in and logical
+	 * predicates.
 	 * 
 	 * @return all body literals
 	 */
@@ -109,7 +112,8 @@ public class Clause implements Cloneable, Comparable<Clause> {
 		List<Literal> result = new ArrayList<Literal>();
 
 		for (Literal literal : positives) {
-			if (literal.getPredicate().type.equals(PredicateType.NORMAL)) {
+			if (literal.getPredicate() instanceof NormalPredicate 
+					&& ((NormalPredicate) literal.getPredicate()).type.equals(PredicateType.NORMAL)) {
 				result.add(literal);
 			}
 		}
@@ -118,7 +122,8 @@ public class Clause implements Cloneable, Comparable<Clause> {
 	}
 
 	/**
-	 * Get special body literals, aka, literals with built-in or logical predicates.
+	 * Get special body literals, aka, literals with built-in or logical
+	 * predicates.
 	 * 
 	 * @return all body literals
 	 */
@@ -126,7 +131,8 @@ public class Clause implements Cloneable, Comparable<Clause> {
 		Set<Literal> result = new TreeSet<Literal>();
 
 		for (Literal literal : positives) {
-			if (!literal.getPredicate().type.equals(PredicateType.NORMAL)) {
+			if (literal.getPredicate() instanceof NormalPredicate
+					&& !((NormalPredicate)literal.getPredicate()).type.equals(PredicateType.NORMAL)) {
 				result.add(literal);
 			}
 		}
@@ -196,7 +202,8 @@ public class Clause implements Cloneable, Comparable<Clause> {
 	/**
 	 * First compare clause type, then compare clause content.
 	 * 
-	 * @param that the other clause
+	 * @param that
+	 *            the other clause
 	 * @return compare result
 	 */
 	public int compareTo(Clause that) {

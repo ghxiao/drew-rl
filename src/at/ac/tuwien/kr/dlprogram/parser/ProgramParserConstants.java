@@ -13,35 +13,47 @@ public interface ProgramParserConstants {
   /** RegularExpression Id. */
   int NAF = 6;
   /** RegularExpression Id. */
-  int IDENTIFIER = 7;
+  int CONJUNCTION = 7;
   /** RegularExpression Id. */
-  int CONJUNCTION = 8;
+  int IMPLY = 8;
   /** RegularExpression Id. */
-  int IMPLY = 9;
+  int ENDOFSTATEMENT = 9;
   /** RegularExpression Id. */
-  int ENDOFSTATEMENT = 10;
+  int COMPARISON = 10;
   /** RegularExpression Id. */
-  int COMPARISON = 11;
+  int DL_ATOM = 11;
   /** RegularExpression Id. */
-  int INTEGER = 12;
+  int LEFT_SQUARE_BRACKET = 12;
   /** RegularExpression Id. */
-  int DOUBLE = 13;
+  int RIGHT_SQUARE_BRACKET = 13;
   /** RegularExpression Id. */
-  int STRING = 14;
+  int IDENTIFIER = 14;
   /** RegularExpression Id. */
-  int VARIABLE = 15;
+  int INTEGER = 15;
   /** RegularExpression Id. */
-  int PLUS = 16;
+  int DOUBLE = 16;
   /** RegularExpression Id. */
-  int MINUS = 17;
+  int STRING = 17;
   /** RegularExpression Id. */
-  int TIMES = 18;
+  int VARIABLE = 18;
   /** RegularExpression Id. */
-  int DIVIDE = 19;
+  int PLUS = 19;
   /** RegularExpression Id. */
-  int LEFTBRACKET = 20;
+  int MINUS = 20;
   /** RegularExpression Id. */
-  int RIGHTBRACKET = 21;
+  int TIMES = 21;
+  /** RegularExpression Id. */
+  int DIVIDE = 22;
+  /** RegularExpression Id. */
+  int LEFTBRACKET = 23;
+  /** RegularExpression Id. */
+  int RIGHTBRACKET = 24;
+  /** RegularExpression Id. */
+  int UPLUS = 25;
+  /** RegularExpression Id. */
+  int UMINUS = 26;
+  /** RegularExpression Id. */
+  int DLPREDICATE = 27;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -55,11 +67,14 @@ public interface ProgramParserConstants {
     "\"\\r\"",
     "<token of kind 5>",
     "\"not\"",
-    "<IDENTIFIER>",
     "\",\"",
     "\":-\"",
     "\".\"",
     "<COMPARISON>",
+    "\"DL\"",
+    "\"[\"",
+    "\"]\"",
+    "<IDENTIFIER>",
     "<INTEGER>",
     "<DOUBLE>",
     "<STRING>",
@@ -70,6 +85,10 @@ public interface ProgramParserConstants {
     "\"/\"",
     "\"(\"",
     "\")\"",
+    "\"+=\"",
+    "\"-=\"",
+    "<DLPREDICATE>",
+    "\";\"",
   };
 
 }

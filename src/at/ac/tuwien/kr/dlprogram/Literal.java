@@ -5,8 +5,10 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * A literal has a predicate as well as a list of terms. A literal is called schematic if it contains variables, grounded if it
- * contains constants only. There are two special literals, TRUE and FALSE, represent logically true or false.
+ * A literal has a predicate as well as a list of terms. A literal is called
+ * schematic if it contains variables, grounded if it contains constants only.
+ * There are two special literals, TRUE and FALSE, represent logically true or
+ * false.
  * 
  * @author Samuel
  */
@@ -15,7 +17,7 @@ public class Literal implements Cloneable, Comparable<Literal> {
 
 	public static final Literal FALSE = new Literal(NormalPredicate.FALSE, null);
 
-	private NormalPredicate predicate;
+	private Predicate predicate;
 
 	private ArrayList<Term> terms = new ArrayList<Term>();
 
@@ -32,7 +34,7 @@ public class Literal implements Cloneable, Comparable<Literal> {
 	 * @param predicate
 	 * @param terms
 	 */
-	public Literal(NormalPredicate predicate, List<Term> terms) {
+	public Literal(Predicate predicate, List<Term> terms) {
 		this.predicate = predicate;
 
 		if (terms != null) {
@@ -45,7 +47,7 @@ public class Literal implements Cloneable, Comparable<Literal> {
 	 * 
 	 * @param predicate
 	 */
-	public void setPredicate(NormalPredicate predicate) {
+	public void setPredicate(Predicate predicate) {
 		this.predicate = predicate;
 	}
 
@@ -54,7 +56,7 @@ public class Literal implements Cloneable, Comparable<Literal> {
 	 * 
 	 * @return
 	 */
-	public NormalPredicate getPredicate() {
+	public Predicate getPredicate() {
 		return predicate;
 	}
 
@@ -70,7 +72,8 @@ public class Literal implements Cloneable, Comparable<Literal> {
 	/**
 	 * Compare two literal by alphabetic order.
 	 * 
-	 * @param that another literal
+	 * @param that
+	 *            another literal
 	 * @return compare result
 	 */
 	public int compareTo(Literal that) {
@@ -106,16 +109,38 @@ public class Literal implements Cloneable, Comparable<Literal> {
 	public String toString() {
 		StringBuilder result = new StringBuilder();
 
-		switch (predicate.type) {
-		case BUILTIN:
-			result.append(terms.get(0));
-			result.append(" ").append(predicate.name).append(" ");
-			result.append(terms.get(1));
-			return result.toString();
-		case LOGIC:
-			return predicate.name;
-		case NORMAL:
-			result.append(predicate.name);
+		if (predicate instanceof NormalPredicate) {
+
+			NormalPredicate normalPredicate = (NormalPredicate) predicate;
+
+			switch (normalPredicate.type) {
+			case BUILTIN:
+				result.append(terms.get(0));
+				result.append(" ").append(normalPredicate.name).append(" ");
+				result.append(terms.get(1));
+				return result.toString();
+			case LOGIC:
+				return normalPredicate.name;
+			case NORMAL:
+				result.append(normalPredicate.name);
+				if (terms.size() > 0) {
+					result.append("(");
+					for (Iterator<Term> iter = terms.iterator(); iter.hasNext();) {
+						result.append(iter.next());
+						if (iter.hasNext()) {
+							result.append(", ");
+						}
+					}
+					result.append(")");
+				}
+				return result.toString();
+			default:
+				throw new IllegalStateException();
+			}
+		} else if (predicate instanceof DLAtomPredicate) {
+
+			DLAtomPredicate dlAtomPredicate = (DLAtomPredicate) predicate;
+			result.append(dlAtomPredicate.toString());
 			if (terms.size() > 0) {
 				result.append("(");
 				for (Iterator<Term> iter = terms.iterator(); iter.hasNext();) {
@@ -127,9 +152,9 @@ public class Literal implements Cloneable, Comparable<Literal> {
 				result.append(")");
 			}
 			return result.toString();
-		default:
-			throw new IllegalStateException();
 		}
+		throw new IllegalStateException();
+
 	}
 
 	@Override

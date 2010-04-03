@@ -27,11 +27,11 @@ public class DLAtomPredicateTest {
 		final OWLDataFactory owlDataFactory = OWLManager.getOWLDataFactory();
 		OWLLogicalEntity S1 = owlDataFactory.getOWLClass(IRI.create("S1"));
 		NormalPredicate p1 = new NormalPredicate("p1", 1);
-		DLInputOperation S1_uplus_p1 = new DLInputAddOperation(S1, p1);
+		DLInputOperation S1_uplus_p1 = new DLInputOperation(S1, p1);
 
 		OWLLogicalEntity S2 = owlDataFactory.getOWLClass(IRI.create("S2"));
 		NormalPredicate p2 = new NormalPredicate("p2", 1);
-		DLInputOperation S2_uplus_p2 = new DLInputAddOperation(S2, p2);
+		DLInputOperation S2_uplus_p2 = new DLInputOperation(S2, p2);
 
 		List<DLInputOperation> operations = new ArrayList<DLInputOperation>();
 		operations.add(S1_uplus_p1);

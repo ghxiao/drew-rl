@@ -16,7 +16,7 @@ public class ClauseParserTest {
 
 		StringReader reader = new StringReader(text);
 		ProgramParser parser = new ProgramParser(reader);
-		at.ac.tuwien.kr.dlprogram.Clause clause = parser.clause();
+		Clause clause = parser.clause();
 
 		assertEquals(text, clause.toString());
 	}

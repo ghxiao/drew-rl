@@ -2,10 +2,116 @@
 package at.ac.tuwien.kr.dlprogram.parser;
 import at.ac.tuwien.kr.dlprogram.*;
 import java.sql.Types;
+import org.semanticweb.owlapi.model.OWLLogicalEntity;
+import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.model.IRI;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ProgramParser implements ProgramParserConstants {
+  final static Logger logger = LoggerFactory.getLogger(ProgramParser.class);
+
   public void process() throws ParseException
-  {
+  {}
+
+  final public DLInputOperation dlInputOperation() throws ParseException {
+  DLInputOperation op = new DLInputOperation();
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case VARIABLE:
+      jj_consume_token(VARIABLE);
+      break;
+    case DLPREDICATE:
+      jj_consume_token(DLPREDICATE);
+      break;
+    default:
+      jj_la1[0] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
+      logger.debug("dlPredicat: " + token.image);
+      OWLLogicalEntity dlPredicate = OWLManager.getOWLDataFactory().getOWLClass(IRI.create(token.image));
+      op.setDLPredicate(dlPredicate);
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case UPLUS:
+      jj_consume_token(UPLUS);
+        op.setType(DLInputOperationType.U_PLUS);
+      break;
+    case UMINUS:
+      jj_consume_token(UMINUS);
+        op.setType(DLInputOperationType.U_MINUS);
+      break;
+    default:
+      jj_la1[1] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
+    jj_consume_token(IDENTIFIER);
+      String name = token.image;
+      //arity will be set later
+      int arity = - 1;
+      NormalPredicate predicate = CacheManager.getInstance().getPredicate(name, arity);
+      op.setInputPredicate(predicate);
+    {if (true) return op;}
+    throw new Error("Missing return statement in function");
+  }
+
+  final public DLInputSignature dlInputSignature() throws ParseException {
+  DLInputSignature signature = new DLInputSignature();
+  DLInputOperation op;
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case VARIABLE:
+    case DLPREDICATE:
+      op = dlInputOperation();
+      signature.getOperations().add(op);
+      label_1:
+      while (true) {
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case CONJUNCTION:
+          ;
+          break;
+        default:
+          jj_la1[2] = jj_gen;
+          break label_1;
+        }
+        jj_consume_token(CONJUNCTION);
+        op = dlInputOperation();
+        signature.getOperations().add(op);
+      }
+      break;
+    default:
+      jj_la1[3] = jj_gen;
+      ;
+    }
+    {if (true) return signature;}
+    throw new Error("Missing return statement in function");
+  }
+
+  final public DLAtomPredicate dlAtomPredicate() throws ParseException {
+  DLAtomPredicate predicate = new DLAtomPredicate();
+  DLInputSignature signature;
+  OWLLogicalEntity query;
+    jj_consume_token(DL_ATOM);
+    jj_consume_token(LEFT_SQUARE_BRACKET);
+    signature = dlInputSignature();
+      predicate.setInputSigature(signature);
+    jj_consume_token(28);
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case VARIABLE:
+      jj_consume_token(VARIABLE);
+      break;
+    case DLPREDICATE:
+      jj_consume_token(DLPREDICATE);
+      break;
+    default:
+      jj_la1[4] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
+      query = OWLManager.getOWLDataFactory().getOWLClass(IRI.create(token.image));
+      predicate.setQuery(query);
+    jj_consume_token(RIGHT_SQUARE_BRACKET);
+    {if (true) return predicate;}
+    throw new Error("Missing return statement in function");
   }
 
   final public Constant constant() throws ParseException {
@@ -31,7 +137,7 @@ public class ProgramParser implements ProgramParserConstants {
       {if (true) return CacheManager.getInstance().getConstant(name, type);}
       break;
     default:
-      jj_la1[0] = jj_gen;
+      jj_la1[5] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -68,15 +174,15 @@ public class ProgramParser implements ProgramParserConstants {
     case LEFTBRACKET:
       term = term();
       function.getTerms().add(term);
-      label_1:
+      label_2:
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case CONJUNCTION:
           ;
           break;
         default:
-          jj_la1[1] = jj_gen;
-          break label_1;
+          jj_la1[6] = jj_gen;
+          break label_2;
         }
         jj_consume_token(CONJUNCTION);
         term = term();
@@ -84,7 +190,7 @@ public class ProgramParser implements ProgramParserConstants {
       }
       break;
     default:
-      jj_la1[2] = jj_gen;
+      jj_la1[7] = jj_gen;
       ;
     }
     jj_consume_token(RIGHTBRACKET);
@@ -112,7 +218,7 @@ public class ProgramParser implements ProgramParserConstants {
         jj_consume_token(RIGHTBRACKET);
         break;
       default:
-        jj_la1[3] = jj_gen;
+        jj_la1[8] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -126,7 +232,7 @@ public class ProgramParser implements ProgramParserConstants {
   Token token;
     left = unary();
 
-    label_2:
+    label_3:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case TIMES:
@@ -134,8 +240,8 @@ public class ProgramParser implements ProgramParserConstants {
         ;
         break;
       default:
-        jj_la1[4] = jj_gen;
-        break label_2;
+        jj_la1[9] = jj_gen;
+        break label_3;
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case TIMES:
@@ -145,7 +251,7 @@ public class ProgramParser implements ProgramParserConstants {
         token = jj_consume_token(DIVIDE);
         break;
       default:
-        jj_la1[5] = jj_gen;
+        jj_la1[10] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -167,7 +273,7 @@ public class ProgramParser implements ProgramParserConstants {
   Token token;
     left = multiplicative();
 
-    label_3:
+    label_4:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case PLUS:
@@ -175,8 +281,8 @@ public class ProgramParser implements ProgramParserConstants {
         ;
         break;
       default:
-        jj_la1[6] = jj_gen;
-        break label_3;
+        jj_la1[11] = jj_gen;
+        break label_4;
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case PLUS:
@@ -186,7 +292,7 @@ public class ProgramParser implements ProgramParserConstants {
         token = jj_consume_token(MINUS);
         break;
       default:
-        jj_la1[7] = jj_gen;
+        jj_la1[12] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -213,10 +319,11 @@ public class ProgramParser implements ProgramParserConstants {
 //Predicate predicate() ://{//	Predicate predicate = new Predicate();//}//{//	<IDENTIFIER>//	{//		predicate.setName(token.image);//		return predicate;//	}//}
   final public Literal literal() throws ParseException {
   Literal literal = new Literal();
-  NormalPredicate predicate;
-  String name;
+  Predicate predicate = null;
+  String name = null;
   Term term;
   int arity = 0;
+  boolean isDLAtomPredicate = false;
     if (jj_2_2(2147483647)) {
       term = term();
     literal.getTerms().add(term);
@@ -228,24 +335,37 @@ public class ProgramParser implements ProgramParserConstants {
     {if (true) return literal;}
     } else {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case DL_ATOM:
       case IDENTIFIER:
-        jj_consume_token(IDENTIFIER);
-    name = token.image;
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case DL_ATOM:
+          predicate = dlAtomPredicate();
+      isDLAtomPredicate = true;
+          break;
+        case IDENTIFIER:
+          jj_consume_token(IDENTIFIER);
+      name = token.image;
+          break;
+        default:
+          jj_la1[13] = jj_gen;
+          jj_consume_token(-1);
+          throw new ParseException();
+        }
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case LEFTBRACKET:
           jj_consume_token(LEFTBRACKET);
           term = term();
       literal.getTerms().add(term);
       arity++;
-          label_4:
+          label_5:
           while (true) {
             switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
             case CONJUNCTION:
               ;
               break;
             default:
-              jj_la1[8] = jj_gen;
-              break label_4;
+              jj_la1[14] = jj_gen;
+              break label_5;
             }
             jj_consume_token(CONJUNCTION);
             term = term();
@@ -255,15 +375,22 @@ public class ProgramParser implements ProgramParserConstants {
           jj_consume_token(RIGHTBRACKET);
           break;
         default:
-          jj_la1[9] = jj_gen;
+          jj_la1[15] = jj_gen;
           ;
         }
-    predicate = CacheManager.getInstance().getPredicate(name, arity);
+    if (!isDLAtomPredicate)
+    {
+      predicate = CacheManager.getInstance().getPredicate(name, arity);
+    }
+    else
+    {
+      predicate.setArity(arity);
+    }
     literal.setPredicate(predicate);
     {if (true) return literal;}
         break;
       default:
-        jj_la1[10] = jj_gen;
+        jj_la1[16] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -276,6 +403,7 @@ public class ProgramParser implements ProgramParserConstants {
   Literal literal;
   boolean not = false;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case DL_ATOM:
     case IDENTIFIER:
     case INTEGER:
     case STRING:
@@ -285,7 +413,7 @@ public class ProgramParser implements ProgramParserConstants {
       clause.setHead(literal);
       break;
     default:
-      jj_la1[11] = jj_gen;
+      jj_la1[17] = jj_gen;
       ;
     }
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -299,7 +427,7 @@ public class ProgramParser implements ProgramParserConstants {
         not = true;
         break;
       default:
-        jj_la1[12] = jj_gen;
+        jj_la1[18] = jj_gen;
         ;
       }
       literal = literal();
@@ -311,15 +439,15 @@ public class ProgramParser implements ProgramParserConstants {
       {
         clause.getPositiveBody().add(literal);
       }
-      label_5:
+      label_6:
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case CONJUNCTION:
           ;
           break;
         default:
-          jj_la1[13] = jj_gen;
-          break label_5;
+          jj_la1[19] = jj_gen;
+          break label_6;
         }
         jj_consume_token(CONJUNCTION);
         // initialize the not state
@@ -330,7 +458,7 @@ public class ProgramParser implements ProgramParserConstants {
           not = true;
           break;
         default:
-          jj_la1[14] = jj_gen;
+          jj_la1[20] = jj_gen;
           ;
         }
         literal = literal();
@@ -345,7 +473,7 @@ public class ProgramParser implements ProgramParserConstants {
       }
       break;
     default:
-      jj_la1[15] = jj_gen;
+      jj_la1[21] = jj_gen;
       ;
     }
     jj_consume_token(ENDOFSTATEMENT);
@@ -360,12 +488,13 @@ public class ProgramParser implements ProgramParserConstants {
   final public Program program() throws ParseException {
   Program program = new Program();
   Clause clause;
-    label_6:
+    label_7:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case IDENTIFIER:
       case IMPLY:
       case ENDOFSTATEMENT:
+      case DL_ATOM:
+      case IDENTIFIER:
       case INTEGER:
       case STRING:
       case VARIABLE:
@@ -373,13 +502,12 @@ public class ProgramParser implements ProgramParserConstants {
         ;
         break;
       default:
-        jj_la1[16] = jj_gen;
-        break label_6;
+        jj_la1[22] = jj_gen;
+        break label_7;
       }
       clause = clause();
       if (clause.getHead().equals(Literal.FALSE) && (clause.getPositiveBody().contains(Literal.TRUE)))
-      {
-      // skip empty clause
+      { // skip empty clause
       }
       else
       {
@@ -405,117 +533,25 @@ public class ProgramParser implements ProgramParserConstants {
     finally { jj_save(1, xla); }
   }
 
-  private boolean jj_3R_22() {
-    if (jj_scan_token(VARIABLE)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_12() {
-    if (jj_scan_token(CONJUNCTION)) return true;
-    if (jj_3R_8()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_8() {
-    if (jj_3R_11()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_25() {
-    if (jj_scan_token(IDENTIFIER)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_10() {
-    if (jj_3R_8()) return true;
-    Token xsp;
-    while (true) {
-      xsp = jj_scanpos;
-      if (jj_3R_12()) { jj_scanpos = xsp; break; }
-    }
-    return false;
-  }
-
-  private boolean jj_3R_16() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_scan_token(18)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(19)) return true;
-    }
-    if (jj_3R_15()) return true;
-    return false;
-  }
-
-  private boolean jj_3_2() {
-    if (jj_3R_8()) return true;
-    if (jj_scan_token(COMPARISON)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_24() {
-    if (jj_scan_token(STRING)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_13() {
-    if (jj_3R_15()) return true;
-    Token xsp;
-    while (true) {
-      xsp = jj_scanpos;
-      if (jj_3R_16()) { jj_scanpos = xsp; break; }
-    }
-    return false;
-  }
-
-  private boolean jj_3R_7() {
-    if (jj_3R_9()) return true;
-    if (jj_scan_token(LEFTBRACKET)) return true;
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_10()) jj_scanpos = xsp;
-    if (jj_scan_token(RIGHTBRACKET)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_23() {
-    if (jj_scan_token(INTEGER)) return true;
-    return false;
-  }
-
   private boolean jj_3_1() {
-    if (jj_3R_7()) return true;
+    if (jj_3R_8()) return true;
     return false;
   }
 
   private boolean jj_3R_21() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_23()) {
-    jj_scanpos = xsp;
-    if (jj_3R_24()) {
-    jj_scanpos = xsp;
-    if (jj_3R_25()) return true;
-    }
-    }
-    return false;
-  }
-
-  private boolean jj_3R_20() {
     if (jj_scan_token(LEFTBRACKET)) return true;
-    if (jj_3R_11()) return true;
+    if (jj_3R_12()) return true;
     if (jj_scan_token(RIGHTBRACKET)) return true;
     return false;
   }
 
-  private boolean jj_3R_14() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_scan_token(16)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(17)) return true;
-    }
-    if (jj_3R_13()) return true;
+  private boolean jj_3R_20() {
+    if (jj_3R_23()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_10() {
+    if (jj_scan_token(IDENTIFIER)) return true;
     return false;
   }
 
@@ -524,42 +560,134 @@ public class ProgramParser implements ProgramParserConstants {
     return false;
   }
 
-  private boolean jj_3R_18() {
-    if (jj_3R_21()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_9() {
-    if (jj_scan_token(IDENTIFIER)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_17() {
-    if (jj_3R_7()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_11() {
-    if (jj_3R_13()) return true;
-    Token xsp;
-    while (true) {
-      xsp = jj_scanpos;
-      if (jj_3R_14()) { jj_scanpos = xsp; break; }
-    }
-    return false;
-  }
-
   private boolean jj_3R_15() {
     Token xsp;
     xsp = jj_scanpos;
-    if (jj_3R_17()) {
+    if (jj_scan_token(19)) {
     jj_scanpos = xsp;
+    if (jj_scan_token(20)) return true;
+    }
+    if (jj_3R_14()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_18() {
+    if (jj_3R_8()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_16() {
+    Token xsp;
+    xsp = jj_scanpos;
     if (jj_3R_18()) {
     jj_scanpos = xsp;
     if (jj_3R_19()) {
     jj_scanpos = xsp;
-    if (jj_3R_20()) return true;
+    if (jj_3R_20()) {
+    jj_scanpos = xsp;
+    if (jj_3R_21()) return true;
     }
+    }
+    }
+    return false;
+  }
+
+  private boolean jj_3R_12() {
+    if (jj_3R_14()) return true;
+    Token xsp;
+    while (true) {
+      xsp = jj_scanpos;
+      if (jj_3R_15()) { jj_scanpos = xsp; break; }
+    }
+    return false;
+  }
+
+  private boolean jj_3R_23() {
+    if (jj_scan_token(VARIABLE)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_13() {
+    if (jj_scan_token(CONJUNCTION)) return true;
+    if (jj_3R_9()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_26() {
+    if (jj_scan_token(IDENTIFIER)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_9() {
+    if (jj_3R_12()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_11() {
+    if (jj_3R_9()) return true;
+    Token xsp;
+    while (true) {
+      xsp = jj_scanpos;
+      if (jj_3R_13()) { jj_scanpos = xsp; break; }
+    }
+    return false;
+  }
+
+  private boolean jj_3R_25() {
+    if (jj_scan_token(STRING)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_17() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_scan_token(21)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(22)) return true;
+    }
+    if (jj_3R_16()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_8() {
+    if (jj_3R_10()) return true;
+    if (jj_scan_token(LEFTBRACKET)) return true;
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_11()) jj_scanpos = xsp;
+    if (jj_scan_token(RIGHTBRACKET)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_24() {
+    if (jj_scan_token(INTEGER)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_14() {
+    if (jj_3R_16()) return true;
+    Token xsp;
+    while (true) {
+      xsp = jj_scanpos;
+      if (jj_3R_17()) { jj_scanpos = xsp; break; }
+    }
+    return false;
+  }
+
+  private boolean jj_3_2() {
+    if (jj_3R_9()) return true;
+    if (jj_scan_token(COMPARISON)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_22() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_24()) {
+    jj_scanpos = xsp;
+    if (jj_3R_25()) {
+    jj_scanpos = xsp;
+    if (jj_3R_26()) return true;
     }
     }
     return false;
@@ -576,13 +704,13 @@ public class ProgramParser implements ProgramParserConstants {
   private Token jj_scanpos, jj_lastpos;
   private int jj_la;
   private int jj_gen;
-  final private int[] jj_la1 = new int[17];
+  final private int[] jj_la1 = new int[23];
   static private int[] jj_la1_0;
   static {
       jj_la1_init_0();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x5080,0x100,0x10d080,0x10d080,0xc0000,0xc0000,0x30000,0x30000,0x100,0x100000,0x80,0x10d080,0x40,0x100,0x40,0x200,0x10d680,};
+      jj_la1_0 = new int[] {0x8040000,0x6000000,0x80,0x8040000,0x8040000,0x2c000,0x80,0x86c000,0x86c000,0x600000,0x600000,0x180000,0x180000,0x4800,0x80,0x800000,0x4800,0x86c800,0x40,0x80,0x40,0x100,0x86cb00,};
    }
   final private JJCalls[] jj_2_rtns = new JJCalls[2];
   private boolean jj_rescan = false;
@@ -599,7 +727,7 @@ public class ProgramParser implements ProgramParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 17; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 23; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -614,7 +742,7 @@ public class ProgramParser implements ProgramParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 17; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 23; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -625,7 +753,7 @@ public class ProgramParser implements ProgramParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 17; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 23; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -636,7 +764,7 @@ public class ProgramParser implements ProgramParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 17; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 23; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -646,7 +774,7 @@ public class ProgramParser implements ProgramParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 17; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 23; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -656,7 +784,7 @@ public class ProgramParser implements ProgramParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 17; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 23; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -768,12 +896,12 @@ public class ProgramParser implements ProgramParserConstants {
   /** Generate ParseException. */
   public ParseException generateParseException() {
     jj_expentries.clear();
-    boolean[] la1tokens = new boolean[22];
+    boolean[] la1tokens = new boolean[29];
     if (jj_kind >= 0) {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
     }
-    for (int i = 0; i < 17; i++) {
+    for (int i = 0; i < 23; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
           if ((jj_la1_0[i] & (1<<j)) != 0) {
@@ -782,7 +910,7 @@ public class ProgramParser implements ProgramParserConstants {
         }
       }
     }
-    for (int i = 0; i < 22; i++) {
+    for (int i = 0; i < 29; i++) {
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;

@@ -20,10 +20,16 @@ public class DLAtomPredicate implements Predicate {
 	// only DL concept or role name allowed
 	OWLLogicalEntity query;
 
+	private int arity;
+
 	public DLAtomPredicate(DLInputSignature inputSigature, OWLLogicalEntity query) {
 		super();
 		this.inputSigature = inputSigature;
 		this.query = query;
+	}
+
+	public DLAtomPredicate() {
+
 	}
 
 	/**
@@ -56,7 +62,9 @@ public class DLAtomPredicate implements Predicate {
 		this.query = query;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -68,6 +76,20 @@ public class DLAtomPredicate implements Predicate {
 		builder.append(query.getIRI());
 		builder.append("]");
 		return builder.toString();
+	}
+
+	@Override
+	public int compareTo(Predicate o) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setArity(int arity) {
+		this.arity = arity;
+		for (DLInputOperation op : inputSigature.operations) {
+			op.getInputPredicate().setArity(arity);
+		}
 	}
 
 }

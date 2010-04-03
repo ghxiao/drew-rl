@@ -20,7 +20,7 @@ import org.semanticweb.owlapi.model.OWLObject;
 /**
  * TODO describe this class please.
  */
-public class DLInputAddOperationTest {
+public class DLInputOperationTest {
 
 	/**
 	 * @throws java.lang.Exception
@@ -37,7 +37,7 @@ public class DLInputAddOperationTest {
 	public void testToString() {
 		OWLLogicalEntity S1 = OWLManager.getOWLDataFactory().getOWLClass(IRI.create("S1"));
 		NormalPredicate p1 = new NormalPredicate("p1", 1);
-		DLInputOperation S1_uplus_p1 = new DLInputAddOperation(S1, p1);
+		DLInputOperation S1_uplus_p1 = new DLInputOperation(S1, p1);
 		assertEquals("S1+=p1", S1_uplus_p1.toString());
 	}
 
