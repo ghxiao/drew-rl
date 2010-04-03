@@ -107,4 +107,14 @@ public class Program implements Cloneable {
 
 		return result;
 	}
+	
+	public Set<DLInputSignature> getIDlInputSignatures(){
+		Set<DLInputSignature> signatures = new TreeSet<DLInputSignature>();
+		for(Clause clause:this.getClauses()){
+			signatures.addAll(clause.getDLInputSignatures());
+		}
+		
+		
+		return signatures;
+	}
 }

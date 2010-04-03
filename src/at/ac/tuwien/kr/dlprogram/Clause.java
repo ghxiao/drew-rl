@@ -1,6 +1,7 @@
 package at.ac.tuwien.kr.dlprogram;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -112,8 +113,7 @@ public class Clause implements Cloneable, Comparable<Clause> {
 		List<Literal> result = new ArrayList<Literal>();
 
 		for (Literal literal : positives) {
-			if (literal.getPredicate() instanceof NormalPredicate 
-					&& ((NormalPredicate) literal.getPredicate()).type.equals(PredicateType.NORMAL)) {
+			if (literal.getPredicate() instanceof NormalPredicate && ((NormalPredicate) literal.getPredicate()).type.equals(PredicateType.NORMAL)) {
 				result.add(literal);
 			}
 		}
@@ -131,8 +131,7 @@ public class Clause implements Cloneable, Comparable<Clause> {
 		Set<Literal> result = new TreeSet<Literal>();
 
 		for (Literal literal : positives) {
-			if (literal.getPredicate() instanceof NormalPredicate
-					&& !((NormalPredicate)literal.getPredicate()).type.equals(PredicateType.NORMAL)) {
+			if (literal.getPredicate() instanceof NormalPredicate && !((NormalPredicate) literal.getPredicate()).type.equals(PredicateType.NORMAL)) {
 				result.add(literal);
 			}
 		}
@@ -302,5 +301,16 @@ public class Clause implements Cloneable, Comparable<Clause> {
 		result = 31 * result + positives.hashCode();
 		result = 31 * result + negatives.hashCode();
 		return result;
+	}
+
+	public Set<DLInputSignature> getDLInputSignatures() {
+		Set<DLInputSignature> signatures = new TreeSet<DLInputSignature>();
+		for (Literal lit : this.getPositiveBody()) {
+			if (lit.getPredicate() instanceof DLAtomPredicate) {
+				final DLAtomPredicate predicate = (DLAtomPredicate) (lit.getPredicate());
+				signatures.add(predicate.getInputSigature());
+			}
+		}
+		return signatures;
 	}
 }
