@@ -52,25 +52,41 @@ public class DLVWrapper {
 		String version = "The following warning(s) occurred:\n";
 		try {
 			Process dlv = this.runtime.exec(this.dlvPath);
-			BufferedReader localBufferedReader = new BufferedReader(new InputStreamReader(dlv.getInputStream()));
+			BufferedReader localBufferedReader = new BufferedReader(
+					new InputStreamReader(dlv.getInputStream()));
 			String str = localBufferedReader.readLine();
 			if (str == null)
-				throw new DLVInvocationException("An error is occurred calling DLV.");
+				throw new DLVInvocationException(
+						"An error is occurred calling DLV.");
 			version = str;
 			dlv.waitFor();
 		} catch (IOException localIOException) {
-			throw new DLVInvocationException("An error is occurred calling DLV: " + localIOException.getMessage());
+			throw new DLVInvocationException(
+					"An error is occurred calling DLV: "
+							+ localIOException.getMessage());
 		} catch (InterruptedException localInterruptedException) {
-			throw new DLVInvocationException("An error is occurred calling DLV: " + localInterruptedException.getMessage());
+			throw new DLVInvocationException(
+					"An error is occurred calling DLV: "
+							+ localInterruptedException.getMessage());
 		}
 		return version;
 	}
 
 	public void run() throws DLVInvocationException {
 		String[] params = { dlvPath, "--" };
+		run(params);
+	}
+
+	public void runWFS() throws DLVInvocationException {
+		String[] params = { dlvPath, "-wf", "--" };
+		run(params);
+	}
+
+	private void run(String[] params) throws DLVInvocationException {
 		try {
 			Process dlv = this.runtime.exec(params);
-			BufferedReader reader = new BufferedReader(new InputStreamReader(dlv.getInputStream()));
+			BufferedReader reader = new BufferedReader(new InputStreamReader(
+					dlv.getInputStream()));
 
 			PrintWriter writer = new PrintWriter(dlv.getOutputStream());
 			writer.write(program);
@@ -85,11 +101,12 @@ public class DLVWrapper {
 
 			dlv.waitFor();
 		} catch (IOException ex) {
-			throw new DLVInvocationException("An error is occurred calling DLV: " + ex.getMessage());
+			throw new DLVInvocationException(
+					"An error is occurred calling DLV: " + ex.getMessage());
 		} catch (InterruptedException ex) {
-			throw new DLVInvocationException("An error is occurred calling DLV: " + ex.getMessage());
+			throw new DLVInvocationException(
+					"An error is occurred calling DLV: " + ex.getMessage());
 		}
-
 	}
 
 }

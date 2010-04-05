@@ -22,7 +22,7 @@ public class DLVWrapperTest {
 	}
 
 	@Test
-	public void testRun() throws DLVInvocationException {
+	public void testRunOnWindows() throws DLVInvocationException {
 		String program = "q(X,Y):-p(X,Y)."//
 				+ "q(X,Z):-p(X,Y),q(Y,Z)."//
 				+ "p(a,b)."//
@@ -31,6 +31,14 @@ public class DLVWrapperTest {
 		dlv.setProgram(program);
 		dlv.setDlvPath(".\\dlv\\dlv.mingw.exe");
 		dlv.run();
-		
+	}
+
+	@Test
+	public void testRunOnLinux_WFS() throws DLVInvocationException {
+		String program = "p:-not p. q.";
+		DLVWrapper dlv = new DLVWrapper();
+		dlv.setProgram(program);
+		dlv.setDlvPath("./dlv/dlv_magic");
+		dlv.runWFS();
 	}
 }
