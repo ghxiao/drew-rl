@@ -16,9 +16,21 @@ public class DLVWrapperTest {
 	@Test
 	public void testGetVersion() throws DLVInvocationException {
 		DLVWrapper dlv = new DLVWrapper();
-		dlv.setDlvPath(".\\dlv\\dlv.mingw.exe"); 
+		dlv.setDlvPath(".\\dlv\\dlv.mingw.exe");
 		String version = dlv.getVersion();
 		System.out.println(version);
 	}
 
+	@Test
+	public void testRun() throws DLVInvocationException {
+		String program = "q(X,Y):-p(X,Y)."//
+				+ "q(X,Z):-p(X,Y),q(Y,Z)."//
+				+ "p(a,b)."//
+				+ "p(b,c).";
+		DLVWrapper dlv = new DLVWrapper();
+		dlv.setProgram(program);
+		dlv.setDlvPath(".\\dlv\\dlv.mingw.exe");
+		dlv.run();
+		
+	}
 }

@@ -6,7 +6,7 @@ import java.sql.Time;
 
 public final class ConversionType
 {
-  public static final DBNull DBNULL_CLASS = new DBNull(null);
+  public static final DBNull DBNULL_CLASS = new DBNull();
   public static final String DBNULL = "null";
   public static final byte UNIMPLEMENTED = 0;
   public static final byte STRING = 2;
@@ -590,9 +590,9 @@ public final class ConversionType
       return "null";
     }
 
-    DBNull(ConversionType.1 param1)
-    {
-    }
+//    DBNull(ConversionType.1 param1)
+//    {
+//    }
   }
 }
 
