@@ -5,10 +5,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
-import misc.Slf4jExample;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.code.regex.NamedMatcher;
+import com.google.code.regex.NamedPattern;
 
 import DLV.DLVInvocationException;
 
@@ -21,14 +22,19 @@ public class DLVWrapper {
 
 	private Runtime runtime = Runtime.getRuntime();
 
-	String predicate ="[a-zA-Z]([a-zA-Z\\d])*";
-	
-	String term ="[a-zA-Z]([a-zA-Z\\d])*";
-	
-	String literal = String.format("%s\\{%s\\}", predicate,term);
-	
-	final String regex = "$True:\\s*()\\s*"; 
-	
+	String predicateRegex = "(?<predicate>[a-z][a-zA-Z\\d_]*)";
+
+	String termRegex = "(?<term>[a-z][a-zA-Z\\d_]*)";
+
+	String literalRegex = String.format("(?<literal>%s(\\((%s(,%s)*)?\\))?)",
+			predicateRegex, termRegex, termRegex);
+
+	String literalListRegex = String.format("(?<literalList>%s(,\\s*%s)*)",
+			literalRegex, literalRegex);
+
+	String lineRegex = String.format("True:\\s*(\\{%s\\})\\s*",
+			literalListRegex);
+
 	public DLVWrapper() {
 
 	}
@@ -105,14 +111,25 @@ public class DLVWrapper {
 			while ((line = reader.readLine()) != null) {
 				logger.debug("DLV Output: {}", line);
 
-				
-				
-				boolean contains = line.contains("True:");
-				boolean contains2 = line.contains(queryStr);
-				if (contains && contains2) {
-					logger.debug("Query \"{}\" found", queryStr);
-					result = true;
+				NamedPattern linePattern = NamedPattern.compile(lineRegex);
+				NamedMatcher lineMatcher = linePattern.matcher(line);
+				if (lineMatcher.find()) {
+					String lits = lineMatcher.group("literalList");
+					System.out.println("literalList " + lits);
+					NamedPattern literalPattern = NamedPattern
+							.compile(literalRegex);
+					NamedMatcher literalMatcher = literalPattern.matcher(lits);
+					while (literalMatcher.find()) {
+						String lit = literalMatcher.group("literal");
+						System.out.println("literal " + lit);
+						if (lit.equals(queryStr)) {
+							logger.debug("Query \"{}\" found", queryStr);
+							result = true;
+							break;
+						}
+					}
 				}
+
 			}
 
 			dlv.waitFor();
