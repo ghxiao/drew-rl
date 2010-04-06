@@ -7,8 +7,8 @@ import java.util.Iterator;
 public class Program
 {
   private StringBuffer program = new StringBuffer();
-  private ArrayList file = new ArrayList();
-  private HashSet predicates = new HashSet();
+  private ArrayList<String> file = new ArrayList<String>();
+  private HashSet<Predicate> predicates = new HashSet<Predicate>();
 
   public Program()
   {
@@ -63,21 +63,21 @@ public class Program
     this.program.append(paramString);
   }
 
-  public void addProgramFile(String paramString)
+  public void addProgramFile(String file)
   {
-    if (paramString == null)
+    if (file == null)
       throw new NullPointerException();
-    int i = this.file.indexOf(paramString);
+    int i = this.file.indexOf(file);
     if (i != -1)
       return;
-    this.file.add(paramString);
+    this.file.add(file);
   }
 
-  public void removeProgramFile(String paramString)
+  public void removeProgramFile(String file)
   {
-    if (paramString == null)
+    if (file == null)
       throw new NullPointerException();
-    this.file.remove(paramString);
+    this.file.remove(file);
   }
 
   public void removeProgramFiles()
@@ -116,9 +116,9 @@ public class Program
   public Predicate[] getPredicates()
   {
     Predicate[] arrayOfPredicate = new Predicate[this.predicates.size()];
-    Iterator localIterator = this.predicates.iterator();
+    Iterator<Predicate> localIterator = this.predicates.iterator();
     for (int i = 0; localIterator.hasNext(); ++i)
-      arrayOfPredicate[i] = ((Predicate)localIterator.next());
+      arrayOfPredicate[i] = localIterator.next();
     return arrayOfPredicate;
   }
 

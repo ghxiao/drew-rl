@@ -399,39 +399,39 @@ public class DlvHandler implements DlvIOHandler {
 				++i;
 			}
 		}
-		String[] arrayOfString1 = this.program.getProgramsPathNames();
+		String[] programPathNames = this.program.getProgramsPathNames();
 		int k = i + 2;
-		if (arrayOfString1 != null)
-			k += arrayOfString1.length;
-		String[] arrayOfString3 = new String[k];
-		arrayOfString3[0] = getPath();
+		if (programPathNames != null)
+			k += programPathNames.length;
+		String[] params = new String[k];
+		params[0] = getPath();
 		int l = 1;
 		for (int i1 = 0; i1 < 12; ++i1) {
 			if (this.parameter[i1] != true)
 				continue;
 			switch (i1) {
 			case 0:
-				arrayOfString3[l] = ((String) this.parameterValue[i1]);
+				params[l] = ((String) this.parameterValue[i1]);
 				++l;
 				break;
 			case 1:
-				arrayOfString3[l] = ("-costbound=" + (String) this.parameterValue[i1]);
+				params[l] = ("-costbound=" + (String) this.parameterValue[i1]);
 				++l;
 				break;
 			case 2:
-				arrayOfString3[l] = "-det";
+				params[l] = "-det";
 				++l;
 				break;
 			case 3:
-				arrayOfString3[l] = "-istantiate";
+				params[l] = "-istantiate";
 				++l;
 				break;
 			case 4:
-				arrayOfString3[l] = ("-n=" + ((Integer) this.parameterValue[i1]).toString());
+				params[l] = ("-n=" + ((Integer) this.parameterValue[i1]).toString());
 				++l;
 				break;
 			case 5:
-				arrayOfString3[l] = ("-N=" + ((Integer) this.parameterValue[i1]).toString());
+				params[l] = ("-N=" + ((Integer) this.parameterValue[i1]).toString());
 				++l;
 				break;
 			case 6:
@@ -440,7 +440,7 @@ public class DlvHandler implements DlvIOHandler {
 					if (i2 >= arrayOfString4.length)
 						//break label583;
 						break;
-					arrayOfString3[l] = arrayOfString4[i2];
+					params[l] = arrayOfString4[i2];
 					++l;
 				}
 			case 8:
@@ -449,7 +449,7 @@ public class DlvHandler implements DlvIOHandler {
 					if (i3 >= arrayOfString5.length)
 						//break label583;
 						break;
-					arrayOfString3[l] = ("-pfilter=" + arrayOfString5[i3]);
+					params[l] = ("-pfilter=" + arrayOfString5[i3]);
 					++l;
 				}
 			case 7:
@@ -458,34 +458,34 @@ public class DlvHandler implements DlvIOHandler {
 					if (i4 >= arrayOfString6.length)
 						//break label583;
 						break;
-					arrayOfString3[l] = ("-filter=" + arrayOfString6[i4]);
+					params[l] = ("-filter=" + arrayOfString6[i4]);
 					++l;
 				}
 			case 9:
 				if (((Boolean) this.parameterValue[i1]).booleanValue() == true)
-					arrayOfString3[l] = "-facts";
+					params[l] = "-facts";
 				else
-					arrayOfString3[l] = "-nofacts";
+					params[l] = "-nofacts";
 				++l;
 				break;
 			case 10:
-				arrayOfString3[l] = "-wctrace";
+				params[l] = "-wctrace";
 				++l;
 				break;
 			case 11:
-				arrayOfString3[l] = "--";
+				params[l] = "--";
 				label583: ++l;
 			}
 		}
-		arrayOfString3[l] = "-silent";
+		params[l] = "-silent";
 		++l;
 		int i1 = 0;
 		while (l < k) {
-			arrayOfString3[l] = arrayOfString1[i1];
+			params[l] = programPathNames[i1];
 			++i1;
 			++l;
 		}
-		return arrayOfString3;
+		return params;
 	}
 
 	private String[] parseParameters(String paramString) {
