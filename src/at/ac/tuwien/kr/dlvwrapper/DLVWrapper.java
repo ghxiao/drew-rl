@@ -5,6 +5,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
+import misc.Slf4jExample;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import DLV.DLVInvocationException;
 
 public class DLVWrapper {
@@ -12,8 +17,18 @@ public class DLVWrapper {
 
 	String program;
 
+	static final Logger logger = LoggerFactory.getLogger(DLVWrapper.class);
+
 	private Runtime runtime = Runtime.getRuntime();
 
+	String predicate ="[a-zA-Z]([a-zA-Z\\d])*";
+	
+	String term ="[a-zA-Z]([a-zA-Z\\d])*";
+	
+	String literal = String.format("%s\\{%s\\}", predicate,term);
+	
+	final String regex = "$True:\\s*()\\s*"; 
+	
 	public DLVWrapper() {
 
 	}
@@ -70,6 +85,47 @@ public class DLVWrapper {
 							+ localInterruptedException.getMessage());
 		}
 		return version;
+	}
+
+	public boolean queryWFS(String queryStr) throws DLVInvocationException {
+		boolean result = false;
+		try {
+			String[] params = { dlvPath, "-wf", "--" };
+			Process dlv = this.runtime.exec(params);
+			BufferedReader reader = new BufferedReader(new InputStreamReader(
+					dlv.getInputStream()));
+
+			PrintWriter writer = new PrintWriter(dlv.getOutputStream());
+			writer.write(program);
+			writer.flush();
+			writer.close();
+
+			String line;
+
+			while ((line = reader.readLine()) != null) {
+				logger.debug("DLV Output: {}", line);
+
+				
+				
+				boolean contains = line.contains("True:");
+				boolean contains2 = line.contains(queryStr);
+				if (contains && contains2) {
+					logger.debug("Query \"{}\" found", queryStr);
+					result = true;
+				}
+			}
+
+			dlv.waitFor();
+		} catch (IOException ex) {
+			throw new DLVInvocationException(
+					"An error is occurred calling DLV: " + ex.getMessage());
+		} catch (InterruptedException ex) {
+			throw new DLVInvocationException(
+					"An error is occurred calling DLV: " + ex.getMessage());
+		}
+
+		return result;
+
 	}
 
 	public void run() throws DLVInvocationException {
