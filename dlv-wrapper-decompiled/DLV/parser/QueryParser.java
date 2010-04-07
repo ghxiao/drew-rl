@@ -41,7 +41,7 @@ public class QueryParser
   private final JJCalls[] jj_2_rtns = new JJCalls[2];
   private boolean jj_rescan = false;
   private int jj_gc = 0;
-  private final LookaheadSuccess jj_ls = new LookaheadSuccess(null);
+  private final LookaheadSuccess jj_ls = new LookaheadSuccess();
   private Vector jj_expentries = new Vector();
   private int[] jj_expentry;
   private int jj_kind = -1;
@@ -198,7 +198,7 @@ public class QueryParser
     String[] arrayOfString = Tools.arrayListToStringArray(this.temp);
     Predicate tmp161_158 = this.queryResult;
     tmp161_158.getClass();
-    this.queryResult.addLiteral(new Predicate.Literal(tmp161_158, arrayOfString));
+    this.queryResult.addLiteral(tmp161_158.new Literal(arrayOfString));
   }
 
   public final void nonGroundQuery()
@@ -283,7 +283,7 @@ public class QueryParser
     this.queryResult = this.dm.getOutputDescriptor().getDescriptor("result").buildPredicate("result", 1, this.m, 0);
     Predicate tmp46_43 = this.queryResult;
     tmp46_43.getClass();
-    this.queryResult.addLiteral(new Predicate.Literal(tmp46_43, new String[] { str }));
+    this.queryResult.addLiteral(tmp46_43.new Literal(new String[] { str }));
   }
 
   public final void groundQuery()
@@ -356,13 +356,13 @@ public class QueryParser
     this.jj_lastpos = (this.jj_scanpos = this.token);
     try
     {
-      int i = (!jj_3_1()) ? 1 : 0;
+      boolean i = (!jj_3_1());
       return i;
     }
     catch (LookaheadSuccess localLookaheadSuccess)
     {
       int j = 1;
-      return j;
+      return true;
     }
     finally
     {
