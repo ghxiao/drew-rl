@@ -1,112 +1,120 @@
-/*
- * @(#)DLProgram.java 2010-4-3 
- *
- * Author: Guohui Xiao
- * Technical University of Vienna
- * KBS Group
- */
 package at.ac.tuwien.kr.dlprogram;
 
-import org.semanticweb.owlapi.model.OWLOntology;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
- * TODO describe this class please.
+ * The implementation of logic program.
+ * 
+ * @author Samuel
  */
-public class DLProgram {
-	OWLOntology ontology;
-	Program program;
+public class DLProgram implements Cloneable {
+	private List<Clause> clauses = new ArrayList<Clause>();
 
 	/**
-	 * @return the ontology
-	 */
-	public OWLOntology getOntology() {
-		return ontology;
-	}
-
-	/**
-	 * @param ontology
-	 *            the ontology to set
-	 */
-	public void setOntology(OWLOntology ontology) {
-		this.ontology = ontology;
-	}
-
-	/**
-	 * @return the program
-	 */
-	public Program getProgram() {
-		return program;
-	}
-
-	/**
-	 * @param program
-	 *            the program to set
-	 */
-	public void setProgram(Program program) {
-		this.program = program;
-	}
-
-	/*
-	 * (non-Javadoc)
+	 * Return the clauses contained in the program.
 	 * 
-	 * @see java.lang.Object#hashCode()
+	 * @return
 	 */
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((ontology == null) ? 0 : ontology.hashCode());
-		result = prime * result + ((program == null) ? 0 : program.hashCode());
+	public List<Clause> getClauses() {
+		return clauses;
+	}
+
+	/**
+	 * Get all the clauses with the given head predicate name and given clause type.
+	 * 
+	 * @param predicate the interested predicate
+	 * @param type the type of interested clauses
+	 * @return set of clauses of the given type about the predicate
+	 */
+	public List<Clause> getClausesAboutPredicate(NormalPredicate predicate, ClauseType type) {
+		List<Clause> result = new ArrayList<Clause>();
+
+		for (Clause clause : clauses) {
+			if (clause.getHead().getPredicate().equals(predicate) && clause.getType() == type) {
+				result.add(clause);
+			}
+		}
+
 		return result;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#equals(java.lang.Object)
+	/**
+	 * Normalizes the program to canonical form. There will be no duplicate positive or negative body literals and no duplicate
+	 * clauses in the canonical form. Also the literals and clauses are sorted.
 	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
+	public void normalize() {
+		for (Clause clause : clauses) {
+			Set<Literal> pos = new TreeSet<Literal>();
+			Set<Literal> neg = new TreeSet<Literal>();
+
+			pos.addAll(clause.getPositiveBody());
+			neg.addAll(clause.getNegativeBody());
+
+			clause.positives = new ArrayList<Literal>(pos);
+			clause.negatives = new ArrayList<Literal>(neg);
 		}
-		if (obj == null) {
-			return false;
-		}
-		if (!(obj instanceof DLProgram)) {
-			return false;
-		}
-		DLProgram other = (DLProgram) obj;
-		if (ontology == null) {
-			if (other.ontology != null) {
-				return false;
-			}
-		} else if (!ontology.equals(other.ontology)) {
-			return false;
-		}
-		if (program == null) {
-			if (other.program != null) {
-				return false;
-			}
-		} else if (!program.equals(other.program)) {
-			return false;
-		}
-		return true;
+
+		Set<Clause> result = new TreeSet<Clause>();
+		result.addAll(clauses);
+		clauses = new ArrayList<Clause>(result);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("DLProgram [ontology=");
-		builder.append(ontology);
-		builder.append(", program=");
-		builder.append(program);
-		builder.append("]");
-		return builder.toString();
+		StringBuffer result = new StringBuffer();
+
+		for (Clause clause : clauses) {
+			result.append(clause).append("\n");
+		}
+
+		return result.toString();
+	}
+
+	@Override
+	public DLProgram clone() {
+		try {
+			DLProgram result = (DLProgram) super.clone();
+			result.clauses = new ArrayList<Clause>(clauses);
+			return result;
+		} catch (CloneNotSupportedException e) {
+			throw new AssertionError(); // cannot happen
+		}
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof DLProgram) {
+			DLProgram that = (DLProgram) obj;
+
+			if (clauses.equals(that.clauses)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		int result = 0;
+
+		for (Clause clause : clauses) {
+			result += clause.hashCode();
+		}
+
+		return result;
+	}
+	
+	public Set<DLInputSignature> getIDlInputSignatures(){
+		Set<DLInputSignature> signatures = new TreeSet<DLInputSignature>();
+		for(Clause clause:this.getClauses()){
+			signatures.addAll(clause.getDLInputSignatures());
+		}
+		
+		
+		return signatures;
 	}
 }

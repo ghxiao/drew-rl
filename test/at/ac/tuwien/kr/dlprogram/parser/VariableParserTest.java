@@ -14,7 +14,7 @@ public class VariableParserTest {
 	@Test
 	public void testVariable001() throws ParseException {
 		StringReader reader = new StringReader("X");
-		ProgramParser parser = new ProgramParser(reader);
+		DLProgramParser parser = new DLProgramParser(reader);
 		Term result = parser.variable();
 
 		assertEquals("X", result.toString());
@@ -23,7 +23,7 @@ public class VariableParserTest {
 	@Test(expected = ParseException.class)
 	public void testVariable002() throws ParseException {
 		StringReader reader = new StringReader("x"); // only capital letter will succeed
-		ProgramParser parser = new ProgramParser(reader);
+		DLProgramParser parser = new DLProgramParser(reader);
 		parser.variable();
 	}
 }

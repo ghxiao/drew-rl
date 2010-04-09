@@ -17,7 +17,7 @@ public class ConstantParserTest {
 		String text = "\"mike\"";
 
 		StringReader reader = new StringReader(text);
-		ProgramParser parser = new ProgramParser(reader);
+		DLProgramParser parser = new DLProgramParser(reader);
 		Constant result = parser.constant();
 
 		assertEquals(text, result.toString());
@@ -29,7 +29,7 @@ public class ConstantParserTest {
 		String text = "\"汉字\"";
 
 		StringReader reader = new StringReader(text);
-		ProgramParser parser = new ProgramParser(reader);
+		DLProgramParser parser = new DLProgramParser(reader);
 		Constant result = parser.constant();
 
 		assertEquals(text, result.toString());
@@ -41,7 +41,7 @@ public class ConstantParserTest {
 		String text = "\"中國\"";
 
 		StringReader reader = new StringReader(text);
-		ProgramParser parser = new ProgramParser(reader);
+		DLProgramParser parser = new DLProgramParser(reader);
 		Constant result = parser.constant();
 
 		assertEquals(text, result.toString());
@@ -53,7 +53,7 @@ public class ConstantParserTest {
 		String text = "\"システム\"";
 
 		StringReader reader = new StringReader(text);
-		ProgramParser parser = new ProgramParser(reader);
+		DLProgramParser parser = new DLProgramParser(reader);
 		Constant result = parser.constant();
 
 		assertEquals(text, result.toString());
@@ -62,13 +62,13 @@ public class ConstantParserTest {
 
 	public void testString005() throws ParseException {
 		StringReader reader = new StringReader("mike"); // now does not need single quotation marks
-		ProgramParser parser = new ProgramParser(reader);
+		DLProgramParser parser = new DLProgramParser(reader);
 		parser.constant();
 	}
 
 	public void testString006() throws ParseException {
 		StringReader reader = new StringReader("Mike"); // now does not need single quotation marks
-		ProgramParser parser = new ProgramParser(reader);
+		DLProgramParser parser = new DLProgramParser(reader);
 		parser.constant();
 	}
 
@@ -77,7 +77,7 @@ public class ConstantParserTest {
 		String text = "0";
 
 		StringReader reader = new StringReader(text);
-		ProgramParser parser = new ProgramParser(reader);
+		DLProgramParser parser = new DLProgramParser(reader);
 		Constant result = parser.constant();
 
 		assertEquals(text, result.toString());
@@ -89,7 +89,7 @@ public class ConstantParserTest {
 		String text = "1";
 
 		StringReader reader = new StringReader(text);
-		ProgramParser parser = new ProgramParser(reader);
+		DLProgramParser parser = new DLProgramParser(reader);
 		Constant result = parser.constant();
 
 		assertEquals(text, result.toString());
@@ -101,7 +101,7 @@ public class ConstantParserTest {
 		String text = "-1";
 
 		StringReader reader = new StringReader(text);
-		ProgramParser parser = new ProgramParser(reader);
+		DLProgramParser parser = new DLProgramParser(reader);
 		Constant result = parser.constant();
 
 		assertEquals(text, result.toString());
@@ -114,7 +114,7 @@ public class ConstantParserTest {
 		String text = "01";
 
 		StringReader reader = new StringReader(text);
-		ProgramParser parser = new ProgramParser(reader);
+		DLProgramParser parser = new DLProgramParser(reader);
 		Constant result = parser.constant();
 
 		assertEquals("0", result.toString());
@@ -126,7 +126,7 @@ public class ConstantParserTest {
 		String text = "-01";
 
 		StringReader reader = new StringReader(text);
-		ProgramParser parser = new ProgramParser(reader);
+		DLProgramParser parser = new DLProgramParser(reader);
 		parser.constant();
 	}
 }

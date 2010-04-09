@@ -14,7 +14,7 @@ public class DLInputOperationParserTest {
 	@Test 
 	public void testDLInputOperation001() throws ParseException{
 		StringReader reader = new StringReader("S1+=p1,S1-=p1");
-		ProgramParser parser = new ProgramParser(reader);
+		DLProgramParser parser = new DLProgramParser(reader);
 		DLInputOperation result = parser.dlInputOperation();
 		assertEquals("S1 += p1", result.toString());
 	}
@@ -22,7 +22,7 @@ public class DLInputOperationParserTest {
 	@Test 
 	public void testDLInputOperation002() throws ParseException{
 		StringReader reader = new StringReader("S1-=p1");
-		ProgramParser parser = new ProgramParser(reader);
+		DLProgramParser parser = new DLProgramParser(reader);
 		DLInputOperation result = parser.dlInputOperation();
 		assertEquals("S1 -= p1", result.toString());
 	}

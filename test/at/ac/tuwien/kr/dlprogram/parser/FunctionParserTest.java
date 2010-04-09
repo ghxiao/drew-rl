@@ -20,7 +20,7 @@ public class FunctionParserTest {
 	@Test
 	public void testFunction001() throws ParseException {
 		StringReader reader = new StringReader("max(Y, X)");
-		ProgramParser parser = new ProgramParser(reader);
+		DLProgramParser parser = new DLProgramParser(reader);
 		Function result = parser.function();
 
 		assertEquals("max(Y, X)", result.toString());
@@ -29,7 +29,7 @@ public class FunctionParserTest {
 	@Test
 	public void testFunction002() throws ParseException {
 		StringReader reader = new StringReader("abs(X1 - X2)");
-		ProgramParser parser = new ProgramParser(reader);
+		DLProgramParser parser = new DLProgramParser(reader);
 		Function result = parser.function();
 
 		assertEquals("abs(X1 - X2)", result.toString());
@@ -38,7 +38,7 @@ public class FunctionParserTest {
 	@Test
 	public void testMultiplicative001() throws ParseException {
 		StringReader reader = new StringReader("X1*X2");
-		ProgramParser parser = new ProgramParser(reader);
+		DLProgramParser parser = new DLProgramParser(reader);
 		Term result = parser.multiplicative();
 
 		assertEquals("X1 * X2", result.toString());
@@ -47,7 +47,7 @@ public class FunctionParserTest {
 	@Test
 	public void testMultiplicative002() throws ParseException {
 		StringReader reader = new StringReader("X1/X4");
-		ProgramParser parser = new ProgramParser(reader);
+		DLProgramParser parser = new DLProgramParser(reader);
 		Term result = parser.multiplicative();
 
 		assertEquals("X1 / X4", result.toString());
@@ -56,7 +56,7 @@ public class FunctionParserTest {
 	@Test
 	public void testAdditive001() throws ParseException {
 		StringReader reader = new StringReader("X1+X2");
-		ProgramParser parser = new ProgramParser(reader);
+		DLProgramParser parser = new DLProgramParser(reader);
 		Term result = parser.additive();
 
 		assertEquals("X1 + X2", result.toString());
@@ -65,7 +65,7 @@ public class FunctionParserTest {
 	@Test
 	public void testAdditive002() throws ParseException {
 		StringReader reader = new StringReader("X1-X4");
-		ProgramParser parser = new ProgramParser(reader);
+		DLProgramParser parser = new DLProgramParser(reader);
 		Term result = parser.additive();
 
 		assertEquals("X1 - X4", result.toString());

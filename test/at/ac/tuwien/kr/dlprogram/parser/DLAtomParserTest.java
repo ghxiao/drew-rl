@@ -20,7 +20,7 @@ public class DLAtomParserTest {
 	@Test	
 	public void testDLAtomParser001() throws ParseException{
 		StringReader reader = new StringReader("DL[S1+=p1,S1-=p1;Q](X)");
-		ProgramParser parser = new ProgramParser(reader);
+		DLProgramParser parser = new DLProgramParser(reader);
 		Literal result = parser.literal();
 		assertEquals("DL[S1 += p1,S1 -= p1;Q](X)", result.toString());
 	}

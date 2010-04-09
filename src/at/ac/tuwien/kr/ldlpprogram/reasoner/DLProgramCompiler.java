@@ -19,8 +19,8 @@ import edu.stanford.db.lp.ProgramClause;
 
 import at.ac.tuwien.kr.dlprogram.Clause;
 import at.ac.tuwien.kr.dlprogram.DLInputSignature;
+import at.ac.tuwien.kr.dlprogram.DLProgramKB;
 import at.ac.tuwien.kr.dlprogram.DLProgram;
-import at.ac.tuwien.kr.dlprogram.Program;
 import at.ac.tuwien.kr.ldlp.reasoner.LDLPCompiler;
 
 /**
@@ -28,13 +28,13 @@ import at.ac.tuwien.kr.ldlp.reasoner.LDLPCompiler;
  */
 public class DLProgramCompiler {
 
-	public Program compile(DLProgram dlProgram) {
+	public DLProgram compile(DLProgramKB dlProgram) {
 		List<Clause> result = new ArrayList<Clause>();
 		
 		final OWLOntology ontology = dlProgram.getOntology();
 		LDLPCompiler ldlpCompiler = new LDLPCompiler();
 		final List<ProgramClause> compiledOntology = ldlpCompiler.complile(ontology);
-		final Program program = dlProgram.getProgram();
+		final DLProgram program = dlProgram.getProgram();
 		final Set<DLInputSignature> dlInputSignatures = program.getIDlInputSignatures();
 		for (DLInputSignature signature : dlInputSignatures) {
 			result.addAll(subscript(compiledOntology,signature));
@@ -51,7 +51,7 @@ public class DLProgramCompiler {
 
 	
 
-	private Collection<? extends Clause> compileProgram(Program program) {
+	private Collection<? extends Clause> compileProgram(DLProgram program) {
 		// TODO Auto-generated method stub
 		return null;
 	}

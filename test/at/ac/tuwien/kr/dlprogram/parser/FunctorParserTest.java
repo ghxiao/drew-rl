@@ -13,7 +13,7 @@ public class FunctorParserTest {
 	@Test
 	public void testFunctor001() throws ParseException {
 		StringReader reader = new StringReader("abs");
-		ProgramParser parser = new ProgramParser(reader);
+		DLProgramParser parser = new DLProgramParser(reader);
 		Functor result = parser.functor();
 
 		assertEquals("abs", result.toString());
@@ -23,7 +23,7 @@ public class FunctorParserTest {
 	public void testFunctor002() throws ParseException {
 		StringReader reader = new StringReader("Abs"); // capital letter should
 		// fail
-		ProgramParser parser = new ProgramParser(reader);
+		DLProgramParser parser = new DLProgramParser(reader);
 		parser.functor();
 	}
 }

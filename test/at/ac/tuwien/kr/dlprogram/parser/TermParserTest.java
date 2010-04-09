@@ -20,7 +20,7 @@ public class TermParserTest {
 	@Test
 	public void testFunction001() throws ParseException {
 		StringReader reader = new StringReader("(Y      -X)*Z+A/(B*C)");
-		ProgramParser parser = new ProgramParser(reader);
+		DLProgramParser parser = new DLProgramParser(reader);
 		Term result = parser.term();
 
 		assertEquals("(Y - X) * Z + A / (B * C)", result.toString());
@@ -29,7 +29,7 @@ public class TermParserTest {
 	@Test
 	public void testFunction002() throws ParseException {
 		StringReader reader = new StringReader("abs(X1-X2)+X3");
-		ProgramParser parser = new ProgramParser(reader);
+		DLProgramParser parser = new DLProgramParser(reader);
 		Term result = parser.term();
 
 		assertEquals("abs(X1 - X2) + X3", result.toString());
