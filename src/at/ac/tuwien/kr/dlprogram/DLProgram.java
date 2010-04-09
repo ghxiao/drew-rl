@@ -108,8 +108,10 @@ public class DLProgram  extends Program implements Cloneable {
 		return result;
 	}
 	
-	public Set<DLInputSignature> getIDLInputSignatures(){
+	public Set<DLInputSignature> getDLInputSignatures(){
 		Set<DLInputSignature> signatures = new TreeSet<DLInputSignature>();
+		signatures.add(DLInputSignature.EMPTY);
+		
 		for(Clause clause:this.getClauses()){
 			signatures.addAll(clause.getDLInputSignatures());
 		}

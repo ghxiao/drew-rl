@@ -38,7 +38,7 @@ import edu.stanford.db.lp.ProgramClause;
  */
 public class ECAI2010Demo {
 
-	final static Logger logger = LoggerFactory.getLogger(ClosureCompiler.class);
+	final static Logger logger = LoggerFactory.getLogger(ECAI2010Demo.class);
 
 	private static OWLOntologyManager manager = OWLManager
 			.createOWLOntologyManager();

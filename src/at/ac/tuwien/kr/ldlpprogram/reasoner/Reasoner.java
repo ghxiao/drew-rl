@@ -20,17 +20,17 @@ import at.ac.tuwien.kr.dlprogram.DLProgram;
  */
 public class Reasoner {
 
-	private DLProgramKB dlProgram;
+	private DLProgramKB kb;
 
 	DatalogReasoner datalogReasoner = new XSBDatalogReasoner();
 	
-	public Reasoner(DLProgramKB dlProgram) {
-		this.dlProgram = dlProgram;
+	public Reasoner(DLProgramKB kb) {
+		this.kb = kb;
 	}
 
 	public boolean isEntailed(OWLAxiom axiom) {
 		KBCompiler dlProgramCompiler=new KBCompiler();
-		DLProgram program = dlProgramCompiler.compile(dlProgram);
+		DLProgram program = dlProgramCompiler.compile(kb);
 		Clause query = dlProgramCompiler.compile(axiom);
 		//return datalogReasoner.query(program, query);
 		return false;
