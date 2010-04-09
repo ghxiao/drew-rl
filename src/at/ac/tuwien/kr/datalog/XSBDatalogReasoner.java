@@ -13,6 +13,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import at.ac.tuwien.kr.dlprogram.Clause;
+
 import edu.stanford.db.lp.ConstTerm;
 import edu.stanford.db.lp.Literal;
 import edu.stanford.db.lp.ProgramClause;
@@ -27,7 +29,6 @@ public class XSBDatalogReasoner implements DatalogReasoner {
 
 	final static Logger logger = LoggerFactory.getLogger(XSBDatalogReasoner.class);
 
-	@Override
 	public boolean query(List<ProgramClause> program, ProgramClause query) {
 		// create engine (there can only be one engine loaded!)
 		XSBCore core = new XSBCore();
@@ -132,6 +133,19 @@ public class XSBDatalogReasoner implements DatalogReasoner {
 		//
 		// // thats it....
 		i = core.xsb_close();
+	}
+
+	@Override
+	public boolean query(List<Clause> program, Clause query) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean query(List<Clause> program,
+			at.ac.tuwien.kr.dlprogram.Term query) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

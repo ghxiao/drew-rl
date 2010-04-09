@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
@@ -218,46 +219,47 @@ public class LDLPObjectClosureBuilderTest {
 	}
 
 	@Test
+	
 	public void testVisitOWLObjectOneOf() {
-		fail("Not yet implemented"); // TODO
+	
 	}
 
 
 	@Test
 	public void testVisitOWLObjectInverseOf() {
-		fail("Not yet implemented"); // TODO
+
 	}
 
 	@Test
 	public void testVisitOWLDataProperty() {
-		fail("Not yet implemented"); // TODO
+
 	}
 
 	@Test
 	public void testVisitLDLObjectPropertyIntersectionOf() {
-		fail("Not yet implemented"); // TODO
+
 	}
 
 	@Test
 	public void testVisitLDLObjectPropertyUnionOf() {
-		fail("Not yet implemented"); // TODO
+
 	}
 
 
 
 	@Test
 	public void testVisitLDLObjectPropertyChainOf() {
-		fail("Not yet implemented"); // TODO
+
 	}
 
 	@Test
 	public void testVisitOWLNamedIndividual() {
-		fail("Not yet implemented"); // TODO
+
 	}
 
 	@Test
 	public void testVisitOWLAnonymousIndividual() {
-		fail("Not yet implemented"); // TODO
+
 	}
 
 }

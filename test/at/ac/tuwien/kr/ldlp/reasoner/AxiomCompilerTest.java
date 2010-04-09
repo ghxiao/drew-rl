@@ -23,13 +23,14 @@ import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.model.OWLSubObjectPropertyOfAxiom;
 import org.semanticweb.owlapi.util.SimpleIRIMapper;
 
+import at.ac.tuwien.kr.dlprogram.Clause;
 import at.ac.tuwien.kr.ldlp.reasoner.AxiomCompiler;
 
 import edu.stanford.db.lp.ProgramClause;
 
 public class AxiomCompilerTest {
 
-	private List<ProgramClause> clauses;
+	private List<Clause> clauses;
 	private AxiomCompiler axiomCompiler;
 	private OWLOntologyManager manager;
 	private OWLDataFactory factory;
@@ -44,7 +45,7 @@ public class AxiomCompilerTest {
 
 	@Before
 	public void setUp() {
-		clauses = new ArrayList<ProgramClause>();
+		
 		axiomCompiler = new AxiomCompiler();
 		
 		manager = OWLManager.createOWLOntologyManager();
@@ -65,7 +66,7 @@ public class AxiomCompilerTest {
 	public void testVisitOWLClassAssertionAxiom1() {
 		final OWLClassAssertionAxiom a_is_A = factory.getOWLClassAssertionAxiom(A, a);
 		a_is_A.accept(axiomCompiler);
-		
+		clauses = axiomCompiler.getClauses();
 		assertEquals(1, clauses.size());
 		assertEquals("p1(o1).", clauses.get(0).toString());
 	}
@@ -78,6 +79,7 @@ public class AxiomCompilerTest {
 		final OWLObjectIntersectionOf A_and_B = factory.getOWLObjectIntersectionOf(A, B);
 		final OWLClassAssertionAxiom a_is_A_and_B = factory.getOWLClassAssertionAxiom(A_and_B, a);
 		a_is_A_and_B.accept(axiomCompiler);
+		clauses = axiomCompiler.getClauses();
 		assertEquals(1, clauses.size());
 		assertEquals("p2(o1).", clauses.get(0).toString());
 	}
@@ -88,6 +90,7 @@ public class AxiomCompilerTest {
 	public void testVisitOWLClassAssertionAxiom3() {
 		final OWLClassAssertionAxiom a_is_A = factory.getOWLClassAssertionAxiom(A, a);
 		a_is_A.accept(axiomCompiler);
+		clauses = axiomCompiler.getClauses();
 		assertEquals(1, clauses.size());
 		assertEquals("p1(o1).", clauses.get(0).toString());
 	}
@@ -99,8 +102,9 @@ public class AxiomCompilerTest {
 	public void testVisitOWLObjectPropertyAssertionAxiom() {
 		final OWLObjectPropertyAssertionAxiom a_E_b = factory.getOWLObjectPropertyAssertionAxiom(E, a, b);
 		a_E_b.accept(axiomCompiler);
+		clauses = axiomCompiler.getClauses();
 		assertEquals(1, clauses.size());
-		assertEquals("p3(o1,o2).", clauses.get(0).toString());
+		assertEquals("p3(o1, o2).", clauses.get(0).toString());
 	}
 
 	//A -> p1
@@ -109,8 +113,9 @@ public class AxiomCompilerTest {
 	public void testVisitOWLSubClassOfAxiom() {
 		final OWLSubClassOfAxiom subClassOf = factory.getOWLSubClassOfAxiom(A, B);
 		subClassOf.accept(axiomCompiler);
+		clauses = axiomCompiler.getClauses();
 		assertEquals(1, clauses.size());
-		assertEquals("p4(X):-p1(X).", clauses.get(0).toString());
+		assertEquals("p4(X) :- p1(X).", clauses.get(0).toString());
 	}
 
 	//E -> p3
@@ -119,8 +124,9 @@ public class AxiomCompilerTest {
 	public void testVisitOWLSubObjectPropertyOfAxiom() {
 		final OWLSubObjectPropertyOfAxiom subPropertyOf = factory.getOWLSubObjectPropertyOfAxiom(E, F);
 		subPropertyOf.accept(axiomCompiler);
+		clauses = axiomCompiler.getClauses();
 		assertEquals(1, clauses.size());
-		assertEquals("p5(X,Y):-p3(X,Y).", clauses.get(0).toString());
+		assertEquals("p5(X, Y) :- p3(X, Y).", clauses.get(0).toString());
 	}
 
 }

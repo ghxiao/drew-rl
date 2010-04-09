@@ -24,18 +24,18 @@ import at.ac.tuwien.kr.dlprogram.DLProgram;
 import at.ac.tuwien.kr.ldlp.reasoner.LDLPCompiler;
 
 /**
- * TODO describe this class please.
+ * KBCompiler: compile the dl-program KB to a datalog^n program.
  */
-public class DLProgramCompiler {
+public class KBCompiler {
 
-	public DLProgram compile(DLProgramKB dlProgram) {
+	public DLProgram compile(DLProgramKB kb) {
 		List<Clause> result = new ArrayList<Clause>();
 		
-		final OWLOntology ontology = dlProgram.getOntology();
+		final OWLOntology ontology = kb.getOntology();
 		LDLPCompiler ldlpCompiler = new LDLPCompiler();
-		final List<ProgramClause> compiledOntology = ldlpCompiler.complile(ontology);
-		final DLProgram program = dlProgram.getProgram();
-		final Set<DLInputSignature> dlInputSignatures = program.getIDlInputSignatures();
+		final List<Clause> compiledOntology = ldlpCompiler.complile(ontology);
+		final DLProgram program = kb.getProgram();
+		final Set<DLInputSignature> dlInputSignatures = program.getIDLInputSignatures();
 		for (DLInputSignature signature : dlInputSignatures) {
 			result.addAll(subscript(compiledOntology,signature));
 		}
@@ -62,7 +62,7 @@ public class DLProgramCompiler {
 		return null;
 	}
 
-	private Collection<? extends Clause> subscript(List<ProgramClause> clauses, DLInputSignature signature) {
+	private Collection<? extends Clause> subscript(List<Clause> compiledOntology, DLInputSignature signature) {
 
 		return null;
 	}

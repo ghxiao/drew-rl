@@ -5,13 +5,21 @@ import static org.junit.Assert.assertEquals;
 import java.io.StringReader;
 import java.sql.Types;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import at.ac.tuwien.kr.dlprogram.Constant;
+import at.ac.tuwien.kr.dlprogram.OptionManager;
 
 
 
 public class ConstantParserTest {
+	
+	@Before
+	public void setUp(){
+		OptionManager.getInstance().setCompatibleMode(false);
+	}
+	
 	@Test
 	public void testString001() throws ParseException {
 		String text = "\"mike\"";

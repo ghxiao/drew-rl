@@ -17,10 +17,10 @@ import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.util.SimpleIRIMapper;
 
+import at.ac.tuwien.kr.dlprogram.Clause;
 import at.ac.tuwien.kr.ldlp.reasoner.LDLPCompiler;
 
 import edu.stanford.db.lp.ProgramClause;
-
 
 /**
  * TODO describe this class please.
@@ -30,20 +30,23 @@ public class LDLPCompilerTest {
 
 	public final static String phyUri = "file:kb/role_inverse.ldl";
 
-	private static OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
-	
+	private static OWLOntologyManager manager = OWLManager
+			.createOWLOntologyManager();
+
 	public static void main(String[] args) {
-		loadOntology(uri,phyUri);
+		loadOntology(uri, phyUri);
 	}
 
-	private static void loadOntology(String uri,String phyUri) {
+	private static void loadOntology(String uri, String phyUri) {
 		OWLOntology ontology;
 
 		System.out.println();
-		System.out.println("------------------------------------------------------");
+		System.out
+				.println("------------------------------------------------------");
 
 		System.out.println("Reading file " + uri + "...");
-		manager.addIRIMapper(new SimpleIRIMapper(IRI.create(uri), IRI.create(phyUri)));
+		manager.addIRIMapper(new SimpleIRIMapper(IRI.create(uri), IRI
+				.create(phyUri)));
 
 		try {
 			ontology = manager.loadOntology(IRI.create(uri));
@@ -53,15 +56,16 @@ public class LDLPCompilerTest {
 			}
 
 			System.out.println(ontology);
-			
-			System.out.println("------------------------------------------------------");
-			
+
+			System.out
+					.println("------------------------------------------------------");
+
 			System.out.println("Compiled:");
-			
+
 			LDLPCompiler compiler = new LDLPCompiler();
-			final List<ProgramClause> datalogClauses = compiler.complile(ontology);
-			
-			for(ProgramClause clause:datalogClauses){
+			final List<Clause> datalogClauses = compiler.complile(ontology);
+
+			for (Clause clause : datalogClauses) {
 				System.out.println(clause);
 			}
 		} catch (OWLOntologyCreationException e) {

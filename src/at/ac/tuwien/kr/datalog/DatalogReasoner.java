@@ -9,16 +9,28 @@ package at.ac.tuwien.kr.datalog;
 
 import java.util.List;
 
-import edu.stanford.db.lp.Literal;
-import edu.stanford.db.lp.ProgramClause;
-import edu.stanford.db.lp.Term;
+import at.ac.tuwien.kr.dlprogram.Clause;
+import at.ac.tuwien.kr.dlprogram.Term;
+
 
 /**
  * TODO describe this class please.
  */
 public interface DatalogReasoner {
 
-	boolean query(List<ProgramClause> program, ProgramClause query);
+	boolean query(List<Clause> program, Clause query);
 
-	public enum TYPE { XSB, DLV};
+	public enum TYPE {
+		XSB, DLV
+	}
+
+	
+
+	boolean query(List<Clause> program, Term query);
+
+
+
+	
+
+	
 }

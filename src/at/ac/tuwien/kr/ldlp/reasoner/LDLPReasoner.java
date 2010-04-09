@@ -21,6 +21,7 @@ import at.ac.tuwien.kr.datalog.DatalogQuery;
 import at.ac.tuwien.kr.datalog.DlvDatalogReasoner;
 import at.ac.tuwien.kr.datalog.XSBDatalogReasoner;
 import at.ac.tuwien.kr.datalog.DatalogReasoner.TYPE;
+import at.ac.tuwien.kr.dlprogram.Clause;
 
 import edu.stanford.db.lp.Literal;
 import edu.stanford.db.lp.ProgramClause;
@@ -29,7 +30,7 @@ import edu.unika.aifb.kaon.datalog.program.Program;
 public class LDLPReasoner extends OWLReasonerAdapter {
 	final static Logger logger = LoggerFactory.getLogger(ClosureCompiler.class);
 
-	List<ProgramClause> program;
+	List<Clause> program;
 
 	boolean compiled;
 
@@ -77,7 +78,7 @@ public class LDLPReasoner extends OWLReasonerAdapter {
 
 		}
 
-		ProgramClause query = axiomCompiler.compileOWLAxiom(axiom);
+		Clause query = axiomCompiler.compileOWLAxiom(axiom);
 		// compiler.compileClassAssertionAxiom(classAssertionAxiom);
 
 		return datalogReasoner.query(program, query);

@@ -26,6 +26,7 @@ import org.semanticweb.owlapi.util.SimpleIRIMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import at.ac.tuwien.kr.dlprogram.Clause;
 import at.ac.tuwien.kr.ldlp.reasoner.ClosureCompiler;
 import at.ac.tuwien.kr.ldlp.reasoner.LDLPCompiler;
 import at.ac.tuwien.kr.ldlp.reasoner.LDLPReasoner;
@@ -99,9 +100,9 @@ public class ECAI2010Demo {
 		System.out
 				.println("-------------------------------------------------------");
 
-		List<ProgramClause> clauses = compiler.compile(axioms);
+		List<Clause> clauses = compiler.compile(axioms);
 		System.out.println("Compiled Ontoloy:");
-		for (ProgramClause clause : clauses) {
+		for (Clause clause : clauses) {
 			System.out.println(clause);
 		}
 

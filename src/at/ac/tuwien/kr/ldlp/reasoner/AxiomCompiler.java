@@ -24,41 +24,48 @@ import org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import edu.stanford.db.lp.ConstTerm;
-import edu.stanford.db.lp.Literal;
-import edu.stanford.db.lp.ProgramClause;
-import edu.stanford.db.lp.Term;
-import edu.stanford.db.lp.VariableTerm;
+import at.ac.tuwien.kr.dlprogram.CacheManager;
+import at.ac.tuwien.kr.dlprogram.Clause;
+import at.ac.tuwien.kr.dlprogram.Constant;
+import at.ac.tuwien.kr.dlprogram.Literal;
+import at.ac.tuwien.kr.dlprogram.Term;
+import at.ac.tuwien.kr.dlprogram.Variable;
+
+//import edu.stanford.db.lp.ConstTerm;
+//import edu.stanford.db.lp.Literal;
+//import edu.stanford.db.lp.ProgramClause;
+//import edu.stanford.db.lp.Term;
+//import edu.stanford.db.lp.VariableTerm;
 
 public class AxiomCompiler extends OWLAxiomVisitorAdapter {
 
 	DatalogObjectFactory datalogObjectFactory = DatalogObjectFactory
 			.getInstance();
 	final static Logger logger = LoggerFactory.getLogger(AxiomCompiler.class);
-	VariableTerm X = new VariableTerm("X");
-	VariableTerm Y = new VariableTerm("Y");
-	VariableTerm Z = new VariableTerm("Z");
+	Variable X = CacheManager.getInstance().getVariable("X");
+	Variable Y = CacheManager.getInstance().getVariable("Y");
+	Variable Z = CacheManager.getInstance().getVariable("Z");
 
-	private List<ProgramClause> clauses;
+	private List<Clause> clauses;
 
-	public List<ProgramClause> getClauses() {
+	public List<Clause> getClauses() {
 		return clauses;
 	}
 
 	public AxiomCompiler() {
-
+		this.clauses = new ArrayList<Clause>();
 	}
 
-	public ProgramClause compileOWLAxiom(OWLAxiom axiom) {
-		this.clauses = new ArrayList<ProgramClause>();
+	public Clause compileOWLAxiom(OWLAxiom axiom) {
+		this.clauses = new ArrayList<Clause>();
 
 		axiom.accept(this);
 
 		return clauses.get(0);
 	}
 	
-	public List<ProgramClause> compile(OWLAxiom... axioms) {
-		this.clauses = new ArrayList<ProgramClause>();
+	public List<Clause> compile(OWLAxiom... axioms) {
+		this.clauses = new ArrayList<Clause>();
 		for (OWLAxiom owlAxiom : axioms) {
 			owlAxiom.accept(this);
 		}
@@ -79,10 +86,10 @@ public class AxiomCompiler extends OWLAxiomVisitorAdapter {
 		String a = datalogObjectFactory.getConst(subject);
 		String b = datalogObjectFactory.getConst(object);
 
-		head[0] = new Literal(predicate, new Term[] { new ConstTerm(a),
-				new ConstTerm(b) });
+		head[0] = new Literal(predicate, new Term[] { CacheManager.getInstance().getConstant(a),
+				CacheManager.getInstance().getConstant(b) });
 		body = new Literal[0];
-		ProgramClause clause = new ProgramClause(head, body);
+		Clause clause = new Clause(head, body);
 		clauses.add(clause);
 		logger.debug("{}\n\t->\n{}", axiom, clause);
 	}
@@ -96,9 +103,9 @@ public class AxiomCompiler extends OWLAxiomVisitorAdapter {
 
 		String predicate = datalogObjectFactory.getPredicate(cls);
 		String a = datalogObjectFactory.getConst(individual);
-		head[0] = new Literal(predicate, new Term[] { new ConstTerm(a) });
+		head[0] = new Literal(predicate, new Term[] { CacheManager.getInstance().getConstant(a) });
 		body = new Literal[0];
-		ProgramClause clause = new ProgramClause(head, body);
+		Clause clause = new Clause(head, body);
 		clauses.add(clause);
 		logger.debug("{}\n\t->\n{}", axiom, clause);
 	}
@@ -132,7 +139,7 @@ public class AxiomCompiler extends OWLAxiomVisitorAdapter {
 					new Term[] { X, Y });
 		}
 
-		ProgramClause clause = new ProgramClause(head, body);
+		Clause clause = new Clause(head, body);
 		clauses.add(clause);
 		logger.debug("{}\n\t->\n{}", axiom, clause);
 	}
@@ -148,13 +155,13 @@ public class AxiomCompiler extends OWLAxiomVisitorAdapter {
 		Literal[] body = new Literal[1];
 		body[0] = new Literal(datalogObjectFactory.getPredicate(subProperty),
 				new Term[] { X, Y });
-		ProgramClause clause = new ProgramClause(head, body);
+		Clause clause = new Clause(head, body);
 		clauses.add(clause);
 		logger.debug("{}\n\t->\n{}", axiom, clause);
 	}
 
-	public List<ProgramClause> compile(Set<OWLAxiom> axioms) {
-		this.clauses = new ArrayList<ProgramClause>();
+	public List<Clause> compile(Set<OWLAxiom> axioms) {
+		this.clauses = new ArrayList<Clause>();
 		for (OWLAxiom owlAxiom : axioms) {
 			owlAxiom.accept(this);
 		}

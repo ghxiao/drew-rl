@@ -17,8 +17,8 @@ public class Constant implements Term {
 	int hash;
 
 	/**
-	 * Constructor that is visible inside the package. Customer should use {@link CacheManager} to create process unique
-	 * constants.
+	 * Constructor that is visible inside the package. Customer should use
+	 * {@link CacheManager} to create process unique constants.
 	 * 
 	 * @param name
 	 * @param type
@@ -33,6 +33,22 @@ public class Constant implements Term {
 
 		update();
 	}
+
+//	/**
+//	 * Constructor
+//	 * @param name name
+//	 * type is default: String
+//	 */
+//	public Constant(String name) {
+//		if (name == null) {
+//			throw new IllegalArgumentException();
+//		}
+//
+//		this.name = name;
+//
+//		update();
+//
+//	}
 
 	/**
 	 * Get the name of the term.

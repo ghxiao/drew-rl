@@ -42,7 +42,7 @@ public class DLAtomPredicateTest {
 		
 		DLAtomPredicate predicate = new DLAtomPredicate(signature, Q);
 		
-		assertEquals("DL[S1+=p1,S2+=p2;Q]", predicate.toString());
+		assertEquals("DL[S1 += p1,S2 += p2;Q]", predicate.toString());
 		
 	}
 }

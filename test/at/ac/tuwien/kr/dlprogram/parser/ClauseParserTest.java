@@ -4,12 +4,20 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.StringReader;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import at.ac.tuwien.kr.dlprogram.Clause;
+import at.ac.tuwien.kr.dlprogram.OptionManager;
 
 
 public class ClauseParserTest {
+	
+	@Before
+	public void setUp(){
+		OptionManager.getInstance().setCompatibleMode(false);
+	}
+	
 	@Test
 	public void testFact001() throws ParseException {
 		final String text = "foo(\"a\").";

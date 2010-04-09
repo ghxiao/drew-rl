@@ -115,13 +115,13 @@ public class DLVWrapper {
 				NamedMatcher lineMatcher = linePattern.matcher(line);
 				if (lineMatcher.find()) {
 					String lits = lineMatcher.group("literalList");
-					System.out.println("literalList " + lits);
+//					System.out.println("literalList " + lits);
 					NamedPattern literalPattern = NamedPattern
 							.compile(literalRegex);
 					NamedMatcher literalMatcher = literalPattern.matcher(lits);
 					while (literalMatcher.find()) {
 						String lit = literalMatcher.group("literal");
-						System.out.println("literal " + lit);
+//						System.out.println("literal " + lit);
 						if (lit.equals(queryStr)) {
 							logger.debug("Query \"{}\" found", queryStr);
 							result = true;

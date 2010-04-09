@@ -28,16 +28,21 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.model.OWLSubObjectPropertyOfAxiom;
 
+import at.ac.tuwien.kr.dlprogram.CacheManager;
+import at.ac.tuwien.kr.dlprogram.Clause;
+import at.ac.tuwien.kr.dlprogram.Constant;
+import at.ac.tuwien.kr.dlprogram.Literal;
+import at.ac.tuwien.kr.dlprogram.Term;
 import at.ac.tuwien.kr.ldlp.reasoner.DatalogObjectFactory;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyChainOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyOneOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyTransitiveClosureOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.OWLIndividualPair;
 
-import edu.stanford.db.lp.Literal;
-import edu.stanford.db.lp.ProgramClause;
-import edu.stanford.db.lp.StringTerm;
-import edu.stanford.db.lp.Term;
+//import edu.stanford.db.lp.Literal;
+//import edu.stanford.db.lp.ProgramClause;
+//import edu.stanford.db.lp.StringTerm;
+//import edu.stanford.db.lp.Term;
 
 /**
  * TODO describe this class please.
@@ -127,8 +132,8 @@ public class LDLHelper {
 		return factory.getLDLObjectPropertyOneOf(pairs);
 	}
 
-	public static ProgramClause clause(Literal[] head, Literal[] body) {
-		return new ProgramClause(head, body);
+	public static Clause clause(Literal[] head, Literal[] body) {
+		return new Clause(head, body);
 	}
 
 	public static Literal[] head(Literal... literals) {
@@ -151,7 +156,7 @@ public class LDLHelper {
 	public static Term term(OWLIndividual individual) {
 		DatalogObjectFactory factory = DatalogObjectFactory.getInstance();
 		final String const1 = factory.getConst(individual);
-		return new StringTerm(const1);
+		return CacheManager.getInstance().getConstant(const1);
 	}
 
 }

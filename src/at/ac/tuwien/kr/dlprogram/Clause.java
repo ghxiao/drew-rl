@@ -1,6 +1,7 @@
 package at.ac.tuwien.kr.dlprogram;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -20,6 +21,16 @@ public class Clause implements Cloneable, Comparable<Clause> {
 	List<Literal> positives = new ArrayList<Literal>();
 
 	List<Literal> negatives = new ArrayList<Literal>();
+
+	public Clause(Literal[] head, Literal[] body) {
+		this.head = head[0];
+
+		this.positives = Arrays.asList(body);
+	}
+
+	public Clause() {
+		
+	}
 
 	/**
 	 * Set the head of the clause.
@@ -113,7 +124,9 @@ public class Clause implements Cloneable, Comparable<Clause> {
 		List<Literal> result = new ArrayList<Literal>();
 
 		for (Literal literal : positives) {
-			if (literal.getPredicate() instanceof NormalPredicate && ((NormalPredicate) literal.getPredicate()).type.equals(PredicateType.NORMAL)) {
+			if (literal.getPredicate() instanceof NormalPredicate
+					&& ((NormalPredicate) literal.getPredicate()).type
+							.equals(PredicateType.NORMAL)) {
 				result.add(literal);
 			}
 		}
@@ -131,7 +144,9 @@ public class Clause implements Cloneable, Comparable<Clause> {
 		Set<Literal> result = new TreeSet<Literal>();
 
 		for (Literal literal : positives) {
-			if (literal.getPredicate() instanceof NormalPredicate && !((NormalPredicate) literal.getPredicate()).type.equals(PredicateType.NORMAL)) {
+			if (literal.getPredicate() instanceof NormalPredicate
+					&& !((NormalPredicate) literal.getPredicate()).type
+							.equals(PredicateType.NORMAL)) {
 				result.add(literal);
 			}
 		}
@@ -147,7 +162,9 @@ public class Clause implements Cloneable, Comparable<Clause> {
 	public ClauseType getType() {
 		assert (head != null);
 
-		if (1 == positives.size() && positives.iterator().next().equals(Literal.TRUE)) {
+		if ((positives.size() == 0)
+				|| (1 == positives.size() && positives.iterator().next()
+						.equals(Literal.TRUE))) {
 			return ClauseType.FACT;
 		}
 
@@ -155,7 +172,8 @@ public class Clause implements Cloneable, Comparable<Clause> {
 			return ClauseType.CONSTRAINT;
 		}
 
-		if (!head.equals(Literal.FALSE) && (positives.size() + negatives.size()) > 0) {
+		if (!head.equals(Literal.FALSE)
+				&& (positives.size() + negatives.size()) > 0) {
 			return ClauseType.RULE;
 		}
 
@@ -213,12 +231,14 @@ public class Clause implements Cloneable, Comparable<Clause> {
 			return result;
 		}
 
-		result = this.getPositiveBody().toString().compareTo(that.getPositiveBody().toString());
+		result = this.getPositiveBody().toString().compareTo(
+				that.getPositiveBody().toString());
 		if (result != 0) {
 			return result;
 		}
 
-		result = this.getNegativeBody().toString().compareTo(that.getNegativeBody().toString());
+		result = this.getNegativeBody().toString().compareTo(
+				that.getNegativeBody().toString());
 		if (result != 0) {
 			return result;
 		}
@@ -263,7 +283,8 @@ public class Clause implements Cloneable, Comparable<Clause> {
 			result.append(IMPLY).append(" ").append(bodyToString()).append(".");
 			break;
 		case RULE:
-			result.append(head).append(" ").append(IMPLY).append(" ").append(bodyToString()).append(".");
+			result.append(head).append(" ").append(IMPLY).append(" ").append(
+					bodyToString()).append(".");
 			break;
 		default:
 			throw new IllegalStateException();
@@ -288,7 +309,8 @@ public class Clause implements Cloneable, Comparable<Clause> {
 	public boolean equals(Object obj) {
 		if (obj instanceof Clause) {
 			Clause that = (Clause) obj;
-			if (head.equals(that.head) && positives.equals(that.positives) && negatives.equals(that.negatives)) {
+			if (head.equals(that.head) && positives.equals(that.positives)
+					&& negatives.equals(that.negatives)) {
 				return true;
 			}
 		}
@@ -307,7 +329,8 @@ public class Clause implements Cloneable, Comparable<Clause> {
 		Set<DLInputSignature> signatures = new TreeSet<DLInputSignature>();
 		for (Literal lit : this.getPositiveBody()) {
 			if (lit.getPredicate() instanceof DLAtomPredicate) {
-				final DLAtomPredicate predicate = (DLAtomPredicate) (lit.getPredicate());
+				final DLAtomPredicate predicate = (DLAtomPredicate) (lit
+						.getPredicate());
 				signatures.add(predicate.getInputSigature());
 			}
 		}

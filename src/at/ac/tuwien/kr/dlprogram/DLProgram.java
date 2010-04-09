@@ -10,7 +10,7 @@ import java.util.TreeSet;
  * 
  * @author Samuel
  */
-public class DLProgram implements Cloneable {
+public class DLProgram  extends Program implements Cloneable {
 	private List<Clause> clauses = new ArrayList<Clause>();
 
 	/**
@@ -108,7 +108,7 @@ public class DLProgram implements Cloneable {
 		return result;
 	}
 	
-	public Set<DLInputSignature> getIDlInputSignatures(){
+	public Set<DLInputSignature> getIDLInputSignatures(){
 		Set<DLInputSignature> signatures = new TreeSet<DLInputSignature>();
 		for(Clause clause:this.getClauses()){
 			signatures.addAll(clause.getDLInputSignatures());

@@ -1,6 +1,7 @@
 package at.ac.tuwien.kr.dlprogram;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class Literal implements Cloneable, Comparable<Literal> {
 
 	private Predicate predicate;
 
-	private ArrayList<Term> terms = new ArrayList<Term>();
+	private List<Term> terms = new ArrayList<Term>();
 
 	/**
 	 * Default empty constructor.
@@ -40,6 +41,13 @@ public class Literal implements Cloneable, Comparable<Literal> {
 		if (terms != null) {
 			this.terms.addAll(terms);
 		}
+	}
+
+	public Literal(String predicate, Term... terms) {
+		this.predicate = CacheManager.getInstance().getPredicate(predicate,
+				terms.length);
+
+		this.terms = Arrays.asList(terms);
 	}
 
 	/**

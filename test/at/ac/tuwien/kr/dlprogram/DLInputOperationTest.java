@@ -38,7 +38,7 @@ public class DLInputOperationTest {
 		OWLLogicalEntity S1 = OWLManager.getOWLDataFactory().getOWLClass(IRI.create("S1"));
 		NormalPredicate p1 = new NormalPredicate("p1", 1);
 		DLInputOperation S1_uplus_p1 = new DLInputOperation(S1, p1);
-		assertEquals("S1+=p1", S1_uplus_p1.toString());
+		assertEquals("S1 += p1", S1_uplus_p1.toString());
 	}
 
 }

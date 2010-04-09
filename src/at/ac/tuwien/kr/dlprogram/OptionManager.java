@@ -3,7 +3,8 @@ package at.ac.tuwien.kr.dlprogram;
 public class OptionManager {
 	private static final OptionManager instance = new OptionManager();
 
-	private boolean compatible = false;
+	//private boolean compatible = false;
+	private boolean compatible = true;
 
 	private OptionManager() {
 

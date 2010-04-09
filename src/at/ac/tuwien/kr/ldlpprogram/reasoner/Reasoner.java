@@ -29,7 +29,7 @@ public class Reasoner {
 	}
 
 	public boolean isEntailed(OWLAxiom axiom) {
-		DLProgramCompiler dlProgramCompiler=new DLProgramCompiler();
+		KBCompiler dlProgramCompiler=new KBCompiler();
 		DLProgram program = dlProgramCompiler.compile(dlProgram);
 		Clause query = dlProgramCompiler.compile(axiom);
 		//return datalogReasoner.query(program, query);

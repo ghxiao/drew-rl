@@ -20,6 +20,7 @@ import org.semanticweb.owlapi.util.SimpleIRIMapper;
 
 import edu.stanford.db.lp.ProgramClause;
 
+import at.ac.tuwien.kr.dlprogram.Clause;
 import at.ac.tuwien.kr.ldlp.reasoner.AxiomCompiler;
 import at.ac.tuwien.kr.ldlp.reasoner.ClosureCompiler;
 import at.ac.tuwien.kr.ldlp.reasoner.ClosureCompilerTest;
@@ -79,10 +80,10 @@ public class CompilerDemo {
 		System.out.println("-------------------------------------------------------");
 
 		ClosureCompiler closureCompiler = new ClosureCompiler();
-		List<ProgramClause> clauses = closureCompiler.compile(closure);
+		List<Clause> clauses = closureCompiler.compile(closure);
 
 		System.out.println("Compiled Closure:");
-		for (ProgramClause clause : clauses) {
+		for (Clause clause : clauses) {
 			System.out.println(clause);
 		}
 		System.out.println("-------------------------------------------------------");
@@ -90,7 +91,7 @@ public class CompilerDemo {
 		AxiomCompiler axiomCompiler = new AxiomCompiler();
 		clauses = axiomCompiler.compile(axioms);
 		System.out.println("Compiled Axioms:");
-		for (ProgramClause clause : clauses) {
+		for (Clause clause : clauses) {
 			System.out.println(clause);
 		}
 	}
@@ -116,9 +117,9 @@ public class CompilerDemo {
 
 		System.out.println("-------------------------------------------------------");
 
-		List<ProgramClause> clauses = compiler.compile(axioms);
+		List<Clause> clauses = compiler.compile(axioms);
 		System.out.println("Compiled Ontoloy:");
-		for (ProgramClause clause : clauses) {
+		for (Clause clause : clauses) {
 			System.out.println(clause);
 		}
 	}

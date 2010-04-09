@@ -36,6 +36,10 @@ public class CacheManager {
 		}
 	}
 
+	public Term getConstant(String name) {
+		return getConstant(name, Types.VARCHAR);
+	}
+
 	public Constant getConstant(String name, int type) {
 		Constant result;
 
@@ -75,7 +79,8 @@ public class CacheManager {
 	}
 
 	/**
-	 * Reset the predicate manager by cleaning all existing ones and append builtin ones.
+	 * Reset the predicate manager by cleaning all existing ones and append
+	 * builtin ones.
 	 */
 	public void reset() {
 		// clear predicate map
@@ -92,4 +97,5 @@ public class CacheManager {
 		// clear term map
 		vars.clear();
 	}
+
 }

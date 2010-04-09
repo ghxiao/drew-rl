@@ -37,7 +37,7 @@ public class DLInputSignatureTest {
 		operations.add(S2_uplus_p2);
 		signature.setOperations(operations);
 
-		assertEquals("S1+=p1,S2+=p2", signature.toString());
+		assertEquals("S1 += p1,S2 += p2", signature.toString());
 
 	}
 
