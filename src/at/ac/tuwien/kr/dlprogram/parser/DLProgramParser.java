@@ -14,11 +14,25 @@ public class DLProgramParser implements DLProgramParserConstants {
   public void process() throws ParseException
   {}
 
+  public void adjustDLInputOperationArity(DLProgram program) {
+                for (DLInputSignature signature : program.getDLInputSignatures()) {
+                        for (DLInputOperation op : signature.getOperations()) {
+                                NormalPredicate inputPredicate = op.getInputPredicate();
+                                String name = inputPredicate.getName();
+                                int arity = CacheManager.getInstance().getArity(name);
+                                inputPredicate.setArity(arity);
+                        }
+                }
+        }
+
   final public DLInputOperation dlInputOperation() throws ParseException {
   DLInputOperation op = new DLInputOperation();
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case VARIABLE:
       jj_consume_token(VARIABLE);
+      break;
+    case IDENTIFIER:
+      jj_consume_token(IDENTIFIER);
       break;
     case DLPREDICATE:
       jj_consume_token(DLPREDICATE);
@@ -59,6 +73,7 @@ public class DLProgramParser implements DLProgramParserConstants {
   DLInputSignature signature = new DLInputSignature();
   DLInputOperation op;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case IDENTIFIER:
     case VARIABLE:
     case DLPREDICATE:
       op = dlInputOperation();
@@ -101,6 +116,9 @@ public class DLProgramParser implements DLProgramParserConstants {
       break;
     case DLPREDICATE:
       jj_consume_token(DLPREDICATE);
+      break;
+    case IDENTIFIER:
+      jj_consume_token(IDENTIFIER);
       break;
     default:
       jj_la1[4] = jj_gen;
@@ -515,6 +533,7 @@ public class DLProgramParser implements DLProgramParserConstants {
       }
     }
     jj_consume_token(0);
+    adjustDLInputOperationArity(program);
     {if (true) return program;}
     throw new Error("Missing return statement in function");
   }
@@ -531,49 +550,6 @@ public class DLProgramParser implements DLProgramParserConstants {
     try { return !jj_3_2(); }
     catch(LookaheadSuccess ls) { return true; }
     finally { jj_save(1, xla); }
-  }
-
-  private boolean jj_3_1() {
-    if (jj_3R_8()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_21() {
-    if (jj_scan_token(LEFTBRACKET)) return true;
-    if (jj_3R_12()) return true;
-    if (jj_scan_token(RIGHTBRACKET)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_20() {
-    if (jj_3R_23()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_10() {
-    if (jj_scan_token(IDENTIFIER)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_19() {
-    if (jj_3R_22()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_15() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_scan_token(19)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(20)) return true;
-    }
-    if (jj_3R_14()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_18() {
-    if (jj_3R_8()) return true;
-    return false;
   }
 
   private boolean jj_3R_16() {
@@ -693,6 +669,49 @@ public class DLProgramParser implements DLProgramParserConstants {
     return false;
   }
 
+  private boolean jj_3_1() {
+    if (jj_3R_8()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_21() {
+    if (jj_scan_token(LEFTBRACKET)) return true;
+    if (jj_3R_12()) return true;
+    if (jj_scan_token(RIGHTBRACKET)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_20() {
+    if (jj_3R_23()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_10() {
+    if (jj_scan_token(IDENTIFIER)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_19() {
+    if (jj_3R_22()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_15() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_scan_token(19)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(20)) return true;
+    }
+    if (jj_3R_14()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_18() {
+    if (jj_3R_8()) return true;
+    return false;
+  }
+
   /** Generated Token Manager. */
   public DLProgramParserTokenManager token_source;
   JavaCharStream jj_input_stream;
@@ -710,7 +729,7 @@ public class DLProgramParser implements DLProgramParserConstants {
       jj_la1_init_0();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x8040000,0x6000000,0x80,0x8040000,0x8040000,0x2c000,0x80,0x86c000,0x86c000,0x600000,0x600000,0x180000,0x180000,0x4800,0x80,0x800000,0x4800,0x86c800,0x40,0x80,0x40,0x100,0x86cb00,};
+      jj_la1_0 = new int[] {0x8044000,0x6000000,0x80,0x8044000,0x8044000,0x2c000,0x80,0x86c000,0x86c000,0x600000,0x600000,0x180000,0x180000,0x4800,0x80,0x800000,0x4800,0x86c800,0x40,0x80,0x40,0x100,0x86cb00,};
    }
   final private JJCalls[] jj_2_rtns = new JJCalls[2];
   private boolean jj_rescan = false;

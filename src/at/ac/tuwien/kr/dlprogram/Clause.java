@@ -326,7 +326,7 @@ public class Clause implements Cloneable, Comparable<Clause> {
 	}
 
 	public Set<DLInputSignature> getDLInputSignatures() {
-		Set<DLInputSignature> signatures = new TreeSet<DLInputSignature>();
+		Set<DLInputSignature> signatures = new HashSet<DLInputSignature>();
 		for (Literal lit : this.getPositiveBody()) {
 			if (lit.getPredicate() instanceof DLAtomPredicate) {
 				final DLAtomPredicate predicate = (DLAtomPredicate) (lit

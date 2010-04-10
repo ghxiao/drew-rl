@@ -23,6 +23,22 @@ public class CacheManager {
 		return instance;
 	}
 
+	public int getArity(String predicateName) {
+		String key;
+		int arity = 1;
+		key = predicateName + "/" + arity;
+		if (predicates.containsKey(key)) {
+			return arity;
+		}
+		arity = 2;
+		key = predicateName + "/" + arity;
+		if (predicates.containsKey(key)) {
+			return arity;
+		}
+		throw new UnsupportedOperationException(
+				"Now we only support arity 1 or 2!");
+	}
+
 	public NormalPredicate getPredicate(String name, int arity) {
 		String key = name + "/" + arity;
 
