@@ -13,18 +13,21 @@ import java.util.List;
 import java.util.Set;
 
 import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLLogicalEntity;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import at.ac.tuwien.kr.dlprogram.CacheManager;
 import at.ac.tuwien.kr.dlprogram.Clause;
+import at.ac.tuwien.kr.dlprogram.DLAtomPredicate;
 import at.ac.tuwien.kr.dlprogram.DLInputOperation;
 import at.ac.tuwien.kr.dlprogram.DLInputSignature;
 import at.ac.tuwien.kr.dlprogram.DLProgram;
 import at.ac.tuwien.kr.dlprogram.DLProgramKB;
 import at.ac.tuwien.kr.dlprogram.Literal;
 import at.ac.tuwien.kr.dlprogram.NormalPredicate;
+import at.ac.tuwien.kr.dlprogram.Predicate;
 import at.ac.tuwien.kr.dlprogram.Variable;
 import at.ac.tuwien.kr.ldlp.reasoner.DatalogObjectFactory;
 import at.ac.tuwien.kr.ldlp.reasoner.LDLPCompiler;
@@ -68,9 +71,31 @@ public class KBCompiler {
 	 * P -> P^{ord} replace all the DLAtom with a ordinary atom
 	 * 
 	 */
-	private List<Clause> compileProgram(DLProgram program) {
+	List<Clause> compileProgram(DLProgram program) {
 
 		List<Clause> result = new ArrayList<Clause>();
+
+		for (Clause clause : program.getClauses()) {
+			Clause newClause = new Clause();
+			newClause.setHead(clause.getHead());
+			newClause.getPositiveBody().addAll(clause.getNormalPositiveBody());
+			newClause.getNegativeBody().addAll(clause.getNegativeBody());
+			for (Literal lit : clause.getDLAtoms()) {
+				DLAtomPredicate p = (DLAtomPredicate) (lit.getPredicate());
+				DLInputSignature inputSigature = p.getInputSigature();
+				OWLLogicalEntity query = p.getQuery();
+				String predicate = DatalogObjectFactory.getInstance()
+						.getPredicate(query);
+				String sub = KBCompilerManager.getInstance().getSubscript(
+						inputSigature);
+				NormalPredicate newPredicate = CacheManager.getInstance()
+						.getPredicate(predicate + "_" + sub, p.getArity());
+				Literal newLit = new Literal(newPredicate, lit.getTerms());
+				newClause.getPositiveBody().add(newLit);
+			}
+			result.add(newClause);
+			logger.debug("{} -> {}", clause, newClause);
+		}
 
 		return result;
 	}
@@ -108,15 +133,40 @@ public class KBCompiler {
 		return clauses;
 	}
 
-	private Collection<? extends Clause> subscript(
-			List<Clause> compiledOntology, DLInputSignature signature) {
+	List<Clause> subscript(List<Clause> clauses, DLInputSignature signature) {
 
-		return null;
+		List<Clause> newClauses = new ArrayList<Clause>();
+		String sub = KBCompilerManager.getInstance().getSubscript(signature);
+
+		for (Clause clause : clauses) {
+			Literal head = clause.getHead();
+			List<Literal> body = clause.getPositiveBody();
+			// Note: In LDLp, we only have positive body
+			Literal newHead = subscript(head, sub);
+			Clause newClause = new Clause();
+			newClause.setHead(newHead);
+			for (Literal lit : body) {
+				Literal newLit = subscript(lit, sub);
+				newClause.getPositiveBody().add(newLit);
+			}
+			newClauses.add(newClause);
+
+			logger.debug("{}\n ->\n{}", clause, newClause);
+		}
+
+		return newClauses;
 	}
 
-	public Clause compile(OWLAxiom axiom) {
-		// TODO Auto-generated method stub
-		return null;
+	private Literal subscript(Literal literal, String sub) {
+		NormalPredicate predicate = (NormalPredicate) literal.getPredicate();
+		int arity = predicate.getArity();
+		String name = predicate.getName();
+		String newName = name + "_" + sub;
+		NormalPredicate newPredicate = CacheManager.getInstance().getPredicate(
+				newName, arity);
+		Literal newLiteral = new Literal(newPredicate, literal.getTerms());
+
+		return newLiteral;
 	}
 
 }

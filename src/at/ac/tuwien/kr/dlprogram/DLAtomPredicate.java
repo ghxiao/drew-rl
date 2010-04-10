@@ -87,9 +87,13 @@ public class DLAtomPredicate implements Predicate {
 	@Override
 	public void setArity(int arity) {
 		this.arity = arity;
-		for (DLInputOperation op : inputSigature.operations) {
-			op.getInputPredicate().setArity(arity);
-		}
+//		for (DLInputOperation op : inputSigature.operations) {
+//			op.getInputPredicate().setArity(arity);
+//		}
+	}
+
+	public int getArity() {
+		return arity;
 	}
 
 }

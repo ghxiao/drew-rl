@@ -29,7 +29,7 @@ public class Clause implements Cloneable, Comparable<Clause> {
 	}
 
 	public Clause() {
-		
+
 	}
 
 	/**
@@ -335,5 +335,20 @@ public class Clause implements Cloneable, Comparable<Clause> {
 			}
 		}
 		return signatures;
+	}
+
+	public List<Literal> getDLAtoms() {
+		List<Literal> result = new ArrayList<Literal>();
+
+		for (Literal literal : positives) {
+			if (!(literal.getPredicate() instanceof NormalPredicate))
+			// && ((NormalPredicate) literal.getPredicate()).type
+			// .equals(PredicateType.NORMAL))
+			{
+				result.add(literal);
+			}
+		}
+
+		return result;
 	}
 }
