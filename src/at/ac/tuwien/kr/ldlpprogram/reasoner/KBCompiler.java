@@ -13,6 +13,10 @@ import java.util.List;
 import java.util.Set;
 
 import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLClassExpression;
+import org.semanticweb.owlapi.model.OWLIndividual;
 import org.semanticweb.owlapi.model.OWLLogicalEntity;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.slf4j.Logger;
@@ -20,6 +24,7 @@ import org.slf4j.LoggerFactory;
 
 import at.ac.tuwien.kr.dlprogram.CacheManager;
 import at.ac.tuwien.kr.dlprogram.Clause;
+import at.ac.tuwien.kr.dlprogram.Constant;
 import at.ac.tuwien.kr.dlprogram.DLAtomPredicate;
 import at.ac.tuwien.kr.dlprogram.DLInputOperation;
 import at.ac.tuwien.kr.dlprogram.DLInputSignature;
@@ -28,6 +33,7 @@ import at.ac.tuwien.kr.dlprogram.DLProgramKB;
 import at.ac.tuwien.kr.dlprogram.Literal;
 import at.ac.tuwien.kr.dlprogram.NormalPredicate;
 import at.ac.tuwien.kr.dlprogram.Predicate;
+import at.ac.tuwien.kr.dlprogram.Term;
 import at.ac.tuwien.kr.dlprogram.Variable;
 import at.ac.tuwien.kr.ldlp.reasoner.DatalogObjectFactory;
 import at.ac.tuwien.kr.ldlp.reasoner.LDLPCompiler;
@@ -79,25 +85,36 @@ public class KBCompiler {
 			Clause newClause = new Clause();
 			newClause.setHead(clause.getHead());
 			newClause.getPositiveBody().addAll(clause.getNormalPositiveBody());
-			newClause.getNegativeBody().addAll(clause.getNegativeBody());
-			for (Literal lit : clause.getDLAtoms()) {
-				DLAtomPredicate p = (DLAtomPredicate) (lit.getPredicate());
-				DLInputSignature inputSigature = p.getInputSigature();
-				OWLLogicalEntity query = p.getQuery();
-				String predicate = DatalogObjectFactory.getInstance()
-						.getPredicate(query);
-				String sub = KBCompilerManager.getInstance().getSubscript(
-						inputSigature);
-				NormalPredicate newPredicate = CacheManager.getInstance()
-						.getPredicate(predicate + "_" + sub, p.getArity());
-				Literal newLit = new Literal(newPredicate, lit.getTerms());
+			newClause.getNegativeBody().addAll(clause.getNormalNegativeBody());
+			for (Literal lit : clause.getPositiveDLAtoms()) {
+				Literal newLit = compileDLAtom(lit);
 				newClause.getPositiveBody().add(newLit);
 			}
+			
+			for (Literal lit : clause.getNegativeDLAtoms()) {
+				Literal newLit = compileDLAtom(lit);
+				newClause.getNegativeBody().add(newLit);
+			}
+			
 			result.add(newClause);
-			logger.debug("{} -> {}", clause, newClause);
+			logger.debug("{}\n   -> \n{}", clause, newClause);
 		}
 
 		return result;
+	}
+
+	private Literal compileDLAtom(Literal lit) {
+		DLAtomPredicate p = (DLAtomPredicate) (lit.getPredicate());
+		DLInputSignature inputSigature = p.getInputSigature();
+		OWLLogicalEntity query = p.getQuery();
+		String predicate = DatalogObjectFactory.getInstance()
+				.getPredicate(query);
+		String sub = KBCompilerManager.getInstance().getSubscript(
+				inputSigature);
+		NormalPredicate newPredicate = CacheManager.getInstance()
+				.getPredicate(predicate + "_" + sub, p.getArity());
+		Literal newLit = new Literal(newPredicate, lit.getTerms());
+		return newLit;
 	}
 
 	List<Clause> compileSignature(DLInputSignature signature) {
@@ -151,7 +168,8 @@ public class KBCompiler {
 			}
 			newClauses.add(newClause);
 
-			logger.debug("{}\n  ->\n{}", clause, newClause);
+			logger.debug("{} / {}\n  ->\n{}", new Object[] { clause, signature,
+					newClause });
 		}
 
 		return newClauses;
@@ -167,6 +185,29 @@ public class KBCompiler {
 		Literal newLiteral = new Literal(newPredicate, literal.getTerms());
 
 		return newLiteral;
+	}
+
+	public Literal compile(OWLClassAssertionAxiom axiom) {
+
+		OWLClassExpression classExpression = axiom.getClassExpression();
+
+		OWLClass cls = (OWLClass) classExpression;
+
+		String predicateName = DatalogObjectFactory.getInstance().getPredicate(
+				cls);
+
+		NormalPredicate predicate = CacheManager.getInstance().getPredicate(
+				predicateName, 1);
+
+		OWLIndividual individual = axiom.getIndividual();
+
+		String const1 = DatalogObjectFactory.getInstance().getConst(individual);
+
+		Term t = new Constant(const1);
+
+		Literal literal = new Literal(predicate, t);
+
+		return literal;
 	}
 
 }

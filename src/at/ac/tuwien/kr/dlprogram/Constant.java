@@ -34,21 +34,21 @@ public class Constant implements Term {
 		update();
 	}
 
-//	/**
-//	 * Constructor
-//	 * @param name name
-//	 * type is default: String
-//	 */
-//	public Constant(String name) {
-//		if (name == null) {
-//			throw new IllegalArgumentException();
-//		}
-//
-//		this.name = name;
-//
-//		update();
-//
-//	}
+	/**
+	 * Constructor
+	 * @param name name
+	 * type is default: String
+	 */
+	public Constant(String name) {
+		if (name == null) {
+			throw new IllegalArgumentException();
+		}
+
+		this.name = name;
+
+		update();
+
+	}
 
 	/**
 	 * Get the name of the term.

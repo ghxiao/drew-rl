@@ -1,15 +1,14 @@
 package at.ac.tuwien.kr.datalog;
 
-import static org.junit.Assert.*;
-import static at.ac.tuwien.kr.helper.LDLHelper.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.io.StringReader;
 
 import org.junit.Test;
 
-import at.ac.tuwien.kr.dlprogram.Clause;
 import at.ac.tuwien.kr.dlprogram.DLProgram;
-import at.ac.tuwien.kr.dlprogram.Term;
+import at.ac.tuwien.kr.dlprogram.Literal;
 import at.ac.tuwien.kr.dlprogram.parser.DLProgramParser;
 import at.ac.tuwien.kr.dlprogram.parser.ParseException;
 
@@ -23,9 +22,7 @@ public class DlvDatalogReasonerTest {
 
 		reader = new StringReader("p(a)");
 		parser = new DLProgramParser(reader);
-		Term query = parser.term();
-	
-		
+		Literal query = parser.literal();
 		DlvDatalogReasoner reasoner = new DlvDatalogReasoner();
 		assertTrue(reasoner.query(program, query));
 	}
@@ -38,11 +35,10 @@ public class DlvDatalogReasonerTest {
 
 		reader = new StringReader("p(c)");
 		parser = new DLProgramParser(reader);
-		Term query = parser.term();
-	
-		
+		Literal query = parser.literal();
+
 		DlvDatalogReasoner reasoner = new DlvDatalogReasoner();
 		assertFalse(reasoner.query(program, query));
 	}
-	
+
 }

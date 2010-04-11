@@ -10,27 +10,24 @@ package at.ac.tuwien.kr.datalog;
 import java.util.List;
 
 import at.ac.tuwien.kr.dlprogram.Clause;
-import at.ac.tuwien.kr.dlprogram.Term;
-
+import at.ac.tuwien.kr.dlprogram.DLProgram;
+import at.ac.tuwien.kr.dlprogram.Literal;
 
 /**
  * TODO describe this class please.
  */
 public interface DatalogReasoner {
-
-	boolean query(List<Clause> program, Clause query);
-
+	
 	public enum TYPE {
 		XSB, DLV
 	}
-
 	
+	boolean query(List<Clause> program, Clause query);
 
-	boolean query(List<Clause> program, Term query);
+	boolean query(List<Clause> program, Literal query);
 
+	boolean query(DLProgram program, Clause query);
 
+	boolean query(DLProgram program, Literal query);
 
-	
-
-	
 }

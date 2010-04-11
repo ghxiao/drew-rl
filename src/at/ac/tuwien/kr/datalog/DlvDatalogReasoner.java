@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 import DLV.DLVInvocationException;
 import at.ac.tuwien.kr.dlprogram.Clause;
 import at.ac.tuwien.kr.dlprogram.DLProgram;
-import at.ac.tuwien.kr.dlprogram.Term;
+import at.ac.tuwien.kr.dlprogram.Literal;
 import at.ac.tuwien.kr.dlvwrapper.DLVWrapper;
 import at.ac.tuwien.kr.ldlp.reasoner.AxiomCompiler;
 
@@ -142,7 +142,7 @@ public class DlvDatalogReasoner implements DatalogReasoner {
 	// }
 
 	@Override
-	public boolean query(List<Clause> program, Term query) {
+	public boolean query(List<Clause> program, Literal query) {
 		DLVWrapper dlv = new DLVWrapper();
 
 		StringBuilder programText = new StringBuilder();
@@ -188,7 +188,7 @@ public class DlvDatalogReasoner implements DatalogReasoner {
 
 	}
 
-	public boolean query(DLProgram program, Term query) {
+	public boolean query(DLProgram program, Literal query) {
 		return query(program.getClauses(), query);
 	}
 

@@ -133,6 +133,20 @@ public class Clause implements Cloneable, Comparable<Clause> {
 
 		return result;
 	}
+	
+	public List<Literal> getNormalNegativeBody() {
+		List<Literal> result = new ArrayList<Literal>();
+
+		for (Literal literal : negatives) {
+			if (literal.getPredicate() instanceof NormalPredicate
+					&& ((NormalPredicate) literal.getPredicate()).type
+							.equals(PredicateType.NORMAL)) {
+				result.add(literal);
+			}
+		}
+
+		return result;
+	}
 
 	/**
 	 * Get special body literals, aka, literals with built-in or logical
@@ -349,6 +363,45 @@ public class Clause implements Cloneable, Comparable<Clause> {
 			}
 		}
 
+		for (Literal literal : negatives) {
+			if (!(literal.getPredicate() instanceof NormalPredicate))
+			// && ((NormalPredicate) literal.getPredicate()).type
+			// .equals(PredicateType.NORMAL))
+			{
+				result.add(literal);
+			}
+		}
+		
+		return result;
+	}
+	
+	public List<Literal> getPositiveDLAtoms() {
+		List<Literal> result = new ArrayList<Literal>();
+
+		for (Literal literal : positives) {
+			if (!(literal.getPredicate() instanceof NormalPredicate))
+			{
+				result.add(literal);
+			}
+		}
+
+		
+		return result;
+	}
+	
+	public List<Literal> getNegativeDLAtoms() {
+		List<Literal> result = new ArrayList<Literal>();
+
+		for (Literal literal : negatives) {
+			if (!(literal.getPredicate() instanceof NormalPredicate))
+			// && ((NormalPredicate) literal.getPredicate()).type
+			// .equals(PredicateType.NORMAL))
+			{
+				result.add(literal);
+			}
+		}
+
+		
 		return result;
 	}
 }
