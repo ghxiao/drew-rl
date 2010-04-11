@@ -176,7 +176,7 @@ public class Clause implements Cloneable, Comparable<Clause> {
 	public ClauseType getType() {
 		assert (head != null);
 
-		if ((positives.size() == 0)
+		if ((positives.size() == 0 && negatives.size() == 0)
 				|| (1 == positives.size() && positives.iterator().next()
 						.equals(Literal.TRUE))) {
 			return ClauseType.FACT;
@@ -341,7 +341,7 @@ public class Clause implements Cloneable, Comparable<Clause> {
 
 	public Set<DLInputSignature> getDLInputSignatures() {
 		Set<DLInputSignature> signatures = new HashSet<DLInputSignature>();
-		for (Literal lit : this.getPositiveBody()) {
+		for (Literal lit : this.getDLAtoms()) {
 			if (lit.getPredicate() instanceof DLAtomPredicate) {
 				final DLAtomPredicate predicate = (DLAtomPredicate) (lit
 						.getPredicate());

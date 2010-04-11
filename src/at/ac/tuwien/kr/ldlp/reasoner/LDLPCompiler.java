@@ -13,6 +13,8 @@ import java.util.Set;
 
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLOntology;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import at.ac.tuwien.kr.dlprogram.Clause;
 
@@ -22,6 +24,8 @@ import at.ac.tuwien.kr.dlprogram.Clause;
  */
 public class LDLPCompiler {
 
+	final static Logger logger = LoggerFactory.getLogger(LDLPCompiler.class);
+	
 	List<Clause> clauses;
 
 	public List<Clause> complile(OWLOntology ontology) {
@@ -32,12 +36,15 @@ public class LDLPCompiler {
 	public List<Clause> compile(final Set<OWLAxiom> axioms) {
 		reset();
 
+		logger.debug("-------------------compiling axioms:--------------------");
 		LDLPAxiomCompiler axiomCompiler = new LDLPAxiomCompiler();
 		final List<Clause> clauses = axiomCompiler.compile(axioms);
 
+		logger.debug("-------------------building closure:--------------------");
 		LDLPClosureBuilder closureBuilder = new LDLPClosureBuilder();
 		final LDLPClosure closure = closureBuilder.build(axioms);
 		LDLPClosureCompiler closureCompiler = new LDLPClosureCompiler();
+		logger.debug("------------------compiling closure:--------------------");
 		final List<Clause> clauses1 = closureCompiler.compile(closure);
 		clauses.addAll(clauses1);
 		return clauses;

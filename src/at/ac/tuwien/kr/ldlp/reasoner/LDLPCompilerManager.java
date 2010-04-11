@@ -69,10 +69,9 @@ public class LDLPCompilerManager {
 		} else if (owlObject instanceof OWLObjectProperty
 				&& ((OWLEntity) owlObject).isTopEntity()) {
 			predicate = getTop2();
+		} else {
+			predicate = "p" + predicates.getValueBySymbol(owlObject);
 		}
-
-		predicate = "p" + predicates.getValueBySymbol(owlObject);
-
 		logger.debug("{}  ->  {}", owlObject, predicate);
 
 		return predicate;
@@ -85,10 +84,11 @@ public class LDLPCompilerManager {
 
 		return constant;
 	}
-	
-	public String getConstant(String name){
-		OWLIndividual individual = OWLManager.getOWLDataFactory().getOWLNamedIndividual(IRI.create(name));
+
+	public String getConstant(String name) {
+		OWLIndividual individual = OWLManager.getOWLDataFactory()
+				.getOWLNamedIndividual(IRI.create(name));
 		return getConstant(individual);
 	}
-	
+
 }

@@ -9,6 +9,7 @@ package at.ac.tuwien.kr.ldlpprogram.reasoner;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -225,14 +226,23 @@ public class KBCompiler {
 
 	private Literal subscript(Literal literal, String sub) {
 		NormalPredicate predicate = (NormalPredicate) literal.getPredicate();
-		int arity = predicate.getArity();
-		String name = predicate.getName();
-		String newName = name + "_" + sub;
-		NormalPredicate newPredicate = CacheManager.getInstance().getPredicate(
-				newName, arity);
-		Literal newLiteral = new Literal(newPredicate, literal.getTerms());
 
-		return newLiteral;
+		switch (predicate.getType()) {
+		case BUILTIN:
+		case LOGIC:
+			return literal;
+		case NORMAL:
+			int arity = predicate.getArity();
+			String name = predicate.getName();
+			String newName = name + "_" + sub;
+			NormalPredicate newPredicate = CacheManager.getInstance()
+					.getPredicate(newName, arity);
+			Literal newLiteral = new Literal(newPredicate, literal.getTerms());
+
+			return newLiteral;
+		default:
+			throw new IllegalStateException();
+		}
 	}
 
 	public Literal compile(OWLClassAssertionAxiom axiom) {

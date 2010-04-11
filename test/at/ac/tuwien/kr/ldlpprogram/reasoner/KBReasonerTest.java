@@ -65,7 +65,8 @@ public class KBReasonerTest {
 	@Test
 	public void testIsEntailed002() throws FileNotFoundException,
 			ParseException {
-		String path = "kb/super";
+		
+		String path = "test/at/ac/tuwien/kr/ldlpprogram/reasoner/super";
 		DLProgramKBLoader loader = new DLProgramKBLoader();
 		DLProgramKB kb = loader.load(path);
 		KBReasoner reasoner = new KBReasoner(kb);

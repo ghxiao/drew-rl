@@ -20,15 +20,12 @@ import at.ac.tuwien.kr.dlprogram.Literal;
  */
 public class KBReasoner {
 
-	private DLProgramKB kb;
 	KBCompiler compiler = new KBCompiler();
 	DatalogReasoner datalogReasoner = new DlvDatalogReasoner();
 
 	DLProgram compiledClauses;
 
 	public KBReasoner(DLProgramKB kb) {
-		this.kb = kb;
-
 		compiledClauses = compiler.compile(kb);
 	}
 
@@ -40,7 +37,7 @@ public class KBReasoner {
 
 	public boolean isEntailed(Literal query) {
 		Literal newQuery = compiler.compileNormalLiteral(query);
-		
+
 		return datalogReasoner.query(compiledClauses, newQuery);
 	}
 }

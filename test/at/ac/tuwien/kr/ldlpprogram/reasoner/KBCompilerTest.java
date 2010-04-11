@@ -114,14 +114,6 @@ public class KBCompilerTest {
 		kbCompiler.compileProgram(program);
 	}
 
-//	@Test
-//	public void testCompileDLProgramKB() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testCompileOWLAxiom() {
-//		fail("Not yet implemented");
-//	}
+
 
 }

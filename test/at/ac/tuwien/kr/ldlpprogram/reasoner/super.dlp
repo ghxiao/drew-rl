@@ -1,0 +1,5 @@
+
+good(X) :- DL[;Super](X,Y), not DL[PapToRev += paper; Over](Y).
+over(X) :- not good(X).
+paper(b,p1).
+paper(b,p2).

@@ -148,6 +148,7 @@ public class DlvDatalogReasoner implements DatalogReasoner {
 		StringBuilder programText = new StringBuilder();
 		for (Clause clause : program) {
 			programText.append(clause);
+			programText.append("\n");
 		}
 		dlv.setProgram(programText.toString());
 		dlv.setDlvPath("./dlv/dlv_magic");
@@ -168,6 +169,7 @@ public class DlvDatalogReasoner implements DatalogReasoner {
 		StringBuilder programText = new StringBuilder();
 		for (Clause clause : program) {
 			programText.append(clause);
+			programText.append("\n");
 		}
 		dlv.setProgram(programText.toString());
 		dlv.setDlvPath("./dlv/dlv_magic");

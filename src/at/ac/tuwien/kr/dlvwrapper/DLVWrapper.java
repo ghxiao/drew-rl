@@ -97,12 +97,18 @@ public class DLVWrapper {
 		boolean result = false;
 		try {
 			String[] params = { dlvPath, "-wf", "--" };
+
+			logger.debug("Run DLV with parameters:\n {} {} {}", new String[] {
+					params[0], params[1], params[2] });
 			Process dlv = this.runtime.exec(params);
 			BufferedReader reader = new BufferedReader(new InputStreamReader(
 					dlv.getInputStream()));
 
 			PrintWriter writer = new PrintWriter(dlv.getOutputStream());
 			writer.write(program);
+
+			logger.debug("DLV Input:\n{}", program);
+
 			writer.flush();
 			writer.close();
 
@@ -115,13 +121,13 @@ public class DLVWrapper {
 				NamedMatcher lineMatcher = linePattern.matcher(line);
 				if (lineMatcher.find()) {
 					String lits = lineMatcher.group("literalList");
-//					System.out.println("literalList " + lits);
+					// System.out.println("literalList " + lits);
 					NamedPattern literalPattern = NamedPattern
 							.compile(literalRegex);
 					NamedMatcher literalMatcher = literalPattern.matcher(lits);
 					while (literalMatcher.find()) {
 						String lit = literalMatcher.group("literal");
-//						System.out.println("literal " + lit);
+						// System.out.println("literal " + lit);
 						if (lit.equals(queryStr)) {
 							logger.debug("Query \"{}\" found", queryStr);
 							result = true;
@@ -129,7 +135,21 @@ public class DLVWrapper {
 						}
 					}
 				}
+			}
 
+			BufferedReader errorReader = new BufferedReader(
+					new InputStreamReader(dlv.getErrorStream()));
+
+			String message = "";
+
+			while ((line = errorReader.readLine()) != null) {
+				message += line + "\n";
+			}
+
+			if (message.length() > 0) {
+				logger.error("DLV ERROR: {}", message);
+				throw new DLVInvocationException(
+						"An error is occurred calling DLV: " + message);
 			}
 
 			dlv.waitFor();
