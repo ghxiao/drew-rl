@@ -7,12 +7,20 @@
  */
 package at.ac.tuwien.kr.ldlpprogram.demo;
 
+import static at.ac.tuwien.kr.helper.LDLHelper.cls;
+import static at.ac.tuwien.kr.helper.LDLHelper.sub;
+import static org.junit.Assert.assertTrue;
+
+import java.io.FileNotFoundException;
+import java.io.StringReader;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObjectPropertyAssertionAxiom;
@@ -25,8 +33,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import at.ac.tuwien.kr.dlprogram.Clause;
+import at.ac.tuwien.kr.dlprogram.DLProgram;
+import at.ac.tuwien.kr.dlprogram.DLProgramKB;
+import at.ac.tuwien.kr.dlprogram.DLProgramKBLoader;
+import at.ac.tuwien.kr.dlprogram.Literal;
+import at.ac.tuwien.kr.dlprogram.parser.DLProgramParser;
+import at.ac.tuwien.kr.dlprogram.parser.ParseException;
 import at.ac.tuwien.kr.ldlp.reasoner.LDLPCompiler;
 import at.ac.tuwien.kr.ldlp.reasoner.LDLPReasoner;
+import at.ac.tuwien.kr.ldlpprogram.reasoner.KBReasoner;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyTransitiveClosureOf;
 
 /**
@@ -36,107 +51,62 @@ public class ECAI2010Demo {
 
 	final static Logger logger = LoggerFactory.getLogger(ECAI2010Demo.class);
 
-	private static OWLOntologyManager manager = OWLManager
-			.createOWLOntologyManager();
+	public static void demo1() throws OWLOntologyCreationException, ParseException {
+		OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
+		OWLClass C = cls("C");
+		OWLClass D = cls("D");
+		OWLAxiom axiom = sub(C, D);
+		OWLOntology ontology = manager.createOntology(Collections
+				.singleton(axiom));
 
-	public final static String uri = "http://www.kr.tuwien.ac.at/staff/xiao/ldl/super.ldl";
+		String text = "p(a). s(a). s(b). q:-DL[C+=s;D](a), not DL[C+=p;D](b).";
+		DLProgramParser parser = new DLProgramParser(new StringReader(text));
+		DLProgram program = parser.program();
 
-	public final static String phyUri = "file:src/at/ac/tuwien/kr/ldlp/demo/super.ldl";
+		DLProgramKB kb = new DLProgramKB();
+		kb.setOntology(ontology);
+		kb.setProgram(program);
 
-	// public final static String uri =
-	// "http://www.kr.tuwien.ac.at/staff/xiao/ldl/role_intersection_and_union.ldl";
-	//
-	// public final static String phyUri =
-	// "file:kb/role_intersection_and_union.ldl";
+		KBReasoner reasoner = new KBReasoner(kb);
 
-	// public final static String uri =
-	// "http://www.kr.tuwien.ac.at/staff/xiao/ldl/role_chain.ldl";
-	//
-	// public final static String phyUri = "file:kb/role_chain.ldl";
-	//	
-	// public final static String uri =
-	// "http://www.kr.tuwien.ac.at/staff/xiao/ldl/role_inverse.ldl";
-	//
-	// public final static String phyUri = "file:kb/role_inverse.ldl";
+		String queryText = "q";
 
-	private static OWLOntology loadOntology(String uri, String phyUri) {
-		OWLOntology ontology = null;
+		Literal query = new DLProgramParser(new StringReader(queryText))
+				.literal();
 
-		System.out.println();
-		System.out
-				.println("------------------------------------------------------");
+		boolean entailed = reasoner.isEntailed(query);
 
-		System.out.println("Reading file " + uri + "...");
-		manager.addIRIMapper(new SimpleIRIMapper(IRI.create(uri), IRI
-				.create(phyUri)));
-
-		try {
-			ontology = manager.loadOntology(IRI.create(uri));
-
-		} catch (OWLOntologyCreationException e) {
-			e.printStackTrace();
-		}
-
-		return ontology;
+		assertTrue(entailed);
 	}
 
+	public static void demo2() throws FileNotFoundException, ParseException{
+		String path = "kb/super";
+		DLProgramKBLoader loader = new DLProgramKBLoader();
+		DLProgramKB kb = loader.load(path);
+		KBReasoner reasoner = new KBReasoner(kb);
+
+		String queryText = "over(a)";
+
+		Literal query = new DLProgramParser(new StringReader(queryText))
+				.literal();
+
+		boolean entailed = reasoner.isEntailed(query);
+
+		assertTrue(entailed);
+
+	}
+	
+	
 	/**
 	 * @param args
+	 * @throws ParseException 
+	 * @throws OWLOntologyCreationException 
+	 * @throws FileNotFoundException 
 	 */
-	public static void main(String[] args) {
-		final OWLOntology ontology = loadOntology(uri, phyUri);
+	public static void main(String[] args) throws OWLOntologyCreationException, ParseException, FileNotFoundException {
+		demo1();
 
-		LDLPCompiler compiler = new LDLPCompiler();
-		System.out.println("Ontology:");
-		final Set<OWLAxiom> axioms = ontology.getAxioms();
-		for (OWLAxiom axiom : axioms) {
-			System.out.println(axiom);
-		}
-
-		System.out
-				.println("-------------------------------------------------------");
-
-		List<Clause> clauses = compiler.compile(axioms);
-		System.out.println("Compiled Ontoloy:");
-		for (Clause clause : clauses) {
-			System.out.println(clause);
-		}
-
-		OWLDataFactory owlDataFactory = manager.getOWLDataFactory();
-		OWLObjectPropertyExpression Super = owlDataFactory
-				.getOWLObjectProperty(IRI.create(uri + "#Super"));
-
-		LDLObjectPropertyTransitiveClosureOf TransSuper = owlDataFactory
-				.getLDLObjectPropertyTransitiveClosureOf(Super);
-
-		OWLNamedIndividual a = owlDataFactory.getOWLNamedIndividual(IRI
-				.create(uri + "#a"));
-		OWLNamedIndividual b = owlDataFactory.getOWLNamedIndividual(IRI
-				.create(uri + "#b"));
-		OWLNamedIndividual c = owlDataFactory.getOWLNamedIndividual(IRI
-				.create(uri + "#c"));
-		OWLObjectPropertyAssertionAxiom axiom1 = owlDataFactory
-				.getOWLObjectPropertyAssertionAxiom(Super, a, c);
-
-		System.out
-				.println("-------------------------------------------------------");
-		System.out.println("Query " + axiom1);
-
-		LDLPReasoner reasoner = new LDLPReasoner(ontology);
-		boolean entailed = reasoner.isEntailed(axiom1);
-		System.out.println("Result:" + entailed);
-
-		OWLObjectPropertyAssertionAxiom axiom2 = owlDataFactory
-				.getOWLObjectPropertyAssertionAxiom(TransSuper, a, c);
-
-		System.out
-				.println("-------------------------------------------------------");
-		System.out.println("Query " + axiom2);
-
-		
-		entailed = reasoner.isEntailed(axiom2);
-		System.out.println("Result:" + entailed);
-
+		demo2();
 	}
 
 }
