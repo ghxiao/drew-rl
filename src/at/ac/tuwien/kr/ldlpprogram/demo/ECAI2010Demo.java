@@ -5,7 +5,7 @@
  * Technical University of Vienna
  * KBS Group
  */
-package at.ac.tuwien.kr.ldlp.demo;
+package at.ac.tuwien.kr.ldlpprogram.demo;
 
 import java.util.List;
 import java.util.Set;

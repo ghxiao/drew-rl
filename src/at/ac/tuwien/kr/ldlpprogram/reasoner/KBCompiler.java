@@ -151,7 +151,7 @@ public class KBCompiler {
 			}
 			newClauses.add(newClause);
 
-			logger.debug("{}\n ->\n{}", clause, newClause);
+			logger.debug("{}\n  ->\n{}", clause, newClause);
 		}
 
 		return newClauses;

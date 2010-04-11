@@ -13,47 +13,51 @@ public interface DLProgramParserConstants {
   /** RegularExpression Id. */
   int NAF = 6;
   /** RegularExpression Id. */
-  int CONJUNCTION = 7;
+  int NAMESPACE = 7;
   /** RegularExpression Id. */
-  int IMPLY = 8;
+  int CONJUNCTION = 8;
   /** RegularExpression Id. */
-  int ENDOFSTATEMENT = 9;
+  int IMPLY = 9;
   /** RegularExpression Id. */
-  int COMPARISON = 10;
+  int COLON = 10;
   /** RegularExpression Id. */
-  int DL_ATOM = 11;
+  int ENDOFSTATEMENT = 11;
   /** RegularExpression Id. */
-  int LEFT_SQUARE_BRACKET = 12;
+  int COMPARISON = 12;
   /** RegularExpression Id. */
-  int RIGHT_SQUARE_BRACKET = 13;
+  int DL_ATOM = 13;
   /** RegularExpression Id. */
-  int IDENTIFIER = 14;
+  int LEFT_SQUARE_BRACKET = 14;
   /** RegularExpression Id. */
-  int INTEGER = 15;
+  int RIGHT_SQUARE_BRACKET = 15;
   /** RegularExpression Id. */
-  int DOUBLE = 16;
+  int IDENTIFIER = 16;
   /** RegularExpression Id. */
-  int STRING = 17;
+  int INTEGER = 17;
   /** RegularExpression Id. */
-  int VARIABLE = 18;
+  int DOUBLE = 18;
   /** RegularExpression Id. */
-  int PLUS = 19;
+  int STRING = 19;
   /** RegularExpression Id. */
-  int MINUS = 20;
+  int VARIABLE = 20;
   /** RegularExpression Id. */
-  int TIMES = 21;
+  int PLUS = 21;
   /** RegularExpression Id. */
-  int DIVIDE = 22;
+  int MINUS = 22;
   /** RegularExpression Id. */
-  int LEFTBRACKET = 23;
+  int TIMES = 23;
   /** RegularExpression Id. */
-  int RIGHTBRACKET = 24;
+  int DIVIDE = 24;
   /** RegularExpression Id. */
-  int UPLUS = 25;
+  int LEFTBRACKET = 25;
   /** RegularExpression Id. */
-  int UMINUS = 26;
+  int RIGHTBRACKET = 26;
   /** RegularExpression Id. */
-  int DLPREDICATE = 27;
+  int UPLUS = 27;
+  /** RegularExpression Id. */
+  int UMINUS = 28;
+  /** RegularExpression Id. */
+  int DLPREDICATE = 29;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -67,8 +71,10 @@ public interface DLProgramParserConstants {
     "\"\\r\"",
     "<token of kind 5>",
     "\"not\"",
+    "\"#namespace\"",
     "\",\"",
     "\":-\"",
+    "\":\"",
     "\".\"",
     "<COMPARISON>",
     "\"DL\"",

@@ -65,4 +65,23 @@ public class DLProgramParserTest {
 			System.out.println(clause);
 		}
 	}
+	
+	// dl-program with namespace
+	@Test
+	public void testProgram005() throws ParseException {
+		String text = "#namespace(\"super\",\"http://www.kr.tuwien.ac.at/staff/xiao/ldl/super.ldl#\").\n";
+		text = text + "good(X):-DL[;super:Super](X,Y), not DL[super:PapToRev+=paper;super:Over](Y).\n";
+		text = text + "over(X):-not good(X).\n";
+		text = text + "paper(b,p1).\n";
+		text = text + "paper(b,p2).\n";
+
+		StringReader reader = new StringReader(text);
+		DLProgramParser parser = new DLProgramParser(reader);
+		DLProgram program = parser.program();
+
+		assertEquals(4, program.getClauses().size());
+		for (Clause clause : program.getClauses()) {
+			System.out.println(clause);
+		}
+	}
 }
