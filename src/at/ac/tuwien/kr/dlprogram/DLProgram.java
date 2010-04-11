@@ -12,6 +12,11 @@ import java.util.TreeSet;
  * @author Samuel
  */
 public class DLProgram extends Program implements Cloneable {
+	
+	public DLProgram(){
+		
+	}
+	
 	private List<Clause> clauses = new ArrayList<Clause>();
 
 	/**

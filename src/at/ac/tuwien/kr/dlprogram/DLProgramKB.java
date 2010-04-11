@@ -7,12 +7,28 @@
  */
 package at.ac.tuwien.kr.dlprogram;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+
+import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyCreationException;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.util.SimpleIRIMapper;
+
+import at.ac.tuwien.kr.dlprogram.parser.DLProgramParser;
+import at.ac.tuwien.kr.dlprogram.parser.ParseException;
 
 /**
  * TODO describe this class please.
  */
 public class DLProgramKB {
+
+	public DLProgramKB() {
+	}
+
 	OWLOntology ontology;
 	DLProgram program;
 
@@ -55,7 +71,8 @@ public class DLProgramKB {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((ontology == null) ? 0 : ontology.hashCode());
+		result = prime * result
+				+ ((ontology == null) ? 0 : ontology.hashCode());
 		result = prime * result + ((program == null) ? 0 : program.hashCode());
 		return result;
 	}
@@ -102,9 +119,9 @@ public class DLProgramKB {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("DLProgram [ontology=");
+		builder.append("DLProgram\n [ontology=");
 		builder.append(ontology);
-		builder.append(", program=");
+		builder.append(",\n program=");
 		builder.append(program);
 		builder.append("]");
 		return builder.toString();
