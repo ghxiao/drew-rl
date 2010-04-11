@@ -155,7 +155,7 @@ public class LDLHelper {
 
 	public static Term term(OWLIndividual individual) {
 		LDLPCompilerManager factory = LDLPCompilerManager.getInstance();
-		final String const1 = factory.getConst(individual);
+		final String const1 = factory.getConstant(individual);
 		return CacheManager.getInstance().getConstant(const1);
 	}
 

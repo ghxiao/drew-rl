@@ -7,12 +7,11 @@
  */
 package at.ac.tuwien.kr.ldlp.reasoner;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
+import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLEntity;
+import org.semanticweb.owlapi.model.OWLIndividual;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.slf4j.Logger;
@@ -38,16 +37,9 @@ public class LDLPCompilerManager {
 
 	}
 
-	SymbolEncoder<OWLObject> owlObject2Predicate = new SymbolEncoder<OWLObject>();
+	SymbolEncoder<OWLObject> predicates = new SymbolEncoder<OWLObject>();
 
-	SymbolEncoder<OWLObject> owlObject2Const = new SymbolEncoder<OWLObject>();
-
-	
-//	private Map<OWLObject, Integer> owlObject2PredicateMap = new HashMap<OWLObject, Integer>();
-
-//	ArrayList<OWLObject> index2Predicate_List = new ArrayList<OWLObject>();
-
-	int currentPredicateMax = -1;
+	SymbolEncoder<OWLIndividual> constants = new SymbolEncoder<OWLIndividual>();
 
 	final String TOP = "top";
 
@@ -79,61 +71,24 @@ public class LDLPCompilerManager {
 			predicate = getTop2();
 		}
 
-		predicate = "p" + owlObject2Predicate.getValueBySymbol(owlObject);
+		predicate = "p" + predicates.getValueBySymbol(owlObject);
 
-		logger.debug("{}  ->  {}", owlObject, "p" + (currentPredicateMax + 1));
+		logger.debug("{}  ->  {}", owlObject, predicate);
 
 		return predicate;
 
-		// int index = 0;
-		// if (owlObject2PredicateMap.containsKey(owlObject)) {
-		// index = owlObject2PredicateMap.get(owlObject);
-		//
-		// } else {
-		// encodeOWLObject2Predicate(owlObject);
-		// index = currentPredicateMax;
-		// }
-		// return "p" + (index + 1);
 	}
 
-//	private void encodeOWLObject2Predicate(OWLObject symbol) {
-//		if (!owlObject2PredicateMap.containsKey(symbol)) {
-//			currentPredicateMax++;
-//			owlObject2PredicateMap.put(symbol, currentPredicateMax);
-//			index2Predicate_List.add(symbol);
-//			logger.debug("{}  ->  {}", symbol, "p" + (currentPredicateMax + 1));
-//		}
-//	}
+	public String getConstant(OWLIndividual individual) {
 
-//	private Map<OWLObject, Integer> owlObject2ConstMap = new HashMap<OWLObject, Integer>();
-//
-//	ArrayList<OWLObject> index2Const_List = new ArrayList<OWLObject>();
-//
-//	int currentConstMax = -1;
-//
-	public String getConst(OWLObject owlObject) {
-		
-		String constant = "o" + owlObject2Const.getValueBySymbol(owlObject);
+		String constant = "o" + constants.getValueBySymbol(individual);
 
 		return constant;
-		
-//		int index = 0;
-//		if (owlObject2ConstMap.containsKey(owlObject)) {
-//			index = owlObject2ConstMap.get(owlObject);
-//
-//		} else {
-//			encodeOWLObject2Const(owlObject);
-//			index = currentConstMax;
-//		}
-//		return "o" + (index + 1);
 	}
-//
-//	private void encodeOWLObject2Const(OWLObject symbol) {
-//		if (!owlObject2ConstMap.containsKey(symbol)) {
-//			currentConstMax++;
-//			owlObject2ConstMap.put(symbol, currentConstMax);
-//			index2Const_List.add(symbol);
-//			logger.debug("{}  ->  {}", symbol, "o" + (currentConstMax + 1));
-//		}
-//	}
+	
+	public String getConstant(String name){
+		OWLIndividual individual = OWLManager.getOWLDataFactory().getOWLNamedIndividual(IRI.create(name));
+		return getConstant(individual);
+	}
+	
 }

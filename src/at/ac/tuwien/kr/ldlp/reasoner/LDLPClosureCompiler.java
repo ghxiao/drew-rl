@@ -297,7 +297,7 @@ public class LDLPClosureCompiler implements OWLClassExpressionVisitor,
 		final String predicate = datalogObjectFactory.getPredicate(ce);
 		for (OWLIndividual ind : individuals) {
 			Literal[] head = new Literal[1];
-			final String constant = datalogObjectFactory.getConst(ind);
+			final String constant = datalogObjectFactory.getConstant(ind);
 			head[0] = new Literal(predicate, CacheManager.getInstance().getConstant(constant));
 			Literal[] body = new Literal[0];
 			final Clause clause = new Clause(head, body);
@@ -497,9 +497,9 @@ public class LDLPClosureCompiler implements OWLClassExpressionVisitor,
 		final String predicate = datalogObjectFactory.getPredicate(property);
 		for (OWLIndividualPair pair : individualPairs) {
 			Literal[] head = new Literal[1];
-			final String constant1 = datalogObjectFactory.getConst(pair
+			final String constant1 = datalogObjectFactory.getConstant(pair
 					.getFirst());
-			final String constant2 = datalogObjectFactory.getConst(pair
+			final String constant2 = datalogObjectFactory.getConstant(pair
 					.getSecond());
 			head[0] = new Literal(predicate, CacheManager.getInstance().getConstant(constant1),
 					CacheManager.getInstance().getConstant(constant2));

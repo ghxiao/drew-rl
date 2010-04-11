@@ -83,8 +83,8 @@ public class LDLPAxiomCompiler extends OWLAxiomVisitorAdapter {
 		head = new Literal[1];
 
 		String predicate = datalogObjectFactory.getPredicate(property);
-		String a = datalogObjectFactory.getConst(subject);
-		String b = datalogObjectFactory.getConst(object);
+		String a = datalogObjectFactory.getConstant(subject);
+		String b = datalogObjectFactory.getConstant(object);
 
 		head[0] = new Literal(predicate, new Term[] { CacheManager.getInstance().getConstant(a),
 				CacheManager.getInstance().getConstant(b) });
@@ -102,7 +102,7 @@ public class LDLPAxiomCompiler extends OWLAxiomVisitorAdapter {
 		Literal[] body = null;
 
 		String predicate = datalogObjectFactory.getPredicate(cls);
-		String a = datalogObjectFactory.getConst(individual);
+		String a = datalogObjectFactory.getConstant(individual);
 		head[0] = new Literal(predicate, new Term[] { CacheManager.getInstance().getConstant(a) });
 		body = new Literal[0];
 		Clause clause = new Clause(head, body);

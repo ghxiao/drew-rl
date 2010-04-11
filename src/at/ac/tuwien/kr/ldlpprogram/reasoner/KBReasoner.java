@@ -39,6 +39,8 @@ public class KBReasoner {
 	}
 
 	public boolean isEntailed(Literal query) {
-		return datalogReasoner.query(compiledClauses, query);
+		Literal newQuery = compiler.compileNormalLiteral(query);
+		
+		return datalogReasoner.query(compiledClauses, newQuery);
 	}
 }

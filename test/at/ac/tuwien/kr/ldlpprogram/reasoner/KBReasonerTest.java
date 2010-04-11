@@ -54,10 +54,17 @@ public class KBReasonerTest {
 		boolean entailed = reasoner.isEntailed(query);
 
 		assertTrue(entailed);
+
+		query = new DLProgramParser(new StringReader("s(a)")).literal();
+
+		entailed = reasoner.isEntailed(query);
+
+		assertTrue(entailed);
 	}
 
 	@Test
-	public void testIsEntailed002() throws FileNotFoundException, ParseException {
+	public void testIsEntailed002() throws FileNotFoundException,
+			ParseException {
 		String path = "kb/super";
 		DLProgramKBLoader loader = new DLProgramKBLoader();
 		DLProgramKB kb = loader.load(path);

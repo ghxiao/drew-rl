@@ -82,25 +82,48 @@ public class KBCompiler {
 		List<Clause> result = new ArrayList<Clause>();
 
 		for (Clause clause : program.getClauses()) {
-			Clause newClause = new Clause();
-			newClause.setHead(clause.getHead());
-			newClause.getPositiveBody().addAll(clause.getNormalPositiveBody());
-			newClause.getNegativeBody().addAll(clause.getNormalNegativeBody());
-			for (Literal lit : clause.getPositiveDLAtoms()) {
-				Literal newLit = compileDLAtom(lit);
-				newClause.getPositiveBody().add(newLit);
-			}
-			
-			for (Literal lit : clause.getNegativeDLAtoms()) {
-				Literal newLit = compileDLAtom(lit);
-				newClause.getNegativeBody().add(newLit);
-			}
-			
+			Clause newClause = compileClause(clause);
+
 			result.add(newClause);
 			logger.debug("{}\n   -> \n{}", clause, newClause);
 		}
 
 		return result;
+	}
+
+	private Clause compileClause(Clause clause) {
+		Clause newClause = new Clause();
+		Literal head = clause.getHead();
+		Literal newHead = compileNormalLiteral(head);
+		newClause.setHead(newHead);
+
+		for (Literal lit : clause.getNormalPositiveBody()) {
+			Literal newLit = compileNormalLiteral(lit);
+			newClause.getPositiveBody().add(newLit);
+		}
+
+		for (Literal lit : clause.getNormalNegativeBody()) {
+			Literal newLit = compileNormalLiteral(lit);
+			newClause.getNegativeBody().add(newLit);
+		}
+
+		for (Literal lit : clause.getPositiveDLAtoms()) {
+			Literal newLit = compileDLAtom(lit);
+			newClause.getPositiveBody().add(newLit);
+		}
+
+		for (Literal lit : clause.getNegativeDLAtoms()) {
+			Literal newLit = compileDLAtom(lit);
+			newClause.getNegativeBody().add(newLit);
+		}
+		return newClause;
+	}
+
+	Literal compileNormalLiteral(Literal lit) {
+		List<Term> terms = lit.getTerms();
+		List<Term> newTerms = compileTerms(terms);
+		Literal newLit = new Literal(lit.getPredicate(), newTerms);
+		return newLit;
 	}
 
 	private Literal compileDLAtom(Literal lit) {
@@ -109,12 +132,37 @@ public class KBCompiler {
 		OWLLogicalEntity query = p.getQuery();
 		String predicate = LDLPCompilerManager.getInstance()
 				.getPredicate(query);
-		String sub = KBCompilerManager.getInstance().getSubscript(
-				inputSigature);
-		NormalPredicate newPredicate = CacheManager.getInstance()
-				.getPredicate(predicate + "_" + sub, p.getArity());
-		Literal newLit = new Literal(newPredicate, lit.getTerms());
+		String sub = KBCompilerManager.getInstance()
+				.getSubscript(inputSigature);
+		NormalPredicate newPredicate = CacheManager.getInstance().getPredicate(
+				predicate + "_" + sub, p.getArity());
+		List<Term> terms = lit.getTerms();
+		List<Term> newTerms = compileTerms(terms);
+		Literal newLit = new Literal(newPredicate, newTerms);
 		return newLit;
+	}
+
+	private List<Term> compileTerms(List<Term> terms) {
+		List<Term> newTerms = new ArrayList<Term>();
+		for (Term term : terms) {
+			newTerms.add(complileTerm(term));
+
+		}
+
+		return newTerms;
+	}
+
+	private Term complileTerm(Term term) {
+		if (term instanceof Constant) {
+			Constant constant = (Constant) term;
+			String name = constant.getName();
+			String newName = LDLPCompilerManager.getInstance()
+					.getConstant(name);
+			Constant newConstant = new Constant(newName);
+			return newConstant;
+		} else {
+			return term;
+		}
 	}
 
 	List<Clause> compileSignature(DLInputSignature signature) {
@@ -201,7 +249,8 @@ public class KBCompiler {
 
 		OWLIndividual individual = axiom.getIndividual();
 
-		String const1 = LDLPCompilerManager.getInstance().getConst(individual);
+		String const1 = LDLPCompilerManager.getInstance().getConstant(
+				individual);
 
 		Term t = new Constant(const1);
 
