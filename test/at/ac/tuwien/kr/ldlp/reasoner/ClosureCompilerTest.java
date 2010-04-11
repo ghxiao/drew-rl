@@ -66,13 +66,13 @@ public class ClosureCompilerTest {
 	private OWLClass C;
 	private OWLObjectProperty E;
 	private OWLObjectProperty F;
-	LDLPObjectClosureBuilder builder;
+	LDLPClosureBuilder builder;
 	OWLOntology ontology;
-	public ClosureCompiler closureCompiler;
-	LDLPObjectClosure closure;
-	private String TOP1 = DatalogObjectFactory.getInstance().getTop1();
-	private String TOP2 = DatalogObjectFactory.getInstance().getTop2();
-	private String NOTEQUAL = DatalogObjectFactory.getInstance().getNotEqual();
+	public LDLPClosureCompiler closureCompiler;
+	LDLPClosure closure;
+	private String TOP1 = LDLPCompilerManager.getInstance().getTop1();
+	private String TOP2 = LDLPCompilerManager.getInstance().getTop2();
+	private String NOTEQUAL = LDLPCompilerManager.getInstance().getNotEqual();
 
 	@Before
 	public void setUp() {
@@ -87,8 +87,8 @@ public class ClosureCompilerTest {
 		c = factory.getOWLNamedIndividual(IRI.create("c"));
 		E = factory.getOWLObjectProperty(IRI.create("E"));
 		F = factory.getOWLObjectProperty(IRI.create("F"));
-		builder = new LDLPObjectClosureBuilder();
-		closureCompiler = new ClosureCompiler();
+		builder = new LDLPClosureBuilder();
+		closureCompiler = new LDLPClosureCompiler();
 
 	}
 
@@ -109,7 +109,7 @@ public class ClosureCompilerTest {
 		Set<OWLAxiom> axioms = new HashSet<OWLAxiom>();
 		axioms.add(a_is_A);
 		ontology = manager.createOntology(axioms);
-		final LDLPObjectClosure closure = builder.build(ontology);
+		final LDLPClosure closure = builder.build(ontology);
 		final List<Clause> clauses = closureCompiler.compile(closure);
 
 		assertEquals(1, clauses.size());

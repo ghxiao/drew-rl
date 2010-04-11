@@ -35,7 +35,7 @@ import at.ac.tuwien.kr.dlprogram.NormalPredicate;
 import at.ac.tuwien.kr.dlprogram.Predicate;
 import at.ac.tuwien.kr.dlprogram.Term;
 import at.ac.tuwien.kr.dlprogram.Variable;
-import at.ac.tuwien.kr.ldlp.reasoner.DatalogObjectFactory;
+import at.ac.tuwien.kr.ldlp.reasoner.LDLPCompilerManager;
 import at.ac.tuwien.kr.ldlp.reasoner.LDLPCompiler;
 
 /**
@@ -107,7 +107,7 @@ public class KBCompiler {
 		DLAtomPredicate p = (DLAtomPredicate) (lit.getPredicate());
 		DLInputSignature inputSigature = p.getInputSigature();
 		OWLLogicalEntity query = p.getQuery();
-		String predicate = DatalogObjectFactory.getInstance()
+		String predicate = LDLPCompilerManager.getInstance()
 				.getPredicate(query);
 		String sub = KBCompilerManager.getInstance().getSubscript(
 				inputSigature);
@@ -121,7 +121,7 @@ public class KBCompiler {
 		String sub = KBCompilerManager.getInstance().getSubscript(signature);
 		List<Clause> clauses = new ArrayList<Clause>();
 		for (DLInputOperation op : signature.getOperations()) {
-			String name = DatalogObjectFactory.getInstance().getPredicate(
+			String name = LDLPCompilerManager.getInstance().getPredicate(
 					op.getDLPredicate())
 					+ "_" + sub;
 			NormalPredicate inputPredicate = op.getInputPredicate();
@@ -193,7 +193,7 @@ public class KBCompiler {
 
 		OWLClass cls = (OWLClass) classExpression;
 
-		String predicateName = DatalogObjectFactory.getInstance().getPredicate(
+		String predicateName = LDLPCompilerManager.getInstance().getPredicate(
 				cls);
 
 		NormalPredicate predicate = CacheManager.getInstance().getPredicate(
@@ -201,7 +201,7 @@ public class KBCompiler {
 
 		OWLIndividual individual = axiom.getIndividual();
 
-		String const1 = DatalogObjectFactory.getInstance().getConst(individual);
+		String const1 = LDLPCompilerManager.getInstance().getConst(individual);
 
 		Term t = new Constant(const1);
 

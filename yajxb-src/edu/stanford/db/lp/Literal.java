@@ -10,7 +10,7 @@ package edu.stanford.db.lp;
 
 import java.util.Arrays;
 
-import at.ac.tuwien.kr.ldlp.reasoner.DatalogObjectFactory;
+import at.ac.tuwien.kr.ldlp.reasoner.LDLPCompilerManager;
 
 public class Literal {
 	String predicateSymbol;
@@ -56,7 +56,7 @@ public class Literal {
 		if (!polarity)
 			out = out.concat("not ");
 
-		DatalogObjectFactory factory = new DatalogObjectFactory();
+		LDLPCompilerManager factory = new LDLPCompilerManager();
 		final String notEqual = factory.getNotEqual();
 
 		if (!predicateSymbol.equals(notEqual)) {

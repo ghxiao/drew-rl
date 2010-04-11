@@ -46,7 +46,7 @@ public class LDLPObjectClosureBuilderTest {
 	private OWLClass C;
 	private OWLObjectProperty E;
 	private OWLObjectProperty F;
-	LDLPObjectClosureBuilder builder;
+	LDLPClosureBuilder builder;
 	OWLOntology ontology;
 
 	@Before
@@ -63,7 +63,7 @@ public class LDLPObjectClosureBuilderTest {
 		c = factory.getOWLNamedIndividual(IRI.create("c"));
 		E = factory.getOWLObjectProperty(IRI.create("E"));
 		F = factory.getOWLObjectProperty(IRI.create("F"));
-		builder = new LDLPObjectClosureBuilder();
+		builder = new LDLPClosureBuilder();
 	}
 
 	// a:A
@@ -73,7 +73,7 @@ public class LDLPObjectClosureBuilderTest {
 		Set<OWLAxiom> axioms = new HashSet<OWLAxiom>();
 		axioms.add(a_is_A);
 		ontology = manager.createOntology(axioms);
-		final LDLPObjectClosure closure = builder.build(ontology);
+		final LDLPClosure closure = builder.build(ontology);
 		assertEquals(1, closure.getNamedClasses().size());
 		assertTrue(closure.getNamedClasses().contains(A));
 		assertEquals(0, closure.getComplexClassExpressions().size());
@@ -90,7 +90,7 @@ public class LDLPObjectClosureBuilderTest {
 		Set<OWLAxiom> axioms = new HashSet<OWLAxiom>();
 		axioms.add(axiom);
 		ontology = manager.createOntology(axioms);
-		final LDLPObjectClosure closure = builder.build(ontology);
+		final LDLPClosure closure = builder.build(ontology);
 
 		assertEquals(3, closure.getNamedClasses().size());
 		assertTrue(closure.getNamedClasses().contains(A));
@@ -112,7 +112,7 @@ public class LDLPObjectClosureBuilderTest {
 		Set<OWLAxiom> axioms = new HashSet<OWLAxiom>();
 		axioms.add(axiom);
 		ontology = manager.createOntology(axioms);
-		final LDLPObjectClosure closure = builder.build(ontology);
+		final LDLPClosure closure = builder.build(ontology);
 		assertEquals(0, closure.getNamedClasses().size());
 
 		assertEquals(0, closure.getComplexClassExpressions().size());
@@ -131,7 +131,7 @@ public class LDLPObjectClosureBuilderTest {
 		Set<OWLAxiom> axioms = new HashSet<OWLAxiom>();
 		axioms.add(axiom);
 		ontology = manager.createOntology(axioms);
-		final LDLPObjectClosure closure = builder.build(ontology);
+		final LDLPClosure closure = builder.build(ontology);
 		assertEquals(2, closure.getNamedClasses().size());
 
 		assertEquals(0, closure.getComplexClassExpressions().size());
@@ -148,7 +148,7 @@ public class LDLPObjectClosureBuilderTest {
 		Set<OWLAxiom> axioms = new HashSet<OWLAxiom>();
 		axioms.add(axiom);
 		ontology = manager.createOntology(axioms);
-		final LDLPObjectClosure closure = builder.build(ontology);
+		final LDLPClosure closure = builder.build(ontology);
 		assertEquals(0, closure.getNamedClasses().size());
 
 		assertEquals(0, closure.getComplexClassExpressions().size());
@@ -169,7 +169,7 @@ public class LDLPObjectClosureBuilderTest {
 		Set<OWLAxiom> axioms = new HashSet<OWLAxiom>();
 		axioms.add(axiom);
 		ontology = manager.createOntology(axioms);
-		final LDLPObjectClosure closure = builder.build(ontology);
+		final LDLPClosure closure = builder.build(ontology);
 		assertEquals(3, closure.getNamedClasses().size());
 
 		assertEquals(2, closure.getComplexClassExpressions().size());
@@ -192,7 +192,7 @@ public class LDLPObjectClosureBuilderTest {
 		Set<OWLAxiom> axioms = new HashSet<OWLAxiom>();
 		axioms.add(axiom);
 		ontology = manager.createOntology(axioms);
-		final LDLPObjectClosure closure = builder.build(ontology);
+		final LDLPClosure closure = builder.build(ontology);
 		assertEquals(1, closure.getNamedClasses().size());
 
 		assertEquals(2, closure.getComplexClassExpressions().size());

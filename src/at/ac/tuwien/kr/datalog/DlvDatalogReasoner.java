@@ -17,14 +17,14 @@ import at.ac.tuwien.kr.dlprogram.Clause;
 import at.ac.tuwien.kr.dlprogram.DLProgram;
 import at.ac.tuwien.kr.dlprogram.Literal;
 import at.ac.tuwien.kr.dlvwrapper.DLVWrapper;
-import at.ac.tuwien.kr.ldlp.reasoner.AxiomCompiler;
+import at.ac.tuwien.kr.ldlp.reasoner.LDLPAxiomCompiler;
 
 /**
  * TODO describe this class please.
  */
 public class DlvDatalogReasoner implements DatalogReasoner {
 
-	final static Logger logger = LoggerFactory.getLogger(AxiomCompiler.class);
+	final static Logger logger = LoggerFactory.getLogger(LDLPAxiomCompiler.class);
 
 	// /*
 	// * (non-Javadoc)

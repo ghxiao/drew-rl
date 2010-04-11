@@ -37,11 +37,11 @@ import at.ac.tuwien.kr.dlprogram.Variable;
 //import edu.stanford.db.lp.Term;
 //import edu.stanford.db.lp.VariableTerm;
 
-public class AxiomCompiler extends OWLAxiomVisitorAdapter {
+public class LDLPAxiomCompiler extends OWLAxiomVisitorAdapter {
 
-	DatalogObjectFactory datalogObjectFactory = DatalogObjectFactory
+	LDLPCompilerManager datalogObjectFactory = LDLPCompilerManager
 			.getInstance();
-	final static Logger logger = LoggerFactory.getLogger(AxiomCompiler.class);
+	final static Logger logger = LoggerFactory.getLogger(LDLPAxiomCompiler.class);
 	Variable X = CacheManager.getInstance().getVariable("X");
 	Variable Y = CacheManager.getInstance().getVariable("Y");
 	Variable Z = CacheManager.getInstance().getVariable("Z");
@@ -52,7 +52,7 @@ public class AxiomCompiler extends OWLAxiomVisitorAdapter {
 		return clauses;
 	}
 
-	public AxiomCompiler() {
+	public LDLPAxiomCompiler() {
 		this.clauses = new ArrayList<Clause>();
 	}
 

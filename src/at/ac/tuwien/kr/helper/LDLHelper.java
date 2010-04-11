@@ -33,7 +33,7 @@ import at.ac.tuwien.kr.dlprogram.Clause;
 import at.ac.tuwien.kr.dlprogram.Constant;
 import at.ac.tuwien.kr.dlprogram.Literal;
 import at.ac.tuwien.kr.dlprogram.Term;
-import at.ac.tuwien.kr.ldlp.reasoner.DatalogObjectFactory;
+import at.ac.tuwien.kr.ldlp.reasoner.LDLPCompilerManager;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyChainOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyOneOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyTransitiveClosureOf;
@@ -149,12 +149,12 @@ public class LDLHelper {
 	}
 
 	public static String p(OWLObject owlObject) {
-		DatalogObjectFactory factory = DatalogObjectFactory.getInstance();
+		LDLPCompilerManager factory = LDLPCompilerManager.getInstance();
 		return factory.getPredicate(owlObject);
 	}
 
 	public static Term term(OWLIndividual individual) {
-		DatalogObjectFactory factory = DatalogObjectFactory.getInstance();
+		LDLPCompilerManager factory = LDLPCompilerManager.getInstance();
 		final String const1 = factory.getConst(individual);
 		return CacheManager.getInstance().getConstant(const1);
 	}

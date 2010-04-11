@@ -58,27 +58,27 @@ import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyUnionOf;
  * TODO describe this class please.
  */
 
-public class LDLPObjectClosureBuilder extends OWLAxiomVisitorAdapter implements OWLClassExpressionVisitor, OWLPropertyExpressionVisitor, OWLIndividualVisitor {
+public class LDLPClosureBuilder extends OWLAxiomVisitorAdapter implements OWLClassExpressionVisitor, OWLPropertyExpressionVisitor, OWLIndividualVisitor {
 
-	LDLPObjectClosure closure = new LDLPObjectClosure();
+	LDLPClosure closure = new LDLPClosure();
 
-	public LDLPObjectClosureBuilder() {
+	public LDLPClosureBuilder() {
 
 	}
 
-	public LDLPObjectClosure build(OWLOntology ontology) {
+	public LDLPClosure build(OWLOntology ontology) {
 		final Set<OWLAxiom> axioms = ontology.getAxioms();
 		return build(axioms);
 	}
 
-	public LDLPObjectClosure build(final Set<OWLAxiom> axioms) {
+	public LDLPClosure build(final Set<OWLAxiom> axioms) {
 		for (OWLAxiom axiom : axioms) {
 			axiom.accept(this);
 		}
 		return closure;
 	}
 
-	public LDLPObjectClosure build(final OWLAxiom... axioms) {
+	public LDLPClosure build(final OWLAxiom... axioms) {
 		for (OWLAxiom axiom : axioms) {
 			axiom.accept(this);
 		}

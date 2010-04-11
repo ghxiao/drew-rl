@@ -21,12 +21,12 @@ import org.semanticweb.owlapi.util.SimpleIRIMapper;
 import edu.stanford.db.lp.ProgramClause;
 
 import at.ac.tuwien.kr.dlprogram.Clause;
-import at.ac.tuwien.kr.ldlp.reasoner.AxiomCompiler;
-import at.ac.tuwien.kr.ldlp.reasoner.ClosureCompiler;
+import at.ac.tuwien.kr.ldlp.reasoner.LDLPAxiomCompiler;
+import at.ac.tuwien.kr.ldlp.reasoner.LDLPClosureCompiler;
 import at.ac.tuwien.kr.ldlp.reasoner.ClosureCompilerTest;
 import at.ac.tuwien.kr.ldlp.reasoner.LDLPCompiler;
-import at.ac.tuwien.kr.ldlp.reasoner.LDLPObjectClosure;
-import at.ac.tuwien.kr.ldlp.reasoner.LDLPObjectClosureBuilder;
+import at.ac.tuwien.kr.ldlp.reasoner.LDLPClosure;
+import at.ac.tuwien.kr.ldlp.reasoner.LDLPClosureBuilder;
 
 public class CompilerDemo {
 
@@ -46,8 +46,8 @@ public class CompilerDemo {
 		axioms[1] = sub(Over, all(trans(Super), Over));
 		axioms[2] = assert$(Super, a, b);
 		axioms[3] = assert$(Super, b, c);
-		LDLPObjectClosureBuilder builder = new LDLPObjectClosureBuilder();
-		LDLPObjectClosure closure = builder.build(axioms);
+		LDLPClosureBuilder builder = new LDLPClosureBuilder();
+		LDLPClosure closure = builder.build(axioms);
 
 		System.out.println("Ontology:");
 		for (int i = 0; i < axioms.length; i++) {
@@ -79,7 +79,7 @@ public class CompilerDemo {
 
 		System.out.println("-------------------------------------------------------");
 
-		ClosureCompiler closureCompiler = new ClosureCompiler();
+		LDLPClosureCompiler closureCompiler = new LDLPClosureCompiler();
 		List<Clause> clauses = closureCompiler.compile(closure);
 
 		System.out.println("Compiled Closure:");
@@ -88,7 +88,7 @@ public class CompilerDemo {
 		}
 		System.out.println("-------------------------------------------------------");
 
-		AxiomCompiler axiomCompiler = new AxiomCompiler();
+		LDLPAxiomCompiler axiomCompiler = new LDLPAxiomCompiler();
 		clauses = axiomCompiler.compile(axioms);
 		System.out.println("Compiled Axioms:");
 		for (Clause clause : clauses) {

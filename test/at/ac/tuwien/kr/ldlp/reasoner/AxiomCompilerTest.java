@@ -24,14 +24,14 @@ import org.semanticweb.owlapi.model.OWLSubObjectPropertyOfAxiom;
 import org.semanticweb.owlapi.util.SimpleIRIMapper;
 
 import at.ac.tuwien.kr.dlprogram.Clause;
-import at.ac.tuwien.kr.ldlp.reasoner.AxiomCompiler;
+import at.ac.tuwien.kr.ldlp.reasoner.LDLPAxiomCompiler;
 
 import edu.stanford.db.lp.ProgramClause;
 
 public class AxiomCompilerTest {
 
 	private List<Clause> clauses;
-	private AxiomCompiler axiomCompiler;
+	private LDLPAxiomCompiler axiomCompiler;
 	private OWLOntologyManager manager;
 	private OWLDataFactory factory;
 	private OWLIndividual a;
@@ -46,7 +46,7 @@ public class AxiomCompilerTest {
 	@Before
 	public void setUp() {
 		
-		axiomCompiler = new AxiomCompiler();
+		axiomCompiler = new LDLPAxiomCompiler();
 		
 		manager = OWLManager.createOWLOntologyManager();
 		factory = manager.getOWLDataFactory();

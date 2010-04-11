@@ -55,12 +55,12 @@ import at.ac.tuwien.kr.owlapi.model.ldl.OWLIndividualPair;
 //import edu.stanford.db.lp.Term;
 //import edu.stanford.db.lp.VariableTerm;
 
-public class ClosureCompiler implements OWLClassExpressionVisitor,
+public class LDLPClosureCompiler implements OWLClassExpressionVisitor,
 		OWLPropertyExpressionVisitor, OWLIndividualVisitor {
 
-	final static Logger logger = LoggerFactory.getLogger(ClosureCompiler.class);
+	final static Logger logger = LoggerFactory.getLogger(LDLPClosureCompiler.class);
 
-	DatalogObjectFactory datalogObjectFactory = DatalogObjectFactory
+	LDLPCompilerManager datalogObjectFactory = LDLPCompilerManager
 			.getInstance();
 
 	Variable X = CacheManager.getInstance().getVariable("X");
@@ -73,11 +73,11 @@ public class ClosureCompiler implements OWLClassExpressionVisitor,
 
 	private List<Clause> clauses;
 
-	public ClosureCompiler() {
+	public LDLPClosureCompiler() {
 		this.clauses = new ArrayList<Clause>();
 	}
 
-	public List<Clause> compile(LDLPObjectClosure closure) {
+	public List<Clause> compile(LDLPClosure closure) {
 
 		for (OWLClass cls : closure.getNamedClasses()) {
 			cls.accept(this);

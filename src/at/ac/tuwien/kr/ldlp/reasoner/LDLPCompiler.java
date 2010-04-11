@@ -32,12 +32,12 @@ public class LDLPCompiler {
 	public List<Clause> compile(final Set<OWLAxiom> axioms) {
 		reset();
 
-		AxiomCompiler axiomCompiler = new AxiomCompiler();
+		LDLPAxiomCompiler axiomCompiler = new LDLPAxiomCompiler();
 		final List<Clause> clauses = axiomCompiler.compile(axioms);
 
-		LDLPObjectClosureBuilder closureBuilder = new LDLPObjectClosureBuilder();
-		final LDLPObjectClosure closure = closureBuilder.build(axioms);
-		ClosureCompiler closureCompiler = new ClosureCompiler();
+		LDLPClosureBuilder closureBuilder = new LDLPClosureBuilder();
+		final LDLPClosure closure = closureBuilder.build(axioms);
+		LDLPClosureCompiler closureCompiler = new LDLPClosureCompiler();
 		final List<Clause> clauses1 = closureCompiler.compile(closure);
 		clauses.addAll(clauses1);
 		return clauses;
@@ -46,12 +46,12 @@ public class LDLPCompiler {
 	public List<Clause> compile(OWLAxiom... axioms) {
 		reset();
 
-		AxiomCompiler axiomCompiler = new AxiomCompiler();
+		LDLPAxiomCompiler axiomCompiler = new LDLPAxiomCompiler();
 		final List<Clause> clauses = axiomCompiler.compile(axioms);
 
-		LDLPObjectClosureBuilder closureBuilder = new LDLPObjectClosureBuilder();
-		final LDLPObjectClosure closure = closureBuilder.build(axioms);
-		ClosureCompiler closureCompiler = new ClosureCompiler();
+		LDLPClosureBuilder closureBuilder = new LDLPClosureBuilder();
+		final LDLPClosure closure = closureBuilder.build(axioms);
+		LDLPClosureCompiler closureCompiler = new LDLPClosureCompiler();
 		final List<Clause> clauses1 = closureCompiler.compile(closure);
 		clauses.addAll(clauses1);
 		return clauses;

@@ -21,7 +21,7 @@ import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 /**
  * TODO describe this class please.
  */
-public class LDLPObjectClosure {
+public class LDLPClosure {
 
 	private Set<OWLIndividual> namedIndividuals;
 	private Set<OWLClass> namedClasses;
@@ -29,7 +29,7 @@ public class LDLPObjectClosure {
 	private Set<OWLClassExpression> complexClassExpressions;
 	private Set<OWLObjectPropertyExpression> complexPropertyExpressions;
 
-	public LDLPObjectClosure() {
+	public LDLPClosure() {
 		namedClasses = new HashSet<OWLClass>();
 		namedIndividuals = new HashSet<OWLIndividual>();
 		namedProperties = new HashSet<OWLObjectProperty>();
@@ -72,27 +72,27 @@ public class LDLPObjectClosure {
 		return complexPropertyExpressions;
 	}
 
-	public LDLPObjectClosure addNamedClasses(OWLClass cls) {
+	public LDLPClosure addNamedClasses(OWLClass cls) {
 		this.namedClasses.add(cls);
 		return this;
 	}
 
-	public LDLPObjectClosure addNamedProperty(OWLObjectProperty property) {
+	public LDLPClosure addNamedProperty(OWLObjectProperty property) {
 		this.namedProperties.add(property);
 		return this;
 	}
 
-	public LDLPObjectClosure addNamedIndividual(OWLIndividual individual) {
+	public LDLPClosure addNamedIndividual(OWLIndividual individual) {
 		this.namedIndividuals.add(individual);
 		return this;
 	}
 
-	public LDLPObjectClosure addComplexClass(OWLClassExpression classExpression) {
+	public LDLPClosure addComplexClass(OWLClassExpression classExpression) {
 		this.complexClassExpressions.add(classExpression);
 		return this;
 	}
 
-	public LDLPObjectClosure addComplexProperty(OWLObjectPropertyExpression propertyExpression) {
+	public LDLPClosure addComplexProperty(OWLObjectPropertyExpression propertyExpression) {
 		this.complexPropertyExpressions.add(propertyExpression);
 		return this;
 	}

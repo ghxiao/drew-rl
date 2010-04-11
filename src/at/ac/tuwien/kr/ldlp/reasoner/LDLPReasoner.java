@@ -28,7 +28,7 @@ import edu.stanford.db.lp.ProgramClause;
 import edu.unika.aifb.kaon.datalog.program.Program;
 
 public class LDLPReasoner extends OWLReasonerAdapter {
-	final static Logger logger = LoggerFactory.getLogger(ClosureCompiler.class);
+	final static Logger logger = LoggerFactory.getLogger(LDLPClosureCompiler.class);
 
 	List<Clause> program;
 
@@ -36,7 +36,7 @@ public class LDLPReasoner extends OWLReasonerAdapter {
 
 	LDLPCompiler compiler;
 
-	AxiomCompiler axiomCompiler = new AxiomCompiler();
+	LDLPAxiomCompiler axiomCompiler = new LDLPAxiomCompiler();
 
 	DatalogReasoner datalogReasoner;
 
