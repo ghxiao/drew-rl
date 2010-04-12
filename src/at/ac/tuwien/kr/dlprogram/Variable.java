@@ -3,7 +3,6 @@ package at.ac.tuwien.kr.dlprogram;
 /**
  * Variable implementation.
  * 
- * @author Samuel
  */
 public class Variable implements Term {
 	String name;

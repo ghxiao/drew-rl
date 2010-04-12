@@ -1,7 +1,6 @@
 package at.ac.tuwien.kr.dlprogram;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 
@@ -15,7 +14,6 @@ import org.slf4j.LoggerFactory;
 
 import at.ac.tuwien.kr.dlprogram.parser.DLProgramParser;
 import at.ac.tuwien.kr.dlprogram.parser.ParseException;
-import at.ac.tuwien.kr.ldlpprogram.demo.ECAI2010Demo;
 
 public class DLProgramKBLoader {
 

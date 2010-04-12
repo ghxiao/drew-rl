@@ -8,7 +8,6 @@
 package at.ac.tuwien.kr.dlprogram;
 
 import org.semanticweb.owlapi.model.OWLLogicalEntity;
-import org.semanticweb.owlapi.model.OWLObject;
 
 /**
  * TODO describe this class please.

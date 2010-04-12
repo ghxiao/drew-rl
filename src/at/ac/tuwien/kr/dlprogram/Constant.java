@@ -5,7 +5,6 @@ import java.sql.Types;
 /**
  * Constant implementation.
  * 
- * @author Samuel
  */
 public class Constant implements Term {
 	int type = Types.VARCHAR;

@@ -1,14 +1,10 @@
 package at.ac.tuwien.kr.dlprogram;
 
-import java.sql.Types;
-import java.util.HashMap;
-import java.util.Map;
 
 
 /**
  * Functor manager is used to cache functors so that the type information can be fetched globally.
  * 
- * @author Samuel
  */
 public class FunctorManager {
 	//private Map<Functor, FunctorDefinition> mapping = new HashMap<Functor, FunctorDefinition>();

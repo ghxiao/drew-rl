@@ -7,22 +7,10 @@
  */
 package at.ac.tuwien.kr.dlprogram;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-
-import org.semanticweb.owlapi.apibinding.OWLManager;
-import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.model.OWLOntologyCreationException;
-import org.semanticweb.owlapi.model.OWLOntologyManager;
-import org.semanticweb.owlapi.util.SimpleIRIMapper;
-
-import at.ac.tuwien.kr.dlprogram.parser.DLProgramParser;
-import at.ac.tuwien.kr.dlprogram.parser.ParseException;
 
 /**
- * TODO describe this class please.
+ * KB=(L,P)
  */
 public class DLProgramKB {
 

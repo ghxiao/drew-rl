@@ -8,7 +8,6 @@ import java.util.List;
  * Function represents math expression, e.g. X * (Y - Z), as well as math function, e.g. abs(X - Y). Function adopts composite
  * pattern to store the data. Internally X * (Y - Z) is stored as *(X, -(Y, Z)).
  * 
- * @author Samuel
  */
 public class Function implements Term {
 	private Functor functor;

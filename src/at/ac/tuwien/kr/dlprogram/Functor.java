@@ -3,7 +3,6 @@ package at.ac.tuwien.kr.dlprogram;
 /**
  * Functor is used by function to represent an arithmetic operator or a functor as abs, sqrt, etc.
  * 
- * @author Samuel
  */
 public class Functor implements Cloneable, Comparable<Functor> {
 	public static final String PLUS = "+";

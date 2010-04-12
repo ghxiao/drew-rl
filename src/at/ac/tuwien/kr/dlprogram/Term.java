@@ -3,7 +3,6 @@ package at.ac.tuwien.kr.dlprogram;
 /**
  * The implementation of term.
  * 
- * @author Samuel
  */
 public interface Term extends Cloneable {
 	/**

@@ -11,7 +11,6 @@ import java.util.List;
  * There are two special literals, TRUE and FALSE, represent logically true or
  * false.
  * 
- * @author Samuel
  */
 public class Literal implements Cloneable, Comparable<Literal> {
 	public static final Literal TRUE = new Literal(NormalPredicate.TRUE,
