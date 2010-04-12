@@ -8,12 +8,9 @@
 package at.ac.tuwien.kr.ldlpprogram.reasoner;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLClassExpression;
@@ -33,11 +30,10 @@ import at.ac.tuwien.kr.dlprogram.DLProgram;
 import at.ac.tuwien.kr.dlprogram.DLProgramKB;
 import at.ac.tuwien.kr.dlprogram.Literal;
 import at.ac.tuwien.kr.dlprogram.NormalPredicate;
-import at.ac.tuwien.kr.dlprogram.Predicate;
 import at.ac.tuwien.kr.dlprogram.Term;
 import at.ac.tuwien.kr.dlprogram.Variable;
-import at.ac.tuwien.kr.ldlp.reasoner.LDLPCompilerManager;
 import at.ac.tuwien.kr.ldlp.reasoner.LDLPCompiler;
+import at.ac.tuwien.kr.ldlp.reasoner.LDLPCompilerManager;
 
 /**
  * KBCompiler: compile the dl-program KB to a datalog^n program.
@@ -217,7 +213,7 @@ public class KBCompiler {
 			}
 			newClauses.add(newClause);
 
-			logger.debug("{} / {}\n  ->\n{}", new Object[] { clause, signature,
+			logger.debug("{} / [{}]\n  ->\n{}", new Object[] { clause, signature,
 					newClause });
 		}
 

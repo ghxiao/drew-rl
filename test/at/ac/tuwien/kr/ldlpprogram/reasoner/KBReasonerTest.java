@@ -1,6 +1,8 @@
 package at.ac.tuwien.kr.ldlpprogram.reasoner;
 
-import static org.junit.Assert.*;
+import static at.ac.tuwien.kr.helper.LDLHelper.cls;
+import static at.ac.tuwien.kr.helper.LDLHelper.sub;
+import static org.junit.Assert.assertTrue;
 
 import java.io.FileNotFoundException;
 import java.io.StringReader;
@@ -13,7 +15,6 @@ import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
-import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 
 import at.ac.tuwien.kr.dlprogram.DLProgram;
 import at.ac.tuwien.kr.dlprogram.DLProgramKB;
@@ -21,8 +22,6 @@ import at.ac.tuwien.kr.dlprogram.DLProgramKBLoader;
 import at.ac.tuwien.kr.dlprogram.Literal;
 import at.ac.tuwien.kr.dlprogram.parser.DLProgramParser;
 import at.ac.tuwien.kr.dlprogram.parser.ParseException;
-
-import static at.ac.tuwien.kr.helper.LDLHelper.*;
 
 public class KBReasonerTest {
 

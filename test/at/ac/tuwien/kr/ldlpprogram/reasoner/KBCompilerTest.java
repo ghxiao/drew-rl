@@ -9,7 +9,7 @@ import static at.ac.tuwien.kr.helper.LDLHelper.prop;
 import static at.ac.tuwien.kr.helper.LDLHelper.sub;
 import static at.ac.tuwien.kr.helper.LDLHelper.topClass;
 import static at.ac.tuwien.kr.helper.LDLHelper.trans;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.io.StringReader;
 import java.util.List;
@@ -19,7 +19,6 @@ import org.junit.Test;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
-import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 
 import at.ac.tuwien.kr.dlprogram.Clause;
@@ -28,9 +27,9 @@ import at.ac.tuwien.kr.dlprogram.DLProgram;
 import at.ac.tuwien.kr.dlprogram.parser.DLProgramParser;
 import at.ac.tuwien.kr.dlprogram.parser.ParseException;
 import at.ac.tuwien.kr.ldlp.reasoner.LDLPAxiomCompiler;
-import at.ac.tuwien.kr.ldlp.reasoner.LDLPClosureCompiler;
 import at.ac.tuwien.kr.ldlp.reasoner.LDLPClosure;
 import at.ac.tuwien.kr.ldlp.reasoner.LDLPClosureBuilder;
+import at.ac.tuwien.kr.ldlp.reasoner.LDLPClosureCompiler;
 
 public class KBCompilerTest {
 

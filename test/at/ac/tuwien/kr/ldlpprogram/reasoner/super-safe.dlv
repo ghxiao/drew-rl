@@ -1,0 +1,40 @@
+p1_1(X) :- p2_1(X).
+top1_1(o1).
+p3_1(o1, o2).
+p3_1(o3, o1).
+top1_1(o3).
+top1_1(o2).
+p1_1(Y) :- p1_1(X), p4_1(X, Y).
+top1_1(X) :- p1_1(X).
+p2_1(X) :- p5_1(X, Y1), top1_1(Y1), p5_1(X, Y2), top1_1(Y2), Y1 != Y2.
+top2_1(X, Y) :- p5_1(X, Y).
+top2_1(X, Y) :- p3_1(X, Y).
+p4_1(X, Y) :- p3_1(X, Y).
+p4_1(X, Z) :- p3_1(X, Y), p4_1(Y, Z).
+p1_2(X) :- p2_2(X).
+top1_2(o1).
+p3_2(o1, o2).
+p3_2(o3, o1).
+top1_2(o3).
+top1_2(o2).
+p1_2(Y) :- p1_2(X), p4_2(X, Y).
+top1_2(X) :- p1_2(X).
+p2_2(X) :- p5_2(X, Y1), top1_2(Y1), p5_2(X, Y2), top1_2(Y2), Y1 != Y2.
+top2_2(X, Y) :- p5_2(X, Y).
+top2_2(X, Y) :- p3_2(X, Y).
+p4_2(X, Y) :- p3_2(X, Y).
+p4_2(X, Z) :- p3_2(X, Y), p4_2(Y, Z).
+p6_2(X, Y) :- paper(X, Y).
+good(X) :- p7_1(X, Y), not p1_2(Y).
+
+paper(o1, o4).
+paper(o1, o5).
+
+%over(X) :- not good(X).
+
+over(X) :- not good(X), domain(X).
+domain(o1).
+domain(o2).
+domain(o3).
+domain(o4).
+domain(o5).

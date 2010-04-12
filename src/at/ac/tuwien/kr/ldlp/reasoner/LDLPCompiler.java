@@ -43,8 +43,11 @@ public class LDLPCompiler {
 		logger.debug("-------------------building closure:--------------------");
 		LDLPClosureBuilder closureBuilder = new LDLPClosureBuilder();
 		final LDLPClosure closure = closureBuilder.build(axioms);
-		LDLPClosureCompiler closureCompiler = new LDLPClosureCompiler();
+		
+		
 		logger.debug("------------------compiling closure:--------------------");
+		LDLPClosureCompiler closureCompiler = new LDLPClosureCompiler();
+		
 		final List<Clause> clauses1 = closureCompiler.compile(closure);
 		clauses.addAll(clauses1);
 		return clauses;

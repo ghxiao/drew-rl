@@ -7,9 +7,7 @@
  */
 package at.ac.tuwien.kr.ldlp.reasoner;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.semanticweb.owlapi.model.OWLClass;
@@ -17,11 +15,15 @@ import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLIndividual;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * TODO describe this class please.
  */
 public class LDLPClosure {
+
+	final static Logger logger = LoggerFactory.getLogger(LDLPClosure.class);
 
 	private Set<OWLIndividual> namedIndividuals;
 	private Set<OWLClass> namedClasses;
@@ -74,26 +76,32 @@ public class LDLPClosure {
 
 	public LDLPClosure addNamedClasses(OWLClass cls) {
 		this.namedClasses.add(cls);
+		logger.debug("Class {} added to the closure", cls);
 		return this;
 	}
 
 	public LDLPClosure addNamedProperty(OWLObjectProperty property) {
 		this.namedProperties.add(property);
+		logger.debug("Property {} added to the closure", property);
 		return this;
 	}
 
 	public LDLPClosure addNamedIndividual(OWLIndividual individual) {
 		this.namedIndividuals.add(individual);
+		logger.debug("Individual {} added to the closure", individual);
 		return this;
 	}
 
 	public LDLPClosure addComplexClass(OWLClassExpression classExpression) {
 		this.complexClassExpressions.add(classExpression);
+		logger.debug("classExpression {} added to the closure", classExpression);
 		return this;
 	}
 
-	public LDLPClosure addComplexProperty(OWLObjectPropertyExpression propertyExpression) {
+	public LDLPClosure addComplexProperty(
+			OWLObjectPropertyExpression propertyExpression) {
 		this.complexPropertyExpressions.add(propertyExpression);
+		logger.debug("propertyExpression {} added to the closure", propertyExpression);
 		return this;
 	}
 }

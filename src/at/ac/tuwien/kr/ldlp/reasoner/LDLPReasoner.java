@@ -3,7 +3,6 @@ package at.ac.tuwien.kr.ldlp.reasoner;
 import java.util.List;
 
 import org.semanticweb.owlapi.model.OWLAxiom;
-import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.reasoner.AxiomNotInProfileException;
 import org.semanticweb.owlapi.reasoner.BufferingMode;
@@ -17,15 +16,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import at.ac.tuwien.kr.datalog.DatalogReasoner;
-import at.ac.tuwien.kr.datalog.DatalogQuery;
 import at.ac.tuwien.kr.datalog.DlvDatalogReasoner;
 import at.ac.tuwien.kr.datalog.XSBDatalogReasoner;
 import at.ac.tuwien.kr.datalog.DatalogReasoner.TYPE;
 import at.ac.tuwien.kr.dlprogram.Clause;
-
-import edu.stanford.db.lp.Literal;
-import edu.stanford.db.lp.ProgramClause;
-import edu.unika.aifb.kaon.datalog.program.Program;
 
 public class LDLPReasoner extends OWLReasonerAdapter {
 	final static Logger logger = LoggerFactory.getLogger(LDLPClosureCompiler.class);
