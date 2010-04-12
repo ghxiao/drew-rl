@@ -5,7 +5,13 @@
 	<classpathentry kind="src" path="owlapi-src"/>
 	<classpathentry kind="src" path="yajxb-src"/>
 	<classpathentry kind="src" path="dlv-wrapper-decompiled"/>
+	<classpathentry kind="src" path="interprolog-src">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="LDL-trunk/lib"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/3"/>
 	<classpathentry kind="lib" path="lib/datalog.jar"/>
 	<classpathentry kind="lib" path="lib/log4j-1.2.15.jar"/>
 	<classpathentry kind="lib" path="lib/slf4j-api-1.5.11.jar" sourcepath="lib/slf4j-api-1.5.11-sources.jar"/>
