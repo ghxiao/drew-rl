@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 import com.google.code.regex.NamedMatcher;
 import com.google.code.regex.NamedPattern;
 
-import DLV.DLVInvocationException;
+
 
 public class DLVWrapper {
 	String dlvPath;

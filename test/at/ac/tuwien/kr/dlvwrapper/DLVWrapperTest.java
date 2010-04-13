@@ -6,8 +6,6 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import DLV.DLVInvocationException;
-
 public class DLVWrapperTest {
 
 	@Before
@@ -59,7 +57,6 @@ public class DLVWrapperTest {
 		assertTrue(dlv.queryWFS(q2));
 		assertFalse(dlv.queryWFS(q3));
 		assertFalse(dlv.queryWFS(q4));
-		
 
 	}
 }

@@ -12,10 +12,10 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import DLV.DLVInvocationException;
 import at.ac.tuwien.kr.dlprogram.Clause;
 import at.ac.tuwien.kr.dlprogram.DLProgram;
 import at.ac.tuwien.kr.dlprogram.Literal;
+import at.ac.tuwien.kr.dlvwrapper.DLVInvocationException;
 import at.ac.tuwien.kr.dlvwrapper.DLVWrapper;
 import at.ac.tuwien.kr.ldlp.reasoner.LDLPAxiomCompiler;
 
