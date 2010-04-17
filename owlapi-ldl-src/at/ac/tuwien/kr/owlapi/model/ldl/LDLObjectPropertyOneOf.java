@@ -6,7 +6,7 @@ import java.util.Set;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 
 public interface LDLObjectPropertyOneOf extends OWLObjectPropertyExpression {
-	Set<OWLIndividualPair> getOperands();
+	Set<LDLIndividualPair> getOperands();
 
 	/**
 	 * Gets the class expressions returned by {@link #getOperands()} as a list
@@ -14,6 +14,6 @@ public interface LDLObjectPropertyOneOf extends OWLObjectPropertyExpression {
 	 * 
 	 * @return The property expressions as a list.
 	 */
-	List<OWLIndividualPair> getOperandsAsList();
+	List<LDLIndividualPair> getOperandsAsList();
 
 }

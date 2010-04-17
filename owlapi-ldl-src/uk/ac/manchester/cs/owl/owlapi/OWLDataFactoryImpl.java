@@ -12,7 +12,8 @@ import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyIntersectionOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyOneOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyTransitiveClosureOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyUnionOf;
-import at.ac.tuwien.kr.owlapi.model.ldl.OWLIndividualPair;
+import at.ac.tuwien.kr.owlapi.model.ldl.LDLIndividualPair;
+import at.ac.tuwien.kr.owlapi.model.ldl.impl.LDLIndividualPairImpl;
 import at.ac.tuwien.kr.owlapi.model.ldl.impl.LDLObjectPropertyChainOfImpl;
 import at.ac.tuwien.kr.owlapi.model.ldl.impl.LDLObjectPropertyIntersectionOfImpl;
 import at.ac.tuwien.kr.owlapi.model.ldl.impl.LDLObjectPropertyOneOfImpl;
@@ -1264,12 +1265,17 @@ public class OWLDataFactoryImpl implements OWLDataFactory {
 	}
 
 	@Override
-	public LDLObjectPropertyOneOf getLDLObjectPropertyOneOf(Set<OWLIndividualPair> operands) {
+	public LDLObjectPropertyOneOf getLDLObjectPropertyOneOf(Set<LDLIndividualPair> operands) {
 		return new LDLObjectPropertyOneOfImpl(this, operands);
 	}
 
 	@Override
-	public LDLObjectPropertyOneOf getLDLObjectPropertyOneOf(OWLIndividualPair... operands) {
+	public LDLObjectPropertyOneOf getLDLObjectPropertyOneOf(LDLIndividualPair... operands) {
 		return getLDLObjectPropertyOneOf(CollectionFactory.createSet(operands));
+	}
+
+	@Override
+	public LDLIndividualPair getLDLIndiviualPair(OWLIndividual first, OWLIndividual second) {
+		return new LDLIndividualPairImpl(this,first,second);
 	}
 }

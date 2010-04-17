@@ -47,7 +47,7 @@ import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyIntersectionOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyOneOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyTransitiveClosureOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyUnionOf;
-import at.ac.tuwien.kr.owlapi.model.ldl.OWLIndividualPair;
+import at.ac.tuwien.kr.owlapi.model.ldl.LDLIndividualPair;
 
 //import edu.stanford.db.lp.Literal;
 //import edu.stanford.db.lp.ProgramClause;
@@ -490,9 +490,9 @@ public class LDLPClosureCompiler implements OWLClassExpressionVisitor,
 	 */
 	@Override
 	public void visit(LDLObjectPropertyOneOf property) {
-		final Set<OWLIndividualPair> individualPairs = property.getOperands();
+		final Set<LDLIndividualPair> individualPairs = property.getOperands();
 		final String predicate = manager.getPredicate(property);
-		for (OWLIndividualPair pair : individualPairs) {
+		for (LDLIndividualPair pair : individualPairs) {
 			Literal[] head = new Literal[1];
 			final String constant1 = manager.getConstant(pair.getFirst());
 			final String constant2 = manager.getConstant(pair.getSecond());

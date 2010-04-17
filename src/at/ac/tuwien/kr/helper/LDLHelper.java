@@ -36,7 +36,7 @@ import at.ac.tuwien.kr.ldlp.reasoner.LDLPCompilerManager;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyChainOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyOneOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyTransitiveClosureOf;
-import at.ac.tuwien.kr.owlapi.model.ldl.OWLIndividualPair;
+import at.ac.tuwien.kr.owlapi.model.ldl.LDLIndividualPair;
 
 //import edu.stanford.db.lp.Literal;
 //import edu.stanford.db.lp.ProgramClause;
@@ -127,8 +127,12 @@ public class LDLHelper {
 		return factory.getOWLObjectOneOf(individuals);
 	}
 	
-	public static LDLObjectPropertyOneOf oneOf(OWLIndividualPair... pairs) {
+	public static LDLObjectPropertyOneOf oneOf(LDLIndividualPair... pairs) {
 		return factory.getLDLObjectPropertyOneOf(pairs);
+	}
+	
+	public static LDLIndividualPair pair(OWLIndividual first, OWLIndividual second){
+		return factory.getLDLIndiviualPair(first, second);
 	}
 
 	public static Clause clause(Literal[] head, Literal[] body) {

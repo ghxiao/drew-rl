@@ -23,9 +23,14 @@ public class LoadTest {
 //
 //	public final static String phyUri = "file:kb/role_chain.ldl";
 //	
-	public final static String uri = "http://www.kr.tuwien.ac.at/staff/xiao/ldl/role_inverse.ldl";
+//	public final static String uri = "http://www.kr.tuwien.ac.at/staff/xiao/ldl/role_inverse.ldl";
 
-	public final static String phyUri = "file:kb/role_inverse.ldl";
+	//public final static String phyUri = "file:kb/role_inverse.ldl";
+	
+	public final static String uri = "http://www.kr.tuwien.ac.at/staff/xiao/ldl/role_nominal.ldl";
+
+	public final static String phyUri = "file:kb/role_nominal.ldl";
+
 	
 	public static void main(String[] args) {
 		loadOntology(uri,phyUri);

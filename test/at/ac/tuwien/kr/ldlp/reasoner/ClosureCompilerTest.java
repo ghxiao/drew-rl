@@ -36,11 +36,8 @@ import at.ac.tuwien.kr.dlprogram.Variable;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyChainOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyOneOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyTransitiveClosureOf;
-import at.ac.tuwien.kr.owlapi.model.ldl.OWLIndividualPair;
+import at.ac.tuwien.kr.owlapi.model.ldl.LDLIndividualPair;
 
-import edu.stanford.db.lp.ProgramClause;
-import edu.stanford.db.lp.Term;
-import edu.stanford.db.lp.VariableTerm;
 
 import static at.ac.tuwien.kr.helper.LDLHelper.*;
 
@@ -257,8 +254,8 @@ public class ClosureCompilerTest {
 	 */
 	@Test
 	public void testVisitOWLObjectPropertyOneOf() {
-		OWLIndividualPair pair1 = new OWLIndividualPair(a, b);
-		OWLIndividualPair pair2 = new OWLIndividualPair(b, c);
+		LDLIndividualPair pair1 = pair(a, b);
+		LDLIndividualPair pair2 = pair(b, c);
 		final LDLObjectPropertyOneOf prop = oneOf(pair1, pair2);
 		final OWLSubObjectPropertyOfAxiom axiom = sub(prop, E);
 		closure = builder.build(axiom);

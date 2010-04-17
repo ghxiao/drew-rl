@@ -1,5 +1,5 @@
 /*
- * @(#)LDLObjectPropertyOneOfImpl.java 2010-3-27 
+ * @(#)OWLIndividualPair.java 2010-3-27 
  *
  * Author: Guohui Xiao
  * Technical University of Vienna
@@ -7,9 +7,6 @@
  */
 package at.ac.tuwien.kr.owlapi.model.ldl.impl;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.semanticweb.owlapi.model.OWLClass;
@@ -18,6 +15,7 @@ import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLDataProperty;
 import org.semanticweb.owlapi.model.OWLDatatype;
 import org.semanticweb.owlapi.model.OWLEntity;
+import org.semanticweb.owlapi.model.OWLIndividual;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
@@ -30,35 +28,52 @@ import org.semanticweb.owlapi.model.OWLPropertyExpressionVisitorEx;
 
 import uk.ac.manchester.cs.owl.owlapi.OWLObjectImpl;
 
-import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyChainOf;
-import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyOneOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLIndividualPair;
 
 /**
  * TODO describe this class please.
  */
-public class LDLObjectPropertyOneOfImpl extends OWLObjectImpl implements LDLObjectPropertyOneOf {
+public class LDLIndividualPairImpl extends OWLObjectImpl implements LDLIndividualPair{
 
-	private Set<LDLIndividualPair> values;
-
-	public LDLObjectPropertyOneOfImpl(OWLDataFactory dataFactory, Set<LDLIndividualPair> values) {
+	public LDLIndividualPairImpl(OWLDataFactory dataFactory,OWLIndividual first, OWLIndividual second) {
 		super(dataFactory);
-		this.values = new HashSet<LDLIndividualPair>(values);
+		this.first = first;
+		this.second = second;
+	}
+
+	OWLIndividual first, second;
+
+	/**
+	 * @return the first
+	 */
+	public OWLIndividual getFirst() {
+		return first;
+	}
+
+	/**
+	 * @return the second
+	 */
+	public OWLIndividual getSecond() {
+		return second;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((first == null) ? 0 : first.hashCode());
+		result = prime * result + ((second == null) ? 0 : second.hashCode());
+		return result;
 	}
 
 	@Override
-	protected int compareObjectOfSameType(OWLObject object) {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public Set<LDLIndividualPair> getOperands() {
-		return Collections.unmodifiableSet(values);
-	}
-
-	@Override
-	public List<LDLIndividualPair> getOperandsAsList() {
-		throw new UnsupportedOperationException();
+	public String toString() {
+		return "{" + first.toString() + "," + second.toString() + "}";
 	}
 
 	@Override
@@ -153,12 +168,13 @@ public class LDLObjectPropertyOneOfImpl extends OWLObjectImpl implements LDLObje
 
 	@Override
 	public void accept(OWLPropertyExpressionVisitor visitor) {
-		visitor.visit(this);
+		throw new UnsupportedOperationException();
+		
 	}
 
 	@Override
 	public <O> O accept(OWLPropertyExpressionVisitorEx<O> visitor) {
-		return visitor.visit(this);
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
@@ -213,124 +229,120 @@ public class LDLObjectPropertyOneOfImpl extends OWLObjectImpl implements LDLObje
 
 	@Override
 	public Set<OWLObjectPropertyExpression> getSuperProperties(OWLOntology ontology) {
+
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public Set<OWLObjectPropertyExpression> getSuperProperties(Set<OWLOntology> ontologies) {
+
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public boolean isAnonymous() {
+
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public boolean isDataPropertyExpression() {
+
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public boolean isFunctional(OWLOntology ontology) {
+
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public boolean isFunctional(Set<OWLOntology> ontologies) {
+
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public boolean isOWLBottomDataProperty() {
+
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public boolean isOWLBottomObjectProperty() {
+
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public boolean isOWLTopDataProperty() {
+
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public boolean isOWLTopObjectProperty() {
+
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public boolean isObjectPropertyExpression() {
-		return true;
+
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public void accept(OWLObjectVisitor visitor) {
-		visitor.visit(this);
 
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public <O> O accept(OWLObjectVisitorEx<O> visitor) {
-		return visitor.visit(this);
-	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + ((values == null) ? 0 : values.hashCode());
-		return result;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (!super.equals(obj)) {
-			return false;
-		}
-		if (!(obj instanceof LDLObjectPropertyOneOfImpl)) {
-			return false;
-		}
-		LDLObjectPropertyOneOfImpl other = (LDLObjectPropertyOneOfImpl) obj;
-		if (values == null) {
-			if (other.values != null) {
-				return false;
-			}
-		} else if (!values.equals(other.values)) {
-			return false;
-		}
-		return true;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("LDLObjectPropertyOneOf(");
-		boolean first = true;
-		for (LDLIndividualPair pair : this.getOperands()) {
-			if (!first) {
-				sb.append(",");
-			}
-			sb.append(pair);
-			first = false;
-		}
-		sb.append(")");
-		return sb.toString();
+	public Set<OWLClass> getClassesInSignature() {
+
+		throw new UnsupportedOperationException();
 	}
 
+	@Override
+	public Set<OWLDataProperty> getDataPropertiesInSignature() {
+
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public Set<OWLDatatype> getDatatypesInSignature() {
+
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public Set<OWLNamedIndividual> getIndividualsInSignature() {
+
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public Set<OWLObjectProperty> getObjectPropertiesInSignature() {
+
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public Set<OWLEntity> getSignature() {
+
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	protected int compareObjectOfSameType(OWLObject object) {
+		throw new UnsupportedOperationException();
+	}
 }
