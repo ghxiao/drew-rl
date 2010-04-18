@@ -10,7 +10,6 @@ package at.ac.tuwien.kr.ldlp.profile;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.model.OWLSubObjectPropertyOfAxiom;
 import org.semanticweb.owlapi.profiles.OWLProfileViolation;
 
 /**

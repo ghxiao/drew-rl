@@ -1,12 +1,11 @@
 package at.ac.tuwien.kr.dlprogram.parser;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.io.StringReader;
 
 import org.junit.Test;
 
-import at.ac.tuwien.kr.dlprogram.DLInputOperation;
 import at.ac.tuwien.kr.dlprogram.DLInputSignature;
 
 

@@ -724,7 +724,7 @@ public class OWLRDFConsumer implements RDFConsumer {
     }
 
 
-    protected void addIndividual(IRI iri) {
+    public void addIndividual(IRI iri) {
         individualIRIs.add(iri);
     }
 

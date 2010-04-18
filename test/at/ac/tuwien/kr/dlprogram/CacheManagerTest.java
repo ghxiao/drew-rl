@@ -1,10 +1,8 @@
 package at.ac.tuwien.kr.dlprogram;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-
-import at.ac.tuwien.kr.dlprogram.parser.ParseException;
 
 public class CacheManagerTest {
 

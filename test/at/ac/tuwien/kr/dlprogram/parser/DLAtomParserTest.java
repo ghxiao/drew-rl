@@ -8,7 +8,6 @@ import java.io.StringReader;
 import org.junit.Before;
 import org.junit.Test;
 
-import at.ac.tuwien.kr.dlprogram.DLAtomPredicate;
 import at.ac.tuwien.kr.dlprogram.Literal;
 
 public class DLAtomParserTest {

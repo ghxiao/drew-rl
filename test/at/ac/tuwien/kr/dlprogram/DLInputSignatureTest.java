@@ -1,6 +1,6 @@
 package at.ac.tuwien.kr.dlprogram;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,9 +10,6 @@ import org.junit.Test;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLLogicalEntity;
-
-import com.sun.org.apache.xml.internal.utils.ListingErrorHandler;
-import com.sun.xml.internal.ws.wsdl.writer.document.OpenAtts;
 
 public class DLInputSignatureTest {
 

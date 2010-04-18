@@ -1,0 +1,2 @@
+This failed unexpectedly:
+streamContents([object(class(com.declarativa.interprolog.util.ResultFromProlog,long(19404,27206,28244,13965),classDescInfo([boolean(succeeded),int(timestamp),objectField(error,Ljava/lang/Object;),arrayField(rVars,[Ljava/lang/Object;)],2,null)),[] + [1,4,null,arrayObject(class([Ljava.lang.Object;,long(-28466,22687,4211,10604),classDescInfo([],2,null)),[foo])])],_h2314,_h2339,[])
