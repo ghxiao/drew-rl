@@ -11,7 +11,7 @@ import java.util.*;
 
 /** A simple pattern recognizor used in error detection. ASCII characters only. */
 public class Recognizer implements OutputListener{
-	Vector listeners;
+	Vector<RecognizerListener> listeners;
 	int nextInPattern; // next byte to recognize
 	byte[] bytePattern;
 	boolean collectRestOfBuffer;
@@ -24,7 +24,7 @@ public class Recognizer implements OutputListener{
 		this(pattern,false);
 	}
 	public Recognizer(String pattern,boolean collectRestOfBuffer){
-		listeners = new Vector();
+		listeners = new Vector<RecognizerListener>();
 		if (pattern==null) bytePattern=new byte[0];
 		else bytePattern = pattern.getBytes();
 		nextInPattern=0;
@@ -54,7 +54,8 @@ public class Recognizer implements OutputListener{
 		}
 	}
 	public void streamEnded(){
-		throw new IPException("Unexpected end of stream, Prolog may have died abruptly");
+		//Xiao:
+		//throw new IPException("Unexpected end of stream, Prolog may have died abruptly");
 	}
 	
 	public synchronized void addRecognizerListener(RecognizerListener l){
@@ -65,7 +66,7 @@ public class Recognizer implements OutputListener{
 	}
 	void fireRecognized(String extra){
 		for (int l=0; l<listeners.size(); l++)
-			((RecognizerListener)(listeners.elementAt(l))).recognized(this,extra);
+			(listeners.elementAt(l)).recognized(this,extra);
 	}
 	public String toString(){return "Recognizer of "+new String(bytePattern) /* +". Last buffer I got:"+new String(lastBuffer,0,lastNbytes) */;}
 }
