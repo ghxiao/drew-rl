@@ -12,7 +12,7 @@ import at.ac.tuwien.kr.datalog.TruthValue;
 import com.declarativa.interprolog.PrologOutputListener;
 import com.declarativa.interprolog.XSBSubprocessEngine;
 
-public class XSBWrapper {
+public class XSBWrapperBasedOnInterprolog {
 
 	private class TruthValueReader implements PrologOutputListener {
 		private final StringBuffer buffer;
@@ -33,14 +33,8 @@ public class XSBWrapper {
 
 			while (!founded) {
 				
-				
-				
-
 				String message = buffer.toString();
-				
-				
-				
-
+	
 				if (message.contains("yes")) {
 					result = TruthValue.TRUE;
 					founded = true;
@@ -73,12 +67,12 @@ public class XSBWrapper {
 		}
 	}
 
-	final Logger logger = LoggerFactory.getLogger(XSBWrapper.class);
+	final Logger logger = LoggerFactory.getLogger(XSBWrapperBasedOnInterprolog.class);
 	private XSBSubprocessEngine engine;
 	final String XSB_BIN_DIR = "G:\\Reasoner\\xsb-3.1-win32\\config\\x86-pc-windows\\bin";
 	private TruthValueReader valueReader;
 
-	public XSBWrapper() {
+	public XSBWrapperBasedOnInterprolog() {
 
 		engine = new XSBSubprocessEngine(XSB_BIN_DIR + "/xsb");
 

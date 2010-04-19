@@ -23,19 +23,19 @@ public class XSBWrapperTest {
 
 	@Test
 	public void testSetProgram() throws IOException, InterruptedException {
-		XSBWrapper xsb = new XSBWrapper();		
+		XSBWrapperBasedOnInterprolog xsb = new XSBWrapperBasedOnInterprolog();		
 		xsb.setProgram(program);
 	}
 
 	@Test
 	public void testClose() {
-		XSBWrapper xsb = new XSBWrapper();
+		XSBWrapperBasedOnInterprolog xsb = new XSBWrapperBasedOnInterprolog();
 		xsb.close();
 	}
 
 	@Test
 	public void testQuery001() throws IOException, InterruptedException {
-		XSBWrapper xsb = new XSBWrapper();
+		XSBWrapperBasedOnInterprolog xsb = new XSBWrapperBasedOnInterprolog();
 		xsb.setProgram(program);
 		assertEquals(TruthValue.TRUE, xsb.query("person(barber)"));
 		assertEquals(TruthValue.TRUE, xsb.query("shaves(barber,mayor)"));
@@ -44,7 +44,7 @@ public class XSBWrapperTest {
 	
 	@Test
 	public void testQuery002() throws IOException, InterruptedException {
-		XSBWrapper xsb = new XSBWrapper();
+		XSBWrapperBasedOnInterprolog xsb = new XSBWrapperBasedOnInterprolog();
 		xsb.setProgram(program);
 		assertEquals(TruthValue.UNKNOWN, xsb.query("shaves(barber,barber)"));
 		xsb.close();
@@ -52,7 +52,7 @@ public class XSBWrapperTest {
 	
 	@Test
 	public void testQuery003() throws IOException, InterruptedException {
-		XSBWrapper xsb = new XSBWrapper();
+		XSBWrapperBasedOnInterprolog xsb = new XSBWrapperBasedOnInterprolog();
 		xsb.setProgram(program);
 		assertEquals(TruthValue.FALSE, xsb.query("shaves(mayor,barber)"));
 		xsb.close();
