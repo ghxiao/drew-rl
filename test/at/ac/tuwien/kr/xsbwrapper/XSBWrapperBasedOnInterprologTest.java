@@ -9,14 +9,9 @@ import org.junit.Test;
 
 import at.ac.tuwien.kr.datalog.TruthValue;
 
-public class XSBWrapperTest {
+public class XSBWrapperBasedOnInterprologTest {
 
 	String program;
-
-	// String path =
-	// "G:\\Reasoner\\xsb-3.1-win32\\config\\x86-pc-windows\\bin\\xsb.exe";
-
-	String path = "G:\\Reasoner\\xsb-3.1-win32\\config\\x86-pc-windows\\bin\\xsb.exe";
 
 	@Before
 	public void setUp() throws Exception {
@@ -27,28 +22,29 @@ public class XSBWrapperTest {
 	}
 
 	@Test
-	public void testXSBWrapper() throws XSBInvocationException {
-		XSBWrapper xsb = new XSBWrapper(path);
-	}
-
-	@Test
-	public void testSetProgram() throws XSBInvocationException, IOException, InterruptedException {
-		XSBWrapper xsb = new XSBWrapper(path);
+	public void testSetProgram() throws IOException, InterruptedException {
+		XSBWrapperBasedOnInterprolog xsb = new XSBWrapperBasedOnInterprolog();
 		xsb.setProgram(program);
 	}
 
 	@Test
-	public void testSetQuery001() throws XSBInvocationException, IOException, InterruptedException {
-		XSBWrapper xsb = new XSBWrapper(path);
+	public void testClose() {
+		XSBWrapperBasedOnInterprolog xsb = new XSBWrapperBasedOnInterprolog();
+		xsb.close();
+	}
+
+	@Test
+	public void testQuery001() throws IOException, InterruptedException {
+		XSBWrapperBasedOnInterprolog xsb = new XSBWrapperBasedOnInterprolog();
 		xsb.setProgram(program);
 		assertEquals(TruthValue.TRUE, xsb.query("person(barber)"));
 		assertEquals(TruthValue.TRUE, xsb.query("shaves(barber,mayor)"));
 		xsb.close();
 	}
-	
+
 	@Test
 	public void testQuery002() throws IOException, InterruptedException {
-		XSBWrapper xsb = new XSBWrapper(path);
+		XSBWrapperBasedOnInterprolog xsb = new XSBWrapperBasedOnInterprolog();
 		xsb.setProgram(program);
 		assertEquals(TruthValue.UNKNOWN, xsb.query("shaves(barber,barber)"));
 		xsb.close();
@@ -56,9 +52,10 @@ public class XSBWrapperTest {
 
 	@Test
 	public void testQuery003() throws IOException, InterruptedException {
-		XSBWrapper xsb = new XSBWrapper(path);
+		XSBWrapperBasedOnInterprolog xsb = new XSBWrapperBasedOnInterprolog();
 		xsb.setProgram(program);
 		assertEquals(TruthValue.FALSE, xsb.query("shaves(mayor,barber)"));
 		xsb.close();
 	}
+
 }
