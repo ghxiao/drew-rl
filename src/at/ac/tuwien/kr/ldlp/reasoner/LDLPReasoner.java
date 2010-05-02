@@ -3,7 +3,11 @@ package at.ac.tuwien.kr.ldlp.reasoner;
 import java.util.List;
 
 import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLIndividual;
 import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.reasoner.AxiomNotInProfileException;
 import org.semanticweb.owlapi.reasoner.BufferingMode;
 import org.semanticweb.owlapi.reasoner.FreshEntitiesException;
@@ -37,7 +41,7 @@ public class LDLPReasoner extends OWLReasonerAdapter {
 	protected LDLPReasoner(OWLOntology rootOntology, OWLReasonerConfiguration configuration, BufferingMode bufferingMode) {
 		super(rootOntology, configuration, bufferingMode);
 		compiler = new LDLPCompiler();
-		//datalogReasoner = new XSBDatalogReasoner();
+		// datalogReasoner = new XSBDatalogReasoner();
 	}
 
 	public LDLPReasoner(OWLOntology rootOntology) {
@@ -49,27 +53,39 @@ public class LDLPReasoner extends OWLReasonerAdapter {
 		this(rootOntology, new SimpleConfiguration(), null);
 		if (type == TYPE.DLV) {
 			datalogReasoner = new DlvDatalogReasoner();
-		}else if(type == TYPE.XSB){
+		} else if (type == TYPE.XSB) {
 			datalogReasoner = new XSBDatalogReasoner();
 		}
 	}
+
+//	public OWLIndividual query(OWLClass cls) {
+//		program = compiler.complile(this.getRootOntology());
+//		final String predicate = LDLPCompilerManager.getInstance().getPredicate(cls);
+//		
+//
+//	}
 
 	@Override
 	public boolean isEntailed(OWLAxiom axiom) throws ReasonerInterruptedException, UnsupportedEntailmentTypeException, TimeOutException,
 			AxiomNotInProfileException, FreshEntitiesException {
 
-		// if (!(axiom instanceof OWLClassAssertionAxiom))
-		// throw new UnsupportedOperationException();
+		if (!(axiom instanceof OWLClassAssertionAxiom))
+			throw new UnsupportedOperationException();
 
-		// OWLClassAssertionAxiom classAssertionAxiom = (OWLClassAssertionAxiom)
-		// axiom;
+		OWLClassAssertionAxiom classAssertionAxiom = (OWLClassAssertionAxiom)
+				axiom;
+
+		final OWLIndividual individual = classAssertionAxiom.getIndividual();
+
+		final OWLOntology rootOntology = super.getRootOntology();
+
+		final OWLOntologyManager manager = rootOntology.getOWLOntologyManager();
 
 		if (!compiled) {
 			logger.debug("Program Compiling Started");
 			program = compiler.complile(this.getRootOntology());
 			logger.debug("Program Compiling Finished");
 			compiled = true;
-
 		}
 
 		Clause query = axiomCompiler.compileOWLAxiom(axiom);

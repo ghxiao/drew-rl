@@ -14,7 +14,7 @@ import at.ac.tuwien.kr.dlprogram.DLProgram;
 import at.ac.tuwien.kr.dlprogram.Literal;
 
 /**
- * TODO describe this class please.
+ * Interface for Datalog Reasoner
  */
 public interface DatalogReasoner {
 	
