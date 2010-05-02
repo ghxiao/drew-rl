@@ -1,95 +1,193 @@
 \documentclass{article}
-
 \begin{document}
-	\title{Development of LDL}
-	\author{Guohui Xiao}
+
+\title{Development of LDL}
+
+\author{Guohui Xiao}
 	%\institute{KBS Group, TU Wien}
-	\maketitle
-	
-	\section{Extending OWL-API with More Role Constructors}
-	
-	OWL API 3.0 is targted on OWL 2 which is based on description logic SROIQ. 
-	In SROIQ, we do not have much role constructors.
-	
-	We extend OWL-API with the following role constructors:
-	
-	\begin{itemize}
-    \item Role conjunction: LDLObjectPropertyIntersectionOf
-    \item Role intersection: LDLObjectPropertyUnionOf
-    \item Role transitive closure: LDLObjectPropertyTransitiveClosureOf
-    \item Role inversion: LDLObjectPropertyInversionOf
-    \item Role nominals: LDLObjectPropertyOneOf
-    \item Role chain: LDLObjectPropertyChainOf
-    \end{itemize}
-	
-	Note that, in OWL2, we already have role inversion and chain. 
-	However, the syntaxes are very restricted. 
-	In LDL, we will release this, so we need to add new constructors.
-	
-	Affected java classes in owl-api 3.0:
-	
-	\begin{itemize}
-      \item org.coode.owlapi.rdfxml.parser
+
+\maketitle
+
+\section{Extending OWL-API with More Role Constructors}  
+
+OWL API 3.0 is targeted on OWL 2 which is based on description logic
+SROIQ.
+
+In SROIQ, we do not have much role constructors.
+
+We extend OWL-API
+with the following role constructors:
+\begin{itemize}
+\item Role conjunction: LDLObjectPropertyIntersectionOf
+\item Role intersection: LDLObjectPropertyUnionOf
+\item Role transitive closure: LDLObjectPropertyTransitiveClosureOf
+\item Role inversion: LDLObjectPropertyInversionOf
+\item Role nominals: LDLObjectPropertyOneOf
+\item Role chain: LDLObjectPropertyChainOf
+\end{itemize}  Note that, in OWL2, we already have role inversion
+and chain.  However, the syntaxes are very restricted.  In LDL, we
+will release this, so we need to add new constructors.  Affected
+java classes in owl-api 3.0: 
+\begin{itemize}
+\item org.coode.owlapi.rdfxml.parser
+  \begin{itemize}
+  \item class OWLRDFConsumer 
+    \begin{itemize}
+    \item objectPropertyExpressionTranslatorSelector (A)
+    \item translatedObjectPropertyExpression (A)
+    \item translateToObjectPropertyExpressionSet(IRI) (A)
+    \item setupPredicateHandlers() (M)
       \begin{itemize}
-        \item class OWLRDFConsumer 
-        	\begin{itemize}
-        	\item objectPropertyExpressionTranslatorSelector (A)
-        	\item translatedObjectPropertyExpression (A)
-        	\item translateToObjectPropertyExpressionSet(IRI) (A)
-        	\item setupPredicateHandlers() (M)
-        	\begin{itemize}
-             \item addPredicateHandler(new TPObjectPropertyTransitiveClosureOfHandler(this));
-        	\item addPredicateHandler(new TPObjectPropertyUnionOfHandler(this));
-        	\item addPredicateHandler(new TPObjectPropertyIntersectionOfHandler(this));
-        
-              \end{itemize}
-        \end{itemize}
+      \item addPredicateHandler(new
+        TPObjectPropertyTransitiveClosureOfHandler(this));
+      \item addPredicateHandler(new
+        TPObjectPropertyUnionOfHandler(this));
+      \item addPredicateHandler(new
+        TPObjectPropertyIntersectionOfHandler(this)); 
       \end{itemize}
     \end{itemize}
+  \end{itemize}
+\end{itemize}  
+
+For every new constructor, we
+
+\begin{itemize}
+
+\item add LDLObjectPropertyChainOf
+\item add LDLObjectPropertyChainOfImpl
+\item add LDLObjectPropertyChainOfTranslator 
+\item add TPObjectPropertyChainOfHandler (seems no use)
+\item update ObjectPropertyExpressionTranslatorSelector
+\item update OWLRDFVocabulary
+\item update OWLDataFactoy
+\item update OWLDataFactoryImpl
+\item update OWLRDFConsumer 
+\item update *Visitor
+\end{itemize}
+
+For inveseOf, which is already an OWL2 constructor, we
+\begin{itemize}
+\item add OWLObjectPropertyInverseOfTranslator
+\item update ObjectPropertyExpressionTranslatorSelector
+\end{itemize}
+
+\section{DLV java wrapper}
+
+The DLV Wrapper Project (http://www.mat.unical.it/wrapper/index.html) is
+too old. It does not support latest DLV which support WFS.
+
+So I decompiled the source code of DLV Java Wrapper 3.0 and read it.
+
+Finally I wrote one.
+
+\section{XSB java wrapper}
+
+\subsection{JNI Mode}
+\label{sec:XSB-jni}
+
+To compile the 
+
+Add the following line
+\begin{verbatim}
+#include <context.h>
+\end{verbatim}
+to the c files.
 	
-	For every new constructors
-	
-	\begin{itemize}
-      \item add LDLObjectPropertyChainOf
-      \item add LDLObjectPropertyChainOfImpl
-      \item add LDLObjectPropertyChainOfTranslator 
-      \item add TPObjectPropertyChainOfHandler (seems no use)
-      \item update ObjectPropertyExpressionTranslatorSelector
-      \item update OWLRDFVocabulary
-      \item update OWLDataFactoy
-      \item update OWLDataFactoryImpl
-      \item update OWLRDFConsumer      
-      \item update *Visitor
-    \end{itemize}
-	
-	For inveseOf, which is already an OWL2 constructor, we 	
-	\begin{itemize}
-      \item add OWLObjectPropertyInverseOfTranslator
-      \item update ObjectPropertyExpressionTranslatorSelector
-    \end{itemize}
-	
-	
-	\section{XSB java interface}
-	
-	
-	Add the following line
-	\begin{verbatim}
-		#include <context.h>
-	\end{verbatim}
-	to the c files.
-	
-	In XSBHello.java
-	\begin{verbatim}
+In XSBHello.java
+\begin{verbatim}
     	String[] xsbargs= {"/home/staff/xiao/local/xsb/xsb3.2", 
     	"--noprompt", "--quietload"};
-    \end{verbatim}
+\end{verbatim}
 	
-	To run XSBHello, we must add the following to the VM variables:
-	\begin{verbatim}
-       -Djava.library.path=/home/staff/xiao/local/xsb/xsb3.2/lib:/home/staff/xiao/local/xsb
-    \end{verbatim}
+To run XSBHello, we must add the following to the VM variables:
+\begin{verbatim}
+       -Djava.library.path=/home/staff/xiao/local/xsb/xsb3.2/lib:
+/home/staff/xiao/local/xsb
+\end{verbatim}
 	
-	problem: How to compile a class expression as a legal predicate?
-	
-	
+problem: 
+\begin{itemize}
+\item How to compile a class expression as a legal predicate?
+\item Always crash!!
+\end{itemize}
+
+I have given it up :-(
+
+
+\subsection{Sub-process Mode of Interprolog}
+
+\begin{itemize}
+\item Unexpected Exception
+\item Report unfounded result as true
+\end{itemize}
+
+\subsection{My Sub-process Java Wrapper for XSB}
+
+I implemented a sub-process java wrapper for XSB.
+
+Using multi-threads to monitor the output (stderr, stdout) of the XSB
+sub process.
+
+\section{Evaluation}
+
+
+\begin{itemize}
+\item
+  \begin{description}
+    \item[Reasoner] KAON2    
+
+    \item[Literature] Motik's PhD Thesis 
+
+    \item[Ontology] VICODI, LUBM, Wine, Galen
+
+    \item[Task] Querying Large ABoxes, TBox Classification
+  \end{description}
+
+\item
+  \begin{description}
+  \item[Reasoner] CEL
+  \item[Literature] CEL—A Polynomial-time Reasoner for Life Science
+    Ontologies
+  \item[Ontology] Go, Galen, Snomed
+  \item[Task] Classification
+  \end{description}
+\item
+  \begin{description}
+  \item[Reasoner] HermiT
+  \item[Literature] HermiT: A Highly-Efficient OWL Reasoner
+  \item[Ontology] Fly, GO, GALEN, ...
+  \item[Task] Classification
+  \end{description}
+
+\item
+  \begin{description}
+  \item[Reasoner] Requiem
+  \item[Literature] Efficient Query Answering for OWL 2
+  \item[Ontology] VICODI, LUBM
+  \item[Task] Query Rewriting
+  \end{description}
+
+\item
+  \begin{description}
+  \item[Reasoner] Pellet
+  \item[Literature] Pellet: A Practical OWL-DL Reasoner
+  \item[Ontology] AKT, Tambis, SUMO, Food, OWL-S, Financial, SWEEt,
+    Wine, Galen
+  \item[Ontology] Consistency Checking, Classification
+  \end{description}
+
+
+\end{itemize}
+
 \end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% TeX-PDF-mode: t
+%%% TeX-debug-bad-boxes: t
+%%% TeX-master: t
+%%% TeX-parse-self: t
+%%% TeX-auto-save: t
+%%% reftex-plug-into-AUCTeX: t
+%%% End: 
