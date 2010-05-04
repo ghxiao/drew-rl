@@ -1,32 +1,29 @@
 package at.ac.tuwien.kr.ldlp.demo;
 
-import static at.ac.tuwien.kr.helper.LDLHelper.*;
+import static at.ac.tuwien.kr.helper.LDLHelper.all;
+import static at.ac.tuwien.kr.helper.LDLHelper.assert$;
+import static at.ac.tuwien.kr.helper.LDLHelper.cls;
+import static at.ac.tuwien.kr.helper.LDLHelper.ind;
+import static at.ac.tuwien.kr.helper.LDLHelper.min;
+import static at.ac.tuwien.kr.helper.LDLHelper.prop;
+import static at.ac.tuwien.kr.helper.LDLHelper.sub;
+import static at.ac.tuwien.kr.helper.LDLHelper.topClass;
+import static at.ac.tuwien.kr.helper.LDLHelper.trans;
 
 import java.util.List;
 
-import org.semanticweb.owlapi.apibinding.OWLManager;
-import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
-import org.semanticweb.owlapi.model.OWLObjectPropertyAssertionAxiom;
-import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.model.OWLOntologyCreationException;
-import org.semanticweb.owlapi.model.OWLOntologyManager;
-import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
-import org.semanticweb.owlapi.util.SimpleIRIMapper;
-
-import edu.stanford.db.lp.ProgramClause;
 
 import at.ac.tuwien.kr.dlprogram.Clause;
 import at.ac.tuwien.kr.ldlp.reasoner.LDLPAxiomCompiler;
-import at.ac.tuwien.kr.ldlp.reasoner.LDLPClosureCompiler;
-import at.ac.tuwien.kr.ldlp.reasoner.ClosureCompilerTest;
-import at.ac.tuwien.kr.ldlp.reasoner.LDLPCompiler;
 import at.ac.tuwien.kr.ldlp.reasoner.LDLPClosure;
 import at.ac.tuwien.kr.ldlp.reasoner.LDLPClosureBuilder;
+import at.ac.tuwien.kr.ldlp.reasoner.LDLPClosureCompiler;
+import at.ac.tuwien.kr.ldlp.reasoner.LDLPOntologyCompiler;
 
 public class CompilerDemo {
 
@@ -109,7 +106,7 @@ public class CompilerDemo {
 		axioms[2] = assert$(Super, a, b);
 		axioms[3] = assert$(Super, b, c);
 
-		LDLPCompiler compiler = new LDLPCompiler();
+		LDLPOntologyCompiler compiler = new LDLPOntologyCompiler();
 		System.out.println("Ontology:");
 		for (int i = 0; i < axioms.length; i++) {
 			System.out.println(axioms[i]);

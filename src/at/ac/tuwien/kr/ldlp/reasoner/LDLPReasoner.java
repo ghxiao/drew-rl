@@ -1,5 +1,6 @@
 package at.ac.tuwien.kr.ldlp.reasoner;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.semanticweb.owlapi.model.OWLAxiom;
@@ -23,7 +24,15 @@ import at.ac.tuwien.kr.datalog.DatalogReasoner;
 import at.ac.tuwien.kr.datalog.DlvDatalogReasoner;
 import at.ac.tuwien.kr.datalog.XSBDatalogReasoner;
 import at.ac.tuwien.kr.datalog.DatalogReasoner.TYPE;
+import at.ac.tuwien.kr.dlprogram.CacheManager;
 import at.ac.tuwien.kr.dlprogram.Clause;
+import at.ac.tuwien.kr.dlprogram.Constant;
+import at.ac.tuwien.kr.dlprogram.Literal;
+import at.ac.tuwien.kr.dlprogram.NormalPredicate;
+import at.ac.tuwien.kr.dlprogram.Predicate;
+import at.ac.tuwien.kr.dlprogram.Term;
+import at.ac.tuwien.kr.dlprogram.Variable;
+import at.ac.tuwien.kr.ldlpprogram.reasoner.KBCompiler;
 
 public class LDLPReasoner extends OWLReasonerAdapter {
 	final static Logger logger = LoggerFactory.getLogger(LDLPClosureCompiler.class);
@@ -32,7 +41,7 @@ public class LDLPReasoner extends OWLReasonerAdapter {
 
 	boolean compiled;
 
-	LDLPCompiler compiler;
+	LDLPOntologyCompiler ontologyCompiler;
 
 	LDLPAxiomCompiler axiomCompiler = new LDLPAxiomCompiler();
 
@@ -40,7 +49,7 @@ public class LDLPReasoner extends OWLReasonerAdapter {
 
 	protected LDLPReasoner(OWLOntology rootOntology, OWLReasonerConfiguration configuration, BufferingMode bufferingMode) {
 		super(rootOntology, configuration, bufferingMode);
-		compiler = new LDLPCompiler();
+		ontologyCompiler = new LDLPOntologyCompiler();
 		// datalogReasoner = new XSBDatalogReasoner();
 	}
 
@@ -58,12 +67,13 @@ public class LDLPReasoner extends OWLReasonerAdapter {
 		}
 	}
 
-//	public OWLIndividual query(OWLClass cls) {
-//		program = compiler.complile(this.getRootOntology());
-//		final String predicate = LDLPCompilerManager.getInstance().getPredicate(cls);
-//		
-//
-//	}
+	// public OWLIndividual query(OWLClass cls) {
+	// program = compiler.complile(this.getRootOntology());
+	// final String predicate =
+	// LDLPCompilerManager.getInstance().getPredicate(cls);
+	//		
+	//
+	// }
 
 	@Override
 	public boolean isEntailed(OWLAxiom axiom) throws ReasonerInterruptedException, UnsupportedEntailmentTypeException, TimeOutException,
@@ -83,7 +93,7 @@ public class LDLPReasoner extends OWLReasonerAdapter {
 
 		if (!compiled) {
 			logger.debug("Program Compiling Started");
-			program = compiler.complile(this.getRootOntology());
+			program = ontologyCompiler.complile(this.getRootOntology());
 			logger.debug("Program Compiling Finished");
 			compiled = true;
 		}
@@ -93,6 +103,21 @@ public class LDLPReasoner extends OWLReasonerAdapter {
 
 		return datalogReasoner.query(program, query);
 
+	}
+
+	/**
+	 * Conjunctive query <br/>
+	 * eg. ans(X):-A(X,c), B(X,Y).
+	 * 
+	 * @param q
+	 *            The conjunctive query
+	 */
+	public void query(Clause q) {
+		program = ontologyCompiler.complile(this.getRootOntology());
+		
+		LDLPQueryCompiler queryComiler = new LDLPQueryCompiler();
+		Clause query = queryComiler.compileQuery(q);
+		datalogReasoner.query(program, query);
 	}
 
 }

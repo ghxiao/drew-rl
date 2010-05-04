@@ -18,7 +18,7 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.util.SimpleIRIMapper;
 
 import at.ac.tuwien.kr.dlprogram.Clause;
-import at.ac.tuwien.kr.ldlp.reasoner.LDLPCompiler;
+import at.ac.tuwien.kr.ldlp.reasoner.LDLPOntologyCompiler;
 
 import edu.stanford.db.lp.ProgramClause;
 
@@ -62,7 +62,7 @@ public class LDLPCompilerTest {
 
 			System.out.println("Compiled:");
 
-			LDLPCompiler compiler = new LDLPCompiler();
+			LDLPOntologyCompiler compiler = new LDLPOntologyCompiler();
 			final List<Clause> datalogClauses = compiler.complile(ontology);
 
 			for (Clause clause : datalogClauses) {

@@ -39,7 +39,7 @@ import at.ac.tuwien.kr.dlprogram.DLProgramKBLoader;
 import at.ac.tuwien.kr.dlprogram.Literal;
 import at.ac.tuwien.kr.dlprogram.parser.DLProgramParser;
 import at.ac.tuwien.kr.dlprogram.parser.ParseException;
-import at.ac.tuwien.kr.ldlp.reasoner.LDLPCompiler;
+import at.ac.tuwien.kr.ldlp.reasoner.LDLPOntologyCompiler;
 import at.ac.tuwien.kr.ldlp.reasoner.LDLPReasoner;
 import at.ac.tuwien.kr.ldlpprogram.reasoner.KBReasoner;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyTransitiveClosureOf;

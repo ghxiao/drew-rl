@@ -25,7 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import at.ac.tuwien.kr.dlprogram.Clause;
-import at.ac.tuwien.kr.ldlp.reasoner.LDLPCompiler;
+import at.ac.tuwien.kr.ldlp.reasoner.LDLPOntologyCompiler;
 import at.ac.tuwien.kr.ldlp.reasoner.LDLPReasoner;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyTransitiveClosureOf;
 
@@ -86,7 +86,7 @@ public class ECAI2010Demo {
 	public static void main(String[] args) {
 		final OWLOntology ontology = loadOntology(uri, phyUri);
 
-		LDLPCompiler compiler = new LDLPCompiler();
+		LDLPOntologyCompiler compiler = new LDLPOntologyCompiler();
 		System.out.println("Ontology:");
 		final Set<OWLAxiom> axioms = ontology.getAxioms();
 		for (OWLAxiom axiom : axioms) {

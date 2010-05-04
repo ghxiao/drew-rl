@@ -37,7 +37,7 @@ public class LDLPCompilerManager {
 
 	}
 
-	SymbolEncoder<OWLObject> predicates = new SymbolEncoder<OWLObject>();
+	SymbolEncoder<String> predicates = new SymbolEncoder<String>();
 
 	SymbolEncoder<OWLIndividual> constants = new SymbolEncoder<OWLIndividual>();
 
@@ -70,7 +70,8 @@ public class LDLPCompilerManager {
 				&& ((OWLEntity) owlObject).isTopEntity()) {
 			predicate = getTop2();
 		} else {
-			predicate = "p" + predicates.getValueBySymbol(owlObject);
+			final String iri = owlObject.toString();
+			predicate = "p" + predicates.getValueBySymbol(iri);
 		}
 		logger.debug("{}  ->  {}", owlObject, predicate);
 
@@ -89,6 +90,13 @@ public class LDLPCompilerManager {
 		OWLIndividual individual = OWLManager.getOWLDataFactory()
 				.getOWLNamedIndividual(IRI.create(name));
 		return getConstant(individual);
+	}
+
+	public String getPredicate(String name) {
+		String predicate = "p" + predicates.getValueBySymbol(name);
+		logger.debug("{}  ->  {}", name, predicate);
+
+		return predicate;
 	}
 
 }

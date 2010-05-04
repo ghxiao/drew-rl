@@ -32,7 +32,7 @@ import at.ac.tuwien.kr.dlprogram.Literal;
 import at.ac.tuwien.kr.dlprogram.NormalPredicate;
 import at.ac.tuwien.kr.dlprogram.Term;
 import at.ac.tuwien.kr.dlprogram.Variable;
-import at.ac.tuwien.kr.ldlp.reasoner.LDLPCompiler;
+import at.ac.tuwien.kr.ldlp.reasoner.LDLPOntologyCompiler;
 import at.ac.tuwien.kr.ldlp.reasoner.LDLPCompilerManager;
 
 /**
@@ -49,7 +49,7 @@ public class KBCompiler {
 		List<Clause> result = new ArrayList<Clause>();
 
 		final OWLOntology ontology = kb.getOntology();
-		LDLPCompiler ldlpCompiler = new LDLPCompiler();
+		LDLPOntologyCompiler ldlpCompiler = new LDLPOntologyCompiler();
 		final List<Clause> compiledOntology = ldlpCompiler.complile(ontology);
 		final DLProgram program = kb.getProgram();
 		final Set<DLInputSignature> dlInputSignatures = program
@@ -74,21 +74,20 @@ public class KBCompiler {
 	 * P -> P^{ord} replace all the DLAtom with a ordinary atom
 	 * 
 	 */
-	List<Clause> compileProgram(DLProgram program) {
+	public List<Clause> compileProgram(DLProgram program) {
 
 		List<Clause> result = new ArrayList<Clause>();
 
 		for (Clause clause : program.getClauses()) {
 			Clause newClause = compileClause(clause);
 
-			result.add(newClause);
-			logger.debug("{}\n   -> \n{}", clause, newClause);
+			result.add(newClause);			
 		}
 
 		return result;
 	}
 
-	private Clause compileClause(Clause clause) {
+	public Clause compileClause(Clause clause) {
 		Clause newClause = new Clause();
 		Literal head = clause.getHead();
 		Literal newHead = compileNormalLiteral(head);
@@ -113,17 +112,20 @@ public class KBCompiler {
 			Literal newLit = compileDLAtom(lit);
 			newClause.getNegativeBody().add(newLit);
 		}
+		
+		logger.debug("{}\n   -> \n{}", clause, newClause);
+		
 		return newClause;
 	}
 
-	Literal compileNormalLiteral(Literal lit) {
+	public Literal compileNormalLiteral(Literal lit) {
 		List<Term> terms = lit.getTerms();
 		List<Term> newTerms = compileTerms(terms);
 		Literal newLit = new Literal(lit.getPredicate(), newTerms);
 		return newLit;
 	}
 
-	private Literal compileDLAtom(Literal lit) {
+	public Literal compileDLAtom(Literal lit) {
 		DLAtomPredicate p = (DLAtomPredicate) (lit.getPredicate());
 		DLInputSignature inputSigature = p.getInputSigature();
 		OWLLogicalEntity query = p.getQuery();
@@ -139,7 +141,7 @@ public class KBCompiler {
 		return newLit;
 	}
 
-	private List<Term> compileTerms(List<Term> terms) {
+	public List<Term> compileTerms(List<Term> terms) {
 		List<Term> newTerms = new ArrayList<Term>();
 		for (Term term : terms) {
 			newTerms.add(complileTerm(term));
@@ -149,7 +151,7 @@ public class KBCompiler {
 		return newTerms;
 	}
 
-	private Term complileTerm(Term term) {
+	public Term complileTerm(Term term) {
 		if (term instanceof Constant) {
 			Constant constant = (Constant) term;
 			String name = constant.getName();
@@ -162,7 +164,7 @@ public class KBCompiler {
 		}
 	}
 
-	List<Clause> compileSignature(DLInputSignature signature) {
+	public List<Clause> compileSignature(DLInputSignature signature) {
 		String sub = KBCompilerManager.getInstance().getSubscript(signature);
 		List<Clause> clauses = new ArrayList<Clause>();
 		for (DLInputOperation op : signature.getOperations()) {

@@ -22,9 +22,9 @@ import at.ac.tuwien.kr.dlprogram.Clause;
 /**
  * LDLPCompiler: compile an LDLp KB to a datalog program
  */
-public class LDLPCompiler {
+public class LDLPOntologyCompiler {
 
-	final static Logger logger = LoggerFactory.getLogger(LDLPCompiler.class);
+	final static Logger logger = LoggerFactory.getLogger(LDLPOntologyCompiler.class);
 	
 	List<Clause> clauses;
 
