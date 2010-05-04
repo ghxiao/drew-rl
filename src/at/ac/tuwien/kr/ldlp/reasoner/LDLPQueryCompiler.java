@@ -16,7 +16,8 @@ import at.ac.tuwien.kr.dlprogram.Variable;
 
 public class LDLPQueryCompiler {
 
-	final static Logger logger = LoggerFactory.getLogger(LDLPQueryCompiler.class);
+	final static Logger logger = LoggerFactory
+			.getLogger(LDLPQueryCompiler.class);
 
 	Clause compileQuery(Clause query) {
 
@@ -36,7 +37,8 @@ public class LDLPQueryCompiler {
 	}
 
 	private Literal compileLiteral(Literal literal) {
-		NormalPredicate normalLiteral = (NormalPredicate) literal.getPredicate();
+		NormalPredicate normalLiteral = (NormalPredicate) literal
+				.getPredicate();
 		NormalPredicate newHeadPredicate = compileNormalPredicate(normalLiteral);
 
 		List<Term> terms = literal.getTerms();
@@ -48,11 +50,12 @@ public class LDLPQueryCompiler {
 
 	private NormalPredicate compileNormalPredicate(NormalPredicate normalLiteral) {
 		String name = normalLiteral.getName();
-		String newHeadPredicateName =
-				LDLPCompilerManager.getInstance().getPredicate(name);
-		NormalPredicate newHeadPredicate =
-				CacheManager.getInstance().getPredicate(newHeadPredicateName,
-						normalLiteral.getArity());
+
+		String newName = LDLPCompilerManager.getInstance().getPredicate(name);
+
+		String newHeadPredicateName = newName;
+		NormalPredicate newHeadPredicate = CacheManager.getInstance()
+				.getPredicate(newHeadPredicateName, normalLiteral.getArity());
 		return newHeadPredicate;
 	}
 
@@ -78,7 +81,11 @@ public class LDLPQueryCompiler {
 	}
 
 	private Constant compileConstant(Constant constant) {
-		Constant newConstant = constant;
+		String newConstantName = LDLPCompilerManager.getInstance().getConstant(
+				constant.getName());
+
+		Constant newConstant = CacheManager.getInstance().getConstant(newConstantName);
+		
 		return newConstant;
 	}
 }

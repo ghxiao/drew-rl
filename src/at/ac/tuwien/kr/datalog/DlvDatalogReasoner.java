@@ -152,6 +152,7 @@ public class DlvDatalogReasoner implements DatalogReasoner {
 		}
 		dlv.setProgram(programText.toString());
 		dlv.setDlvPath("./dlv/dlv_magic");
+		//dlv.setDlvPath("./dlv/dlv.mingw.exe");
 
 		String queryText = query.toString();
 		try {

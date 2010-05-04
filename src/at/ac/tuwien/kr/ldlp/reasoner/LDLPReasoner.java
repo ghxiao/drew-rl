@@ -117,7 +117,10 @@ public class LDLPReasoner extends OWLReasonerAdapter {
 		
 		LDLPQueryCompiler queryComiler = new LDLPQueryCompiler();
 		Clause query = queryComiler.compileQuery(q);
-		datalogReasoner.query(program, query);
+		
+		program.add(query);
+		
+		datalogReasoner.query(program, query.getHead());
 	}
 
 }

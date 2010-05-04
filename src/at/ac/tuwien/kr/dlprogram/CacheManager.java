@@ -52,7 +52,7 @@ public class CacheManager {
 		}
 	}
 
-	public Term getConstant(String name) {
+	public Constant getConstant(String name) {
 		return getConstant(name, Types.VARCHAR);
 	}
 

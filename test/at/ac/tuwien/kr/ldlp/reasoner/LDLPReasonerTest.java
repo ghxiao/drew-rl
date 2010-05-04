@@ -24,6 +24,7 @@ import at.ac.tuwien.kr.dlprogram.CacheManager;
 import at.ac.tuwien.kr.dlprogram.Clause;
 import at.ac.tuwien.kr.dlprogram.Literal;
 import at.ac.tuwien.kr.dlprogram.NormalPredicate;
+import at.ac.tuwien.kr.dlprogram.Term;
 import at.ac.tuwien.kr.dlprogram.Variable;
 
 
@@ -69,23 +70,31 @@ public class LDLPReasonerTest {
 		Literal head = new Literal(ans, Y);
 
 		NormalPredicate pP = CacheManager.getInstance().getPredicate(
-				P.getIRI().toString(), 2);
+				P.toString(), 2);
 
-		System.out.println(pP);
+		//System.out.println(pP);
 		
 		NormalPredicate pA = CacheManager.getInstance().getPredicate(
-				A.getIRI().toString(), 1);
+				A.toString(), 1);
 
-		System.out.println(pA);
+		//System.out.println(pA);
+		
+		Term cb = CacheManager.getInstance().getConstant(b.toString());
 		
 		query.setHead(head);
 
 		Literal body1 = new Literal(pP, X, Y);
 
 		Literal body2 = new Literal(pA, X);
+		
+		Literal body3 = new Literal(pA, cb);
 
 		query.getPositiveBody().add(body1);
 		query.getPositiveBody().add(body2);
+		query.getPositiveBody().add(body3);
+		
+		//ans(Y):- P(X,Y), A(X), A(b).
+		
 		
 		System.out.println("query is : " + query);
 		
