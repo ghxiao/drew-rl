@@ -25,7 +25,7 @@ public class LDLPSuperClassExpressionChecker implements OWLClassExpressionVisito
 
 	LDLPBaseClassExpressionChecker baseClassExpressionChecker = new LDLPBaseClassExpressionChecker();
 	LDLPSubClassExpressionChecker subClassExpressionChecker = new LDLPSubClassExpressionChecker();
-	LDLPSubObjectPropertyExpressionChecker subPropertyExpressionChecker = new LDLPSubObjectPropertyExpressionChecker();
+	LDLPSubPropertyExpressionChecker subPropertyExpressionChecker = new LDLPSubPropertyExpressionChecker();
 
 	public Boolean visit(OWLClass desc) {
 		return !desc.isOWLNothing();

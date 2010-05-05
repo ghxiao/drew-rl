@@ -17,6 +17,7 @@ import org.semanticweb.owlapi.model.OWLDataComplementOf;
 import org.semanticweb.owlapi.model.OWLDataIntersectionOf;
 import org.semanticweb.owlapi.model.OWLDataOneOf;
 import org.semanticweb.owlapi.model.OWLDataPropertyDomainAxiom;
+import org.semanticweb.owlapi.model.OWLDataPropertyExpression;
 import org.semanticweb.owlapi.model.OWLDataUnionOf;
 import org.semanticweb.owlapi.model.OWLDatatype;
 import org.semanticweb.owlapi.model.OWLDatatypeDefinitionAxiom;
@@ -74,14 +75,20 @@ class LDLPProfileChecker extends OWLOntologyWalkerVisitor {
         return ce.accept(equivalentClassExpressionChecker);
     }
 
-    private LDLPSubObjectPropertyExpressionChecker subObjectPropertyExpressionChecker = new LDLPSubObjectPropertyExpressionChecker();
+    private LDLPSubPropertyExpressionChecker subObjectPropertyExpressionChecker = new LDLPSubPropertyExpressionChecker();
 
     boolean isLDLPSubObjectPropertyExpression(OWLObjectPropertyExpression ope) {
         return ope.accept(subObjectPropertyExpressionChecker);
     }
 
-
-    private LDLPSuperObjectPropertyExpressionChecker superObjectPropertyExpressionChecker = new LDLPSuperObjectPropertyExpressionChecker();
+    boolean isLDLPSubDataPropertyExpression(
+			OWLDataPropertyExpression property) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+    
+    
+    private LDLPSuperPropertyExpressionChecker superObjectPropertyExpressionChecker = new LDLPSuperPropertyExpressionChecker();
 
     boolean isLDLPSuperObjectPropertyExpression(OWLObjectPropertyExpression ope) {
         return ope.accept(superObjectPropertyExpressionChecker);
@@ -103,11 +110,27 @@ class LDLPProfileChecker extends OWLOntologyWalkerVisitor {
     }
 
     public Object visit(OWLDataPropertyDomainAxiom axiom) {
-    	profileViolations.add(new UseOfIllegalAxiom(getCurrentOntology(), axiom));
+    	//profileViolations.add(new UseOfIllegalAxiom(getCurrentOntology(), axiom));
+    	
+    	
+    	OWLDataPropertyExpression property = axiom.getProperty();
+    	if(!isLDLPSubDataPropertyExpression(property)){
+    		//profileViolations.add(new UseOfNonLDLPSubPropertyExpression(getCurrentOntology(),axiom,property));
+    	}
+    	
+    	OWLClassExpression domain = axiom.getDomain();
+    	if(!isLDLPSuperClassExpression(domain)){
+    		profileViolations.add(new UseOfNonSuperClassExpression(getCurrentOntology(),axiom,domain));
+    	}
+    	//profileViolations.add(new UseOfIllegalAxiom(getCurrentOntology(), axiom));
         return null;
+    	
+
     }
 
-    public Object visit(OWLDisjointClassesAxiom axiom) {
+
+
+	public Object visit(OWLDisjointClassesAxiom axiom) {
     	profileViolations.add(new UseOfIllegalAxiom(getCurrentOntology(), axiom));
         return null;
     }

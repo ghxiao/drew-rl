@@ -12,7 +12,7 @@ import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyOneOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyTransitiveClosureOf;
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyUnionOf;
 
-public class LDLPSubObjectPropertyExpressionChecker implements OWLPropertyExpressionVisitorEx<Boolean> {
+public class LDLPSubPropertyExpressionChecker implements OWLPropertyExpressionVisitorEx<Boolean> {
 
 	@Override
 	public Boolean visit(OWLObjectProperty property) {
@@ -22,20 +22,23 @@ public class LDLPSubObjectPropertyExpressionChecker implements OWLPropertyExpres
 
 	@Override
 	public Boolean visit(OWLObjectInverseOf property) {
-		return true;
+		
+		OWLObjectPropertyExpression inverse = property.getInverse();
+		
+		return inverse.accept(this);
 
 	}
 
 	@Override
 	public Boolean visit(OWLDataProperty property) {
-		return false;
+		return true;
 
 	}
 
 	@Override
 	public Boolean visit(LDLObjectPropertyIntersectionOf property) {
 		for(OWLObjectPropertyExpression op:property.getOperands()){
-			if(op.accept(this)){
+			if(!op.accept(this)){
 				return false;
 			}
 		}
@@ -45,7 +48,7 @@ public class LDLPSubObjectPropertyExpressionChecker implements OWLPropertyExpres
 	@Override
 	public Boolean visit(LDLObjectPropertyUnionOf property) {
 		for(OWLObjectPropertyExpression op:property.getOperands()){
-			if(op.accept(this)){
+			if(!op.accept(this)){
 				return false;
 			}
 		}
@@ -60,7 +63,7 @@ public class LDLPSubObjectPropertyExpressionChecker implements OWLPropertyExpres
 	@Override
 	public Boolean visit(LDLObjectPropertyChainOf property) {
 		for(OWLObjectPropertyExpression op:property.getOperands()){
-			if(op.accept(this)){
+			if(!op.accept(this)){
 				return false;
 			}
 		}

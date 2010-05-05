@@ -52,7 +52,7 @@ public class LDLPSubClassExpressionChecker implements OWLClassExpressionVisitorE
     }
 
     public Boolean visit(OWLObjectSomeValuesFrom desc) {
-    	boolean isPropertyOK = desc.getProperty().accept(new LDLPSubObjectPropertyExpressionChecker());    	
+    	boolean isPropertyOK = desc.getProperty().accept(new LDLPSubPropertyExpressionChecker());    	
     	return isPropertyOK && desc.getFiller().accept(this);
     }
 
@@ -61,13 +61,13 @@ public class LDLPSubClassExpressionChecker implements OWLClassExpressionVisitorE
     }
 
     public Boolean visit(OWLObjectHasValue desc) {
-    	boolean isPropertyOK = desc.getProperty().accept(new LDLPSubObjectPropertyExpressionChecker());
+    	boolean isPropertyOK = desc.getProperty().accept(new LDLPSubPropertyExpressionChecker());
     	boolean isValueOK = true;    	
     	return isPropertyOK && isValueOK;
     }
 
     public Boolean visit(OWLObjectMinCardinality desc) {
-    	boolean isPropertyOK = desc.getProperty().accept(new LDLPSubObjectPropertyExpressionChecker());    	
+    	boolean isPropertyOK = desc.getProperty().accept(new LDLPSubPropertyExpressionChecker());    	
     	return isPropertyOK && desc.getFiller().accept(this);
     }
 
