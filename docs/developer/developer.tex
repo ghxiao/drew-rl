@@ -6,7 +6,31 @@
 \author{Guohui Xiao}
 	%\institute{KBS Group, TU Wien}
 
+\newcommand{\La}{\Leftarrow}
+\newcommand{\Ra}{\Rightarrow}
+
 \maketitle
+
+\section{Expressive Power}
+
+\begin{itemize}
+\item ObjectPropertyDomain
+
+the domain of $R$ is $D$
+
+%$R$ domain $D$
+$\exists R.\top \sqsubseteq D$  $\Ra$ \verb|D(x) :- R(x,y).|
+
+\item 
+ObjectPropertyRange
+
+the range of $R$ is $D$
+
+$\top \sqsubseteq \forall R.D$ $\Ra$ \verb|D(y) :- R(x,y).|
+
+\end{itemize}
+
+
 
 \section{Extending OWL-API with More Role Constructors}
 
@@ -175,8 +199,6 @@ sub process.
     Wine, Galen
   \item[Ontology] Consistency Checking, Classification
   \end{description}
-
-
 \item
   \begin{description}
   \item[Reasoner] DLVHex + dlplugin
@@ -184,7 +206,7 @@ sub process.
   Description Logic Programs
 \item[Ontology] Same with KAON2
 \item[Task] Conjunctive Query for DL-program
-  \end{description}
+\end{description}
 
 
 \end{itemize}

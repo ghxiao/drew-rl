@@ -147,12 +147,21 @@ class LDLPProfileChecker extends OWLOntologyWalkerVisitor {
     }
 
     public Object visit(OWLObjectPropertyDomainAxiom axiom) {
-    	profileViolations.add(new UseOfIllegalAxiom(getCurrentOntology(), axiom));
+    	OWLObjectPropertyExpression property = axiom.getProperty();
+    	if(!isLDLPSubObjectPropertyExpression(property)){
+    		profileViolations.add(new UseOfNonLDLPSubPropertyExpression(getCurrentOntology(),axiom,property));
+    	}
+    	
+    	OWLClassExpression domain = axiom.getDomain();
+    	if(!isLDLPSuperClassExpression(domain)){
+    		profileViolations.add(new UseOfNonSuperClassExpression(getCurrentOntology(),axiom,domain));
+    	}
+    	//profileViolations.add(new UseOfIllegalAxiom(getCurrentOntology(), axiom));
         return null;
     }
 
     public Object visit(OWLObjectPropertyRangeAxiom axiom) {
-    	profileViolations.add(new UseOfIllegalAxiom(getCurrentOntology(), axiom));
+    	//profileViolations.add(new UseOfIllegalAxiom(getCurrentOntology(), axiom));
         return null;
     }
 

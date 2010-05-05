@@ -17,7 +17,9 @@ import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLIndividual;
 import org.semanticweb.owlapi.model.OWLObjectAllValuesFrom;
 import org.semanticweb.owlapi.model.OWLObjectPropertyAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLObjectPropertyDomainAxiom;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
+import org.semanticweb.owlapi.model.OWLObjectPropertyRangeAxiom;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.model.OWLSubObjectPropertyOfAxiom;
 import org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter;
@@ -40,7 +42,8 @@ public class LDLPAxiomCompiler extends OWLAxiomVisitorAdapter {
 
 	LDLPCompilerManager datalogObjectFactory = LDLPCompilerManager
 			.getInstance();
-	final static Logger logger = LoggerFactory.getLogger(LDLPAxiomCompiler.class);
+	final static Logger logger = LoggerFactory
+			.getLogger(LDLPAxiomCompiler.class);
 	Variable X = CacheManager.getInstance().getVariable("X");
 	Variable Y = CacheManager.getInstance().getVariable("Y");
 	Variable Z = CacheManager.getInstance().getVariable("Z");
@@ -62,7 +65,7 @@ public class LDLPAxiomCompiler extends OWLAxiomVisitorAdapter {
 
 		return clauses.get(0);
 	}
-	
+
 	public List<Clause> compile(OWLAxiom... axioms) {
 		this.clauses = new ArrayList<Clause>();
 		for (OWLAxiom owlAxiom : axioms) {
@@ -70,7 +73,6 @@ public class LDLPAxiomCompiler extends OWLAxiomVisitorAdapter {
 		}
 		return clauses;
 	}
-	
 
 	@Override
 	public void visit(OWLObjectPropertyAssertionAxiom axiom) {
@@ -85,7 +87,8 @@ public class LDLPAxiomCompiler extends OWLAxiomVisitorAdapter {
 		String a = datalogObjectFactory.getConstant(subject);
 		String b = datalogObjectFactory.getConstant(object);
 
-		head[0] = new Literal(predicate, new Term[] { CacheManager.getInstance().getConstant(a),
+		head[0] = new Literal(predicate, new Term[] {
+				CacheManager.getInstance().getConstant(a),
 				CacheManager.getInstance().getConstant(b) });
 		body = new Literal[0];
 		Clause clause = new Clause(head, body);
@@ -102,7 +105,8 @@ public class LDLPAxiomCompiler extends OWLAxiomVisitorAdapter {
 
 		String predicate = datalogObjectFactory.getPredicate(cls);
 		String a = datalogObjectFactory.getConstant(individual);
-		head[0] = new Literal(predicate, new Term[] { CacheManager.getInstance().getConstant(a) });
+		head[0] = new Literal(predicate, new Term[] { CacheManager
+				.getInstance().getConstant(a) });
 		body = new Literal[0];
 		Clause clause = new Clause(head, body);
 		clauses.add(clause);
@@ -154,6 +158,40 @@ public class LDLPAxiomCompiler extends OWLAxiomVisitorAdapter {
 		Literal[] body = new Literal[1];
 		body[0] = new Literal(datalogObjectFactory.getPredicate(subProperty),
 				new Term[] { X, Y });
+		Clause clause = new Clause(head, body);
+		clauses.add(clause);
+		logger.debug("{}\n\t->\n{}", axiom, clause);
+	}
+
+	@Override
+	public void visit(OWLObjectPropertyDomainAxiom axiom) {
+		OWLObjectPropertyExpression property = axiom.getProperty();
+		OWLClassExpression domain = axiom.getDomain();
+
+		Literal[] head = new Literal[1];
+		head[0] = new Literal(datalogObjectFactory.getPredicate(domain),
+				new Term[] { X });
+		Literal[] body = new Literal[1];
+		body[0] = new Literal(datalogObjectFactory.getPredicate(property),
+				new Term[] { X, Y });
+
+		Clause clause = new Clause(head, body);
+		clauses.add(clause);
+		logger.debug("{}\n\t->\n{}", axiom, clause);
+	}
+
+	@Override
+	public void visit(OWLObjectPropertyRangeAxiom axiom) {
+		OWLObjectPropertyExpression property = axiom.getProperty();
+		OWLClassExpression range = axiom.getRange();
+
+		Literal[] head = new Literal[1];
+		head[0] = new Literal(datalogObjectFactory.getPredicate(range),
+				new Term[] { Y });
+		Literal[] body = new Literal[1];
+		body[0] = new Literal(datalogObjectFactory.getPredicate(property),
+				new Term[] { X, Y });
+
 		Clause clause = new Clause(head, body);
 		clauses.add(clause);
 		logger.debug("{}\n\t->\n{}", axiom, clause);

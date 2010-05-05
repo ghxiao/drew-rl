@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import at.ac.tuwien.kr.dlprogram.Clause;
 import at.ac.tuwien.kr.dlprogram.DLProgram;
 import at.ac.tuwien.kr.dlprogram.Literal;
+import at.ac.tuwien.kr.dlprogram.NormalPredicate;
 import at.ac.tuwien.kr.dlvwrapper.DLVInvocationException;
 import at.ac.tuwien.kr.dlvwrapper.DLVWrapper;
 import at.ac.tuwien.kr.ldlp.reasoner.LDLPAxiomCompiler;
@@ -155,8 +156,9 @@ public class DlvDatalogReasoner implements DatalogReasoner {
 		//dlv.setDlvPath("./dlv/dlv.mingw.exe");
 
 		String queryText = query.toString();
+		String filter = ((NormalPredicate)query.getPredicate()).getName();
 		try {
-			return dlv.queryWFS(queryText);
+			return dlv.queryWFS(queryText,filter);
 		} catch (DLVInvocationException e) {
 			e.printStackTrace();
 		}
@@ -179,7 +181,7 @@ public class DlvDatalogReasoner implements DatalogReasoner {
 
 		String queryText = query.toString();
 		try {
-			return dlv.queryWFS(queryText);
+			return dlv.queryWFS(queryText,"");
 		} catch (DLVInvocationException e) {
 			e.printStackTrace();
 		}

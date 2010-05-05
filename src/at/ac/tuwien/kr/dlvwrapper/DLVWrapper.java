@@ -94,12 +94,16 @@ public class DLVWrapper {
 	}
 
 	public boolean queryWFS(String queryStr) throws DLVInvocationException {
+		return queryWFS(queryStr,"");
+	}
+	
+	public boolean queryWFS(String queryStr, String filter) throws DLVInvocationException {
 		boolean result = false;
 		try {
-			String[] params = { dlvPath, "-wf", "--" };
+			String[] params = { dlvPath, "-wf", "--" , "-filter="+filter};
 
-			logger.debug("Run DLV with parameters:\n {} {} {}", new String[] {
-					params[0], params[1], params[2] });
+			logger.debug("Run DLV with parameters:\n {} {} {} {}", new String[] {
+					params[0], params[1], params[2], params[3] });
 			Process dlv = this.runtime.exec(params);
 			BufferedReader reader = new BufferedReader(new InputStreamReader(
 					dlv.getInputStream()));

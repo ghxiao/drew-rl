@@ -5,6 +5,13 @@
 just one class and one property and does not assume any hierarchy
 information or inference./
 
+DLQuery: [GraduateStudent and takesCourse value GraduateCourse0]
+
+4 results: GraduateStudent44, 101, 124, 142
+
+
+
+
 *Query2*
 (type GraduateStudent ?X)
 (type University ?Y)
