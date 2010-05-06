@@ -3,20 +3,22 @@ package at.ac.tuwien.kr.ldlp.profile;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.profiles.OWLProfile;
 import org.semanticweb.owlapi.profiles.OWLProfileReport;
 import org.semanticweb.owlapi.profiles.OWLProfileViolation;
 import org.semanticweb.owlapi.util.OWLOntologyWalker;
+import org.semanticweb.owlapi.vocab.OWL2Datatype;
+import org.semanticweb.owlapi.vocab.OWLRDFVocabulary;
 
 
 
 public class LDLPProfile implements OWLProfile {
 
-    
+	
 
     public LDLPProfile() {
-
     }
 
     /**
@@ -24,7 +26,7 @@ public class LDLPProfile implements OWLProfile {
      * @return A string that represents the name of the profile
      */
     public String getName() {
-        return "LDLp";
+        return "LDL+";
     }
 
     /**

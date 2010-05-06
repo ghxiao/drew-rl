@@ -14,7 +14,12 @@ import java.util.Set;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLClassExpression;
+import org.semanticweb.owlapi.model.OWLDataPropertyAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLDataPropertyDomainAxiom;
+import org.semanticweb.owlapi.model.OWLDataPropertyExpression;
+import org.semanticweb.owlapi.model.OWLDataPropertyRangeAxiom;
 import org.semanticweb.owlapi.model.OWLIndividual;
+import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLObjectAllValuesFrom;
 import org.semanticweb.owlapi.model.OWLObjectPropertyAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLObjectPropertyDomainAxiom;
@@ -32,11 +37,7 @@ import at.ac.tuwien.kr.dlprogram.Literal;
 import at.ac.tuwien.kr.dlprogram.Term;
 import at.ac.tuwien.kr.dlprogram.Variable;
 
-//import edu.stanford.db.lp.ConstTerm;
-//import edu.stanford.db.lp.Literal;
-//import edu.stanford.db.lp.ProgramClause;
-//import edu.stanford.db.lp.Term;
-//import edu.stanford.db.lp.VariableTerm;
+
 
 public class LDLPAxiomCompiler extends OWLAxiomVisitorAdapter {
 
@@ -204,5 +205,41 @@ public class LDLPAxiomCompiler extends OWLAxiomVisitorAdapter {
 		}
 		return clauses;
 
+	}
+	
+	@Override
+	public void visit(OWLDataPropertyAssertionAxiom axiom) {
+		OWLDataPropertyExpression property = axiom.getProperty();
+		final OWLIndividual subject = axiom.getSubject();
+		
+		final OWLLiteral object = axiom.getObject();
+		Literal[] head = null;
+		Literal[] body = null;
+		head = new Literal[1];
+
+		String predicate = datalogObjectFactory.getPredicate(property);
+		String a = datalogObjectFactory.getConstant(subject);
+		String b = datalogObjectFactory.getConstant(object);
+
+		head[0] = new Literal(predicate, new Term[] {
+				CacheManager.getInstance().getConstant(a),
+				CacheManager.getInstance().getConstant(b) });
+		body = new Literal[0];
+		Clause clause = new Clause(head, body);
+		clauses.add(clause);
+		logger.debug("{}\n\t->\n{}", axiom, clause);
+		
+	}
+
+	@Override
+	public void visit(OWLDataPropertyDomainAxiom axiom) {
+		// TODO Auto-generated method stub
+		super.visit(axiom);
+	}
+
+	@Override
+	public void visit(OWLDataPropertyRangeAxiom axiom) {
+		// TODO Auto-generated method stub
+		super.visit(axiom);
 	}
 }

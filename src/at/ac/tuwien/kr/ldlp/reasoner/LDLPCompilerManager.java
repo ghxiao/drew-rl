@@ -12,6 +12,7 @@ import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLIndividual;
+import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.slf4j.Logger;
@@ -81,24 +82,28 @@ public class LDLPCompilerManager {
 
 	public String getConstant(OWLIndividual individual) {
 
-//		OWLIndividual individual = OWLManager.getOWLDataFactory()
-//		.getOWLNamedIndividual(IRI.create(name));
-		
+		// OWLIndividual individual = OWLManager.getOWLDataFactory()
+		// .getOWLNamedIndividual(IRI.create(name));
+
 		String iri = individual.asOWLNamedIndividual().toString();
-		
-		
+
 		return getConstant(iri);
-		
-		//return constant;
+
+		// return constant;
+	}
+
+	public String getConstant(OWLLiteral literal) {
+		String iri = literal.toString();
+
+		return getConstant(iri);
 	}
 
 	public String getConstant(String iri) {
-		
-		
+
 		String constant = "o" + constants.getValueBySymbol(iri);
-		
+
 		logger.debug("{}  ->  {}", iri, constant);
-		
+
 		return constant;
 	}
 

@@ -10,6 +10,7 @@ package at.ac.tuwien.kr.ldlp.profile;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLPropertyExpression;
 import org.semanticweb.owlapi.profiles.OWLProfileViolation;
 
 /**
@@ -17,9 +18,11 @@ import org.semanticweb.owlapi.profiles.OWLProfileViolation;
  */
 public class UseOfNonLDLPSubPropertyExpression extends OWLProfileViolation {
 
-	private OWLObjectPropertyExpression propertyExpression;
+	@SuppressWarnings("unchecked")
+	private OWLPropertyExpression propertyExpression;
 
-	public UseOfNonLDLPSubPropertyExpression(OWLOntology ontology, OWLAxiom axiom, OWLObjectPropertyExpression propertyExpression) {
+	@SuppressWarnings("unchecked")
+	public UseOfNonLDLPSubPropertyExpression(OWLOntology ontology, OWLAxiom axiom, OWLPropertyExpression propertyExpression) {
 		super(ontology, axiom);
 		this.propertyExpression = propertyExpression;
 	}

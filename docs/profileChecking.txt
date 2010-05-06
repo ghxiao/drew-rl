@@ -1,0 +1,30 @@
+
+------------------------------------------------------
+Ontology(<http://www.galen.com/ontology> [Axioms: 7364] [Logical axioms: 4356])
+The ontology is not in LDL+ profile:
+OWLEquivalentClassesAxiomImpl => 681
+OWLSubClassOfAxiomImpl => 1200
+
+------------------------------------------------------
+Ontology(<http://www.loa-cnr.it/Files/DLPOnts/DOLCE> [Axioms: 1828] [Logical axioms: 1185])
+The ontology is not in LDL+ profile:
+OWLDisjointClassesAxiomImpl => 42
+OWLEquivalentClassesAxiomImpl => 27
+OWLObjectPropertyDomainAxiomImpl => 15
+OWLSubClassOfAxiomImpl => 63
+
+------------------------------------------------------
+Ontology(<http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine> [Axioms: 930] [Logical axioms: 773])
+The ontology is not in LDL+ profile:
+OWLDisjointClassesAxiomImpl => 1
+OWLEquivalentClassesAxiomImpl => 50
+OWLSubClassOfAxiomImpl => 86
+
+------------------------------------------------------
+Ontology(<http://vicodi.org/ontology> [Axioms: 54080] [Logical axioms: 53876])
+The ontology is in LDL+ profile
+
+------------------------------------------------------
+Ontology(<http://www.owl-ontologies.com/unnamed.owl> [Axioms: 65535] [Logical axioms: 65459])
+The ontology is not in LDL+ profile:
+OWLDisjointClassesAxiomImpl => 113

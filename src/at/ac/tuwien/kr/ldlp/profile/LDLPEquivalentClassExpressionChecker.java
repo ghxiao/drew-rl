@@ -23,6 +23,8 @@ import org.semanticweb.owlapi.model.OWLObjectUnionOf;
 
 class LDLPEquivalentClassExpressionChecker implements OWLClassExpressionVisitorEx<Boolean> {
 
+	//TODO: Need more work here
+	
     public Boolean visit(OWLClass desc) {
         return !desc.isOWLThing();
     }

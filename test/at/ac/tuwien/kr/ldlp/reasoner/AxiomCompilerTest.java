@@ -1,9 +1,7 @@
 package at.ac.tuwien.kr.ldlp.reasoner;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
@@ -18,17 +16,11 @@ import org.semanticweb.owlapi.model.OWLIndividual;
 import org.semanticweb.owlapi.model.OWLObjectIntersectionOf;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLObjectPropertyAssertionAxiom;
-import org.semanticweb.owlapi.model.OWLObjectPropertyDomainAxiom;
-import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.model.OWLSubObjectPropertyOfAxiom;
-import org.semanticweb.owlapi.util.SimpleIRIMapper;
 
 import at.ac.tuwien.kr.dlprogram.Clause;
-import at.ac.tuwien.kr.ldlp.reasoner.LDLPAxiomCompiler;
-
-import edu.stanford.db.lp.ProgramClause;
 
 public class AxiomCompilerTest {
 
