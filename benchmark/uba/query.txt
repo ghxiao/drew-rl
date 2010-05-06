@@ -23,7 +23,7 @@ DL Query: [GraduateStudent and takesCourse value GraduateCourse0]
 involved. Additionally, there is a triangular pattern of relationships
 between the objects involved.
 
-DL Query: [Publication and publicationAuthor value AssistantProfessor0]
+
 
 
 
@@ -35,7 +35,15 @@ http://www.Department0.University0.edu/AssistantProfessor0)
 /- This query is similar to Query 1 but class Publication has a wide
 hierarchy./
 
-10 results : Publication0 - Publication9
+DL Query: [Publication and publicationAuthor value AssistantProfessor0]
+
+X
+http://www.Department0.University0.edu/AssistantProfessor0/Publication0
+http://www.Department0.University0.edu/AssistantProfessor0/Publication1
+http://www.Department0.University0.edu/AssistantProfessor0/Publication2
+http://www.Department0.University0.edu/AssistantProfessor0/Publication3
+http://www.Department0.University0.edu/AssistantProfessor0/Publication4
+http://www.Department0.University0.edu/AssistantProfessor0/Publication5
 
 *Query4*
 (type Professor ?X)

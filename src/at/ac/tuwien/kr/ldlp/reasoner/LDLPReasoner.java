@@ -35,7 +35,8 @@ import at.ac.tuwien.kr.dlprogram.Variable;
 import at.ac.tuwien.kr.ldlpprogram.reasoner.KBCompiler;
 
 public class LDLPReasoner extends OWLReasonerAdapter {
-	final static Logger logger = LoggerFactory.getLogger(LDLPClosureCompiler.class);
+	final static Logger logger = LoggerFactory
+			.getLogger(LDLPClosureCompiler.class);
 
 	List<Clause> program;
 
@@ -47,7 +48,8 @@ public class LDLPReasoner extends OWLReasonerAdapter {
 
 	DatalogReasoner datalogReasoner;
 
-	protected LDLPReasoner(OWLOntology rootOntology, OWLReasonerConfiguration configuration, BufferingMode bufferingMode) {
+	protected LDLPReasoner(OWLOntology rootOntology,
+			OWLReasonerConfiguration configuration, BufferingMode bufferingMode) {
 		super(rootOntology, configuration, bufferingMode);
 		ontologyCompiler = new LDLPOntologyCompiler();
 		// datalogReasoner = new XSBDatalogReasoner();
@@ -76,14 +78,15 @@ public class LDLPReasoner extends OWLReasonerAdapter {
 	// }
 
 	@Override
-	public boolean isEntailed(OWLAxiom axiom) throws ReasonerInterruptedException, UnsupportedEntailmentTypeException, TimeOutException,
+	public boolean isEntailed(OWLAxiom axiom)
+			throws ReasonerInterruptedException,
+			UnsupportedEntailmentTypeException, TimeOutException,
 			AxiomNotInProfileException, FreshEntitiesException {
 
 		if (!(axiom instanceof OWLClassAssertionAxiom))
 			throw new UnsupportedOperationException();
 
-		OWLClassAssertionAxiom classAssertionAxiom = (OWLClassAssertionAxiom)
-				axiom;
+		OWLClassAssertionAxiom classAssertionAxiom = (OWLClassAssertionAxiom) axiom;
 
 		final OWLIndividual individual = classAssertionAxiom.getIndividual();
 
@@ -101,7 +104,7 @@ public class LDLPReasoner extends OWLReasonerAdapter {
 		Clause query = axiomCompiler.compileOWLAxiom(axiom);
 		// compiler.compileClassAssertionAxiom(classAssertionAxiom);
 
-		return datalogReasoner.query(program, query);
+		return datalogReasoner.booleanQuery(program, query);
 
 	}
 
@@ -111,16 +114,22 @@ public class LDLPReasoner extends OWLReasonerAdapter {
 	 * 
 	 * @param q
 	 *            The conjunctive query
+	 * @return 
 	 */
-	public void query(Clause q) {
+	public List<Literal> query(Clause q) {
 		program = ontologyCompiler.complile(this.getRootOntology());
-		
+
 		LDLPQueryCompiler queryComiler = new LDLPQueryCompiler();
 		Clause query = queryComiler.compileQuery(q);
-		
+
 		program.add(query);
+
+		List<Literal> queryResult = datalogReasoner.query(program, query.getHead());
 		
-		datalogReasoner.query(program, query.getHead());
+		List<Literal> dlResult = toDL(queryResult);
+		return queryResult;
 	}
+
+	
 
 }

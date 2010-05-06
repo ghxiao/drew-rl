@@ -20,9 +20,7 @@ import at.ac.tuwien.kr.dlvwrapper.DLVInvocationException;
 import at.ac.tuwien.kr.dlvwrapper.DLVWrapper;
 import at.ac.tuwien.kr.ldlp.reasoner.LDLPAxiomCompiler;
 
-/**
- * TODO describe this class please.
- */
+
 public class DlvDatalogReasoner implements DatalogReasoner {
 
 	final static Logger logger = LoggerFactory.getLogger(LDLPAxiomCompiler.class);
@@ -143,7 +141,7 @@ public class DlvDatalogReasoner implements DatalogReasoner {
 	// }
 
 	@Override
-	public boolean query(List<Clause> program, Literal query) {
+	public List<Literal> query(List<Clause> program, Literal query) {
 		DLVWrapper dlv = new DLVWrapper();
 
 		StringBuilder programText = new StringBuilder();
@@ -162,10 +160,10 @@ public class DlvDatalogReasoner implements DatalogReasoner {
 		} catch (DLVInvocationException e) {
 			e.printStackTrace();
 		}
-		return false;
+		return null;
 	}
 
-	@Override
+	//@Override
 	public boolean query(List<Clause> program, Clause query) {
 		DLVWrapper dlv = new DLVWrapper();
 
@@ -181,20 +179,31 @@ public class DlvDatalogReasoner implements DatalogReasoner {
 
 		String queryText = query.toString();
 		try {
-			return dlv.queryWFS(queryText,"");
+			dlv.queryWFS(queryText,"");
 		} catch (DLVInvocationException e) {
 			e.printStackTrace();
 		}
 		return false;
 	}
 
-	public boolean query(DLProgram program, Clause query) {
-		return query(program.getClauses(), query);
+//	public boolean query(DLProgram program, Clause query) {
+//		return query(program.getClauses(), query);
+//
+//	}
 
+	@Override
+	public List<Literal> query(DLProgram program, Literal query) {
+		return query(program.getClauses(), query);
 	}
 
-	public boolean query(DLProgram program, Literal query) {
-		return query(program.getClauses(), query);
+	@Override
+	public boolean booleanQuery(List<Clause> program, Clause query) {
+		// TODO Auto-generated method stub
+		return false;
 	}
+
+//	public List<Literal> query(DLProgram program, Literal query) {
+//		return query(program.getClauses(), query);
+//	}
 
 }

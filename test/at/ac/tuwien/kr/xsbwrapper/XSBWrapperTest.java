@@ -16,8 +16,10 @@ public class XSBWrapperTest {
 	// String path =
 	// "G:\\Reasoner\\xsb-3.1-win32\\config\\x86-pc-windows\\bin\\xsb.exe";
 
-	String path = "G:\\Reasoner\\xsb-3.1-win32\\config\\x86-pc-windows\\bin\\xsb.exe";
+//	String path = "G:\\Reasoner\\xsb-3.1-win32\\config\\x86-pc-windows\\bin\\xsb.exe";
 
+	String path = "/usr/local/XSB/3.2/bin/xsb";
+	
 	@Before
 	public void setUp() throws Exception {
 		program = ":- table shaves/2.\n"

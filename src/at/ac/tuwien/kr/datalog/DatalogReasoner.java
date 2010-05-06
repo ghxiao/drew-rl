@@ -22,12 +22,14 @@ public interface DatalogReasoner {
 		XSB, DLV
 	}
 	
-	boolean query(List<Clause> program, Clause query);
+//	boolean query(List<Clause> program, Clause query);
 
-	boolean query(List<Clause> program, Literal query);
+	List<Literal> query(List<Clause> program, Literal query);
 
-	boolean query(DLProgram program, Clause query);
+//	boolean query(DLProgram program, Clause query);
+//
+	List<Literal> query(DLProgram program, Literal query);
 
-	boolean query(DLProgram program, Literal query);
+	boolean booleanQuery(List<Clause> program, Clause query);
 
 }

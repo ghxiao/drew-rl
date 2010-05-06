@@ -2,8 +2,6 @@ package at.ac.tuwien.kr.ldlp.benchmark;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-import java.util.Map.Entry;
 
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
@@ -22,7 +20,7 @@ import at.ac.tuwien.kr.ldlp.profile.LDLPProfile;
 public class ProfileEvaluator {
 	public final static String phyUri = "file:benchmark/uba/univ-bench.owl";
 
-	final static Logger logger = LoggerFactory.getLogger(UBATest.class);
+	final static Logger logger = LoggerFactory.getLogger(ProfileEvaluator.class);
 	private static OWLOntologyManager manager = OWLManager
 			.createOWLOntologyManager();
 

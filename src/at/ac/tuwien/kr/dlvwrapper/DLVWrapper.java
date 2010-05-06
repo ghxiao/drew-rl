@@ -4,9 +4,16 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import at.ac.tuwien.kr.dlprogram.Literal;
+import at.ac.tuwien.kr.dlprogram.parser.DLProgramParser;
+import at.ac.tuwien.kr.dlprogram.parser.ParseException;
 
 import com.google.code.regex.NamedMatcher;
 import com.google.code.regex.NamedPattern;
@@ -93,12 +100,15 @@ public class DLVWrapper {
 		return version;
 	}
 
-	public boolean queryWFS(String queryStr) throws DLVInvocationException {
+	public List<Literal> queryWFS(String queryStr) throws DLVInvocationException {
 		return queryWFS(queryStr,"");
 	}
 	
-	public boolean queryWFS(String queryStr, String filter) throws DLVInvocationException {
-		boolean result = false;
+	public List<Literal> queryWFS(String queryStr, String filter) throws DLVInvocationException {
+		
+		List<Literal> result = new ArrayList<Literal>();
+		
+		//boolean result = false;
 		try {
 			String[] params = { dlvPath, "-wf", "--" , "-filter="+filter};
 
@@ -117,6 +127,8 @@ public class DLVWrapper {
 			writer.close();
 
 			String line;
+			
+			
 
 			while ((line = reader.readLine()) != null) {
 				logger.info("DLV Output: {}", line);
@@ -132,11 +144,14 @@ public class DLVWrapper {
 					while (literalMatcher.find()) {
 						String lit = literalMatcher.group("literal");
 						// System.out.println("literal " + lit);
-						if (lit.equals(queryStr)) {
-							logger.debug("Query \"{}\" found", queryStr);
-							result = true;
-							break;
-						}
+						DLProgramParser parser = new DLProgramParser(new StringReader(lit));
+						Literal literal = parser.literal();
+						result.add(literal);
+//						if (lit.equals(queryStr)) {
+//							logger.debug("Query \"{}\" found", queryStr);
+//							result = true;
+//							break;
+//						}
 					}
 				}
 			}
@@ -161,6 +176,9 @@ public class DLVWrapper {
 			throw new DLVInvocationException(
 					"An error is occurred calling DLV: " + ex.getMessage());
 		} catch (InterruptedException ex) {
+			throw new DLVInvocationException(
+					"An error is occurred calling DLV: " + ex.getMessage());
+		} catch (ParseException ex) {
 			throw new DLVInvocationException(
 					"An error is occurred calling DLV: " + ex.getMessage());
 		}

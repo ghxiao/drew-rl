@@ -7,6 +7,7 @@
  */
 package at.ac.tuwien.kr.datalog;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
@@ -16,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import at.ac.tuwien.kr.dlprogram.Clause;
 import at.ac.tuwien.kr.dlprogram.DLProgram;
 import at.ac.tuwien.kr.dlprogram.Literal;
+import at.ac.tuwien.kr.xsbwrapper.XSBWrapper;
 
 
 
@@ -140,7 +142,26 @@ public class XSBDatalogReasoner implements DatalogReasoner {
 
 	@Override
 	public boolean query(List<Clause> program, Literal query) {
-		throw new UnsupportedOperationException();
+		String path = "/usr/local/XSB/3.2/bin/xsb";
+		XSBWrapper xsb = new XSBWrapper(path);
+		
+		StringBuilder programText = new StringBuilder();
+		for (Clause clause : program) {
+			programText.append(clause);
+			programText.append("\n");
+			
+		}
+		try {
+			xsb.setProgram(programText.toString());
+			return xsb.query(query.toString()) != TruthValue.FALSE;
+		} catch (IOException e) {
+
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 	@Override

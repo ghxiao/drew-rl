@@ -114,4 +114,5 @@ public class LDLPCompilerManager {
 		return predicate;
 	}
 
+	public String get
 }
