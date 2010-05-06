@@ -31,9 +31,9 @@ import at.ac.tuwien.kr.ldlp.reasoner.LDLPReasoner;
 public class UBATest {
 	public final static String uri = "";
 
-	//public final static String phyUri = "file:benchmark/uba/University0_1.owl";
+	public final static String phyUri = "file:benchmark/uba/University0_0.owl";
 	
-	public final static String phyUri = "file:benchmark/uba/univ-bench.owl";
+	//public final static String phyUri = "file:benchmark/uba/univ-bench.owl";
 	
 	
 	
@@ -93,19 +93,19 @@ public class UBATest {
 		Literal head = new Literal(ans, X);
 
 		String GraduateStudentClass = IRI.create(
-				"http://www.tuwien.ac.at#GraduateStudent").toQuotedString();
+				"http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#GraduateStudent").toQuotedString();
 		NormalPredicate GraduateStudentPredicate = CacheManager.getInstance()
 				.getPredicate(GraduateStudentClass, 1);
 		Literal body1 = new Literal(GraduateStudentPredicate, X);
 
-		String takesCourse = IRI.create("http://www.tuwien.ac.at#takesCourse")
+		String takesCourse = IRI.create("http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#takesCourse")
 				.toQuotedString();
 		NormalPredicate takesCoursePredicate = CacheManager.getInstance()
 				.getPredicate(takesCourse, 2);
 		String GraduateCourse0 = IRI.create(				
 				
 				//"http://www.Department0.University0.edu/GraduateCourse0"
-				"http://www.Department1.University0.edu/GraduateCourse0"
+				"http://www.Department0.University0.edu/GraduateCourse0"
 				)
 				.toQuotedString();
 

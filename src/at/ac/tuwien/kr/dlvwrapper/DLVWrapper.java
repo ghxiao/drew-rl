@@ -119,7 +119,7 @@ public class DLVWrapper {
 			String line;
 
 			while ((line = reader.readLine()) != null) {
-				logger.debug("DLV Output: {}", line);
+				logger.info("DLV Output: {}", line);
 
 				NamedPattern linePattern = NamedPattern.compile(lineRegex);
 				NamedMatcher lineMatcher = linePattern.matcher(line);

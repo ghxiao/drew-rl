@@ -5,7 +5,7 @@
 just one class and one property and does not assume any hierarchy
 information or inference./
 
-DLQuery: [GraduateStudent and takesCourse value GraduateCourse0]
+DL Query: [GraduateStudent and takesCourse value GraduateCourse0]
 
 4 results: GraduateStudent44, 101, 124, 142
 
@@ -23,14 +23,21 @@ DLQuery: [GraduateStudent and takesCourse value GraduateCourse0]
 involved. Additionally, there is a triangular pattern of relationships
 between the objects involved.
 
+DL Query: [Publication and publicationAuthor value AssistantProfessor0]
+
+
+
+
 /*Query3*
 (type Publication ?X)
 (publicationAuthor ?X
 http://www.Department0.University0.edu/AssistantProfessor0)
 /- This query is similar to Query 1 but class Publication has a wide
-hierarchy.
+hierarchy./
 
-/*Query4*
+10 results : Publication0 - Publication9
+
+*Query4*
 (type Professor ?X)
 (worksFor ?X http://www.Department0.University0.edu)
 (name ?X ?Y1)

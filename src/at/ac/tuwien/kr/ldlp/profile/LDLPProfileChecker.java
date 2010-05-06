@@ -302,13 +302,7 @@ class LDLPProfileChecker extends OWLOntologyWalkerVisitor {
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.semanticweb.owlapi.util.OWLObjectVisitorExAdapter#visit(org.semanticweb
-	 * .owlapi.model.OWLNegativeDataPropertyAssertionAxiom)
-	 */
+	
 	@Override
 	public Object visit(OWLNegativeDataPropertyAssertionAxiom axiom) {
 		profileViolations.add(new UseOfIllegalAxiom(getCurrentOntology(), getCurrentAxiom()));

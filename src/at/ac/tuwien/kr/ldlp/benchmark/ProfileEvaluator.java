@@ -31,16 +31,17 @@ public class ProfileEvaluator {
 	 */
 	public static void main(String[] args) {
 		// loadAndCheck("","file:benchmark/lubm_1/lubm_1.owl");
-		loadAndCheck("", "file:benchmark/galen/galen.owl");
-		loadAndCheck("", "file:benchmark/dolce/dolce.owl");
-		loadAndCheck("", "file:benchmark/wine_0/wine_0.owl");
-		loadAndCheck("", "file:benchmark/vicodi_0/vicodi_0.owl");
-		loadAndCheck("", "file:benchmark/semintec_0/semintec_0.owl");
+		loadAndCheck("", "file:benchmark/galen/galen.owl","Galen");
+		loadAndCheck("", "file:benchmark/dolce/dolce.owl","Dolce");
+		loadAndCheck("", "file:benchmark/wine_0/wine_0.owl","Wine");
+		loadAndCheck("", "file:benchmark/vicodi_0/vicodi_0.owl","Vicodi");
+		loadAndCheck("", "file:benchmark/semintec_0/semintec_0.owl","Seminitec");
+		loadAndCheck("", "file:benchmark/uba/University0_0.owl","LUBM");
 		// loadAndCheck("",
 		// "file:benchmark/dolce_no_transitivity/dolce_no_transitivity.owl");
 	}
 
-	private static void loadAndCheck(String uri, String phyUri) {
+	private static void loadAndCheck(String uri, String phyUri, String name) {
 
 		// setOut("out.txt");
 
@@ -62,7 +63,21 @@ public class ProfileEvaluator {
 			// System.out.println(axiom);
 			// }
 			// logger.info("Loading complete");
-			System.out.println(ontology);
+			
+			System.out.println("Ontology : " + name);
+			
+			//System.out.println(ontology);
+			
+			System.out.println("Logical Axioms : " + ontology.getLogicalAxiomCount());
+			
+			System.out.println("individuls : "+ ontology.getIndividualsInSignature().size());
+			
+			System.out.println("classes : "+ ontology.getClassesInSignature().size());
+			
+			System.out.println("object properties : " + ontology.getObjectPropertiesInSignature().size());
+			
+			System.out.println("data propterties : " + ontology.getDataPropertiesInSignature().size());
+			
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
 		}
@@ -71,7 +86,7 @@ public class ProfileEvaluator {
 
 		OWLProfileReport report = profile.checkOntology(ontology);
 
-		reportViolations(report);
+		reportViolations(report, ontology.getLogicalAxiomCount());
 
 		// System.out.println(report);
 
@@ -89,7 +104,7 @@ public class ProfileEvaluator {
 		// }
 	}
 
-	static void reportViolations(OWLProfileReport report) {
+	static void reportViolations(OWLProfileReport report, int logicalAxioms) {
 		Map<Class<?>, Integer> clsCount = new HashMap<Class<?>, Integer>();
 
 		Map<OWLAxiom, Integer> axiomCount = new HashMap<OWLAxiom, Integer>();
@@ -111,9 +126,11 @@ public class ProfileEvaluator {
 
 			System.out.println(axiomCount.size() + " axioms are violated ");
 
-			for (Entry<Class<?>, Integer> entry : clsCount.entrySet()) {
-				System.out.println(String.format("%s => %s", entry.getKey().getSimpleName(), entry.getValue()));
-			}
+			System.out.println(String.format("%d / %d = %f", axiomCount.size(), logicalAxioms, axiomCount.size() / (double)logicalAxioms));
+			
+//			for (Entry<Class<?>, Integer> entry : clsCount.entrySet()) {
+//				System.out.println(String.format("%s => %s", entry.getKey().getSimpleName(), entry.getValue()));
+//			}
 
 			// System.out.println("The following " + violations.size() +
 			// " axioms are violated");

@@ -16,6 +16,6 @@
 	<classpathentry kind="lib" path="lib/slf4j-log4j12-1.5.11.jar" sourcepath="lib/slf4j-log4j12-1.5.11-sources.jar"/>
 	<classpathentry kind="lib" path="lib/google-collect-1.0.jar" sourcepath="lib/google-collect-src-1.0.zip"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.6.0_17"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
