@@ -18,8 +18,8 @@ import at.ac.tuwien.kr.dlprogram.Literal;
 import at.ac.tuwien.kr.dlprogram.NormalPredicate;
 import at.ac.tuwien.kr.dlvwrapper.DLVInvocationException;
 import at.ac.tuwien.kr.dlvwrapper.DLVWrapper;
+import at.ac.tuwien.kr.helper.OSDetector;
 import at.ac.tuwien.kr.ldlp.reasoner.LDLPAxiomCompiler;
-
 
 public class DlvDatalogReasoner implements DatalogReasoner {
 
@@ -150,20 +150,24 @@ public class DlvDatalogReasoner implements DatalogReasoner {
 			programText.append("\n");
 		}
 		dlv.setProgram(programText.toString());
-		dlv.setDlvPath("./dlv/dlv_magic");
-		//dlv.setDlvPath("./dlv/dlv.mingw.exe");
+
+		if (OSDetector.isUnix()) {
+			dlv.setDlvPath("./dlv/dlv_magic");
+		} else {
+			dlv.setDlvPath("./dlv/dlv.mingw.exe");
+		}
 
 		String queryText = query.toString();
-		String filter = ((NormalPredicate)query.getPredicate()).getName();
+		String filter = ((NormalPredicate) query.getPredicate()).getName();
 		try {
-			return dlv.queryWFS(queryText,filter);
+			return dlv.querySM(queryText, filter);
 		} catch (DLVInvocationException e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
 
-	//@Override
+	// @Override
 	public boolean query(List<Clause> program, Clause query) {
 		DLVWrapper dlv = new DLVWrapper();
 
@@ -179,17 +183,17 @@ public class DlvDatalogReasoner implements DatalogReasoner {
 
 		String queryText = query.toString();
 		try {
-			dlv.queryWFS(queryText,"");
+			dlv.queryWFS(queryText, "");
 		} catch (DLVInvocationException e) {
 			e.printStackTrace();
 		}
 		return false;
 	}
 
-//	public boolean query(DLProgram program, Clause query) {
-//		return query(program.getClauses(), query);
-//
-//	}
+	// public boolean query(DLProgram program, Clause query) {
+	// return query(program.getClauses(), query);
+	//
+	// }
 
 	@Override
 	public List<Literal> query(DLProgram program, Literal query) {
@@ -202,8 +206,8 @@ public class DlvDatalogReasoner implements DatalogReasoner {
 		return false;
 	}
 
-//	public List<Literal> query(DLProgram program, Literal query) {
-//		return query(program.getClauses(), query);
-//	}
+	// public List<Literal> query(DLProgram program, Literal query) {
+	// return query(program.getClauses(), query);
+	// }
 
 }

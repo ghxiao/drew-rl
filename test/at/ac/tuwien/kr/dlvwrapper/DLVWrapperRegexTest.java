@@ -19,9 +19,12 @@ public class DLVWrapperRegexTest {
 	String literalListRegex = String.format("(?<literalList>%s(,\\s*%s)*)",
 			literalRegex, literalRegex);
 
-	String lineRegex = String.format("True:\\s*(\\{%s\\})\\s*",
-			literalListRegex);
+//	String lineRegex = String.format("True:\\s*(\\{%s\\})\\s*",
+//			literalListRegex);
 
+	String lineRegex = String.format("(?<true>True:)?\\s*(\\{%s\\})\\s*",
+			literalListRegex);
+	
 	@Test
 	public void testPredicate() {
 		NamedPattern pattern = NamedPattern.compile(predicateRegex);

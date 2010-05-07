@@ -18,8 +18,6 @@ import at.ac.tuwien.kr.dlprogram.parser.ParseException;
 import com.google.code.regex.NamedMatcher;
 import com.google.code.regex.NamedPattern;
 
-
-
 public class DLVWrapper {
 	String dlvPath;
 
@@ -39,7 +37,7 @@ public class DLVWrapper {
 	String literalListRegex = String.format("(?<literalList>%s(,\\s*%s)*)",
 			literalRegex, literalRegex);
 
-	String lineRegex = String.format("True:\\s*(\\{%s\\})\\s*",
+	String lineRegex = String.format("(?<true>True:)?\\s*(\\{%s\\})\\s*",
 			literalListRegex);
 
 	public DLVWrapper() {
@@ -101,16 +99,100 @@ public class DLVWrapper {
 	}
 
 	public List<Literal> queryWFS(String queryStr) throws DLVInvocationException {
-		return queryWFS(queryStr,"");
+		return queryWFS(queryStr, "");
 	}
-	
-	public List<Literal> queryWFS(String queryStr, String filter) throws DLVInvocationException {
-		
+
+	//Stable Model Semantics
+	//Now only return the first model
+	//TODO: return more models
+	public List<Literal> querySM(String queryStr, String filter) throws DLVInvocationException {
 		List<Literal> result = new ArrayList<Literal>();
-		
-		//boolean result = false;
+
+		// boolean result = false;
 		try {
-			String[] params = { dlvPath, "-wf", "--" , "-filter="+filter};
+			String[] params = { dlvPath, "--", "-filter=" + filter };
+
+			logger.debug("Run DLV with parameters:\n {} {} {}", new String[] {
+					params[0], params[1], params[2] });
+			Process dlv = this.runtime.exec(params);
+			BufferedReader reader = new BufferedReader(new InputStreamReader(
+					dlv.getInputStream()));
+
+			PrintWriter writer = new PrintWriter(dlv.getOutputStream());
+			writer.write(program);
+
+			logger.debug("DLV Input:\n{}", program);
+
+			writer.flush();
+			writer.close();
+
+			String line;
+
+			while ((line = reader.readLine()) != null) {
+				logger.info("DLV Output: {}", line);
+
+				NamedPattern linePattern = NamedPattern.compile(lineRegex);
+				NamedMatcher lineMatcher = linePattern.matcher(line);
+				if (lineMatcher.find()) {
+					String lits = lineMatcher.group("literalList");
+					 System.out.println("literalList " + lits);
+					NamedPattern literalPattern = NamedPattern
+							.compile(literalRegex);
+					NamedMatcher literalMatcher = literalPattern.matcher(lits);
+					while (literalMatcher.find()) {
+						String lit = literalMatcher.group("literal");
+						// System.out.println("literal " + lit);
+						DLProgramParser parser = new DLProgramParser(new StringReader(lit));
+						Literal literal = parser.literal();
+						result.add(literal);
+						// if (lit.equals(queryStr)) {
+						// logger.debug("Query \"{}\" found", queryStr);
+						// result = true;
+						// break;
+						// }
+					}
+				}
+			}
+
+			BufferedReader errorReader = new BufferedReader(
+					new InputStreamReader(dlv.getErrorStream()));
+
+			String message = "";
+
+			while ((line = errorReader.readLine()) != null) {
+				message += line + "\n";
+			}
+
+			if (message.length() > 0) {
+				logger.error("DLV ERROR: {}", message);
+				throw new DLVInvocationException(
+						"An error is occurred calling DLV: " + message);
+			}
+
+			dlv.waitFor();
+		} catch (IOException ex) {
+			throw new DLVInvocationException(
+					"An error is occurred calling DLV: " + ex.getMessage());
+		} catch (InterruptedException ex) {
+			throw new DLVInvocationException(
+					"An error is occurred calling DLV: " + ex.getMessage());
+		} catch (ParseException ex) {
+			throw new DLVInvocationException(
+					"An error is occurred calling DLV: " + ex.getMessage());
+		}
+
+		return result;
+
+	}
+
+	// Well founded Semantics
+	public List<Literal> queryWFS(String queryStr, String filter) throws DLVInvocationException {
+
+		List<Literal> result = new ArrayList<Literal>();
+
+		// boolean result = false;
+		try {
+			String[] params = { dlvPath, "-wf", "--", "-filter=" + filter };
 
 			logger.debug("Run DLV with parameters:\n {} {} {} {}", new String[] {
 					params[0], params[1], params[2], params[3] });
@@ -127,8 +209,6 @@ public class DLVWrapper {
 			writer.close();
 
 			String line;
-			
-			
 
 			while ((line = reader.readLine()) != null) {
 				logger.info("DLV Output: {}", line);
@@ -147,11 +227,11 @@ public class DLVWrapper {
 						DLProgramParser parser = new DLProgramParser(new StringReader(lit));
 						Literal literal = parser.literal();
 						result.add(literal);
-//						if (lit.equals(queryStr)) {
-//							logger.debug("Query \"{}\" found", queryStr);
-//							result = true;
-//							break;
-//						}
+						// if (lit.equals(queryStr)) {
+						// logger.debug("Query \"{}\" found", queryStr);
+						// result = true;
+						// break;
+						// }
 					}
 				}
 			}
