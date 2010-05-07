@@ -21,7 +21,7 @@ public class OSDetector {
 
 		logger.debug("os.name = " + osName);
 
-		return osName.contains("Unix");
+		return osName.contains("Unix") || osName.contains("Linux");
 	}
 
 }

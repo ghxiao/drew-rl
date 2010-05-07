@@ -21,7 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import at.ac.tuwien.kr.datalog.DatalogReasoner;
-import at.ac.tuwien.kr.datalog.DlvDatalogReasoner;
+import at.ac.tuwien.kr.datalog.DLVReasoner;
 import at.ac.tuwien.kr.datalog.XSBDatalogReasoner;
 import at.ac.tuwien.kr.datalog.DatalogReasoner.TYPE;
 import at.ac.tuwien.kr.dlprogram.CacheManager;
@@ -63,7 +63,7 @@ public class LDLPReasoner extends OWLReasonerAdapter {
 
 		this(rootOntology, new SimpleConfiguration(), null);
 		if (type == TYPE.DLV) {
-			datalogReasoner = new DlvDatalogReasoner();
+			datalogReasoner = new DLVReasoner();
 		} else if (type == TYPE.XSB) {
 			datalogReasoner = new XSBDatalogReasoner();
 		}
@@ -104,7 +104,7 @@ public class LDLPReasoner extends OWLReasonerAdapter {
 		Clause query = axiomCompiler.compileOWLAxiom(axiom);
 		// compiler.compileClassAssertionAxiom(classAssertionAxiom);
 
-		return datalogReasoner.booleanQuery(program, query);
+		return datalogReasoner.isEntailed(program, query.getHead());
 
 	}
 

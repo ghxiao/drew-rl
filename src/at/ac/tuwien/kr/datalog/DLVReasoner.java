@@ -21,9 +21,10 @@ import at.ac.tuwien.kr.dlvwrapper.DLVWrapper;
 import at.ac.tuwien.kr.helper.OSDetector;
 import at.ac.tuwien.kr.ldlp.reasoner.LDLPAxiomCompiler;
 
-public class DlvDatalogReasoner implements DatalogReasoner {
+public class DLVReasoner implements DatalogReasoner {
 
-	final static Logger logger = LoggerFactory.getLogger(LDLPAxiomCompiler.class);
+	final static Logger logger = LoggerFactory
+			.getLogger(LDLPAxiomCompiler.class);
 
 	// /*
 	// * (non-Javadoc)
@@ -142,6 +143,19 @@ public class DlvDatalogReasoner implements DatalogReasoner {
 
 	@Override
 	public List<Literal> query(List<Clause> program, Literal query) {
+		DLVWrapper dlv = initialize(program);
+
+		String queryText = query.toString();
+		String filter = ((NormalPredicate) query.getPredicate()).getName();
+		try {
+			return dlv.querySM(queryText, filter);
+		} catch (DLVInvocationException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	private DLVWrapper initialize(List<Clause> program) {
 		DLVWrapper dlv = new DLVWrapper();
 
 		StringBuilder programText = new StringBuilder();
@@ -156,15 +170,7 @@ public class DlvDatalogReasoner implements DatalogReasoner {
 		} else {
 			dlv.setDlvPath("./dlv/dlv.mingw.exe");
 		}
-
-		String queryText = query.toString();
-		String filter = ((NormalPredicate) query.getPredicate()).getName();
-		try {
-			return dlv.querySM(queryText, filter);
-		} catch (DLVInvocationException e) {
-			e.printStackTrace();
-		}
-		return null;
+		return dlv;
 	}
 
 	// @Override
@@ -201,13 +207,22 @@ public class DlvDatalogReasoner implements DatalogReasoner {
 	}
 
 	@Override
-	public boolean booleanQuery(List<Clause> program, Clause query) {
-		// TODO Auto-generated method stub
+	public boolean isEntailed(List<Clause> program, Literal query) {
+		DLVWrapper dlv = initialize(program);
+		String queryText = query.toString();
+		String filter = ((NormalPredicate) query.getPredicate()).getName();
+		try {
+			return dlv.isEntailed(queryText, filter);
+		} catch (DLVInvocationException e) {
+			e.printStackTrace();
+		}
+
 		return false;
 	}
 
-	// public List<Literal> query(DLProgram program, Literal query) {
-	// return query(program.getClauses(), query);
-	// }
+	@Override
+	public boolean isEntailed(DLProgram program, Literal query) {
+		return isEntailed(program.getClauses(), query);
+	}
 
 }

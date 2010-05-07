@@ -24,12 +24,30 @@ public interface DatalogReasoner {
 	
 //	boolean query(List<Clause> program, Clause query);
 
+	/**
+	 * Query
+	 */
 	List<Literal> query(List<Clause> program, Literal query);
+	
+	/**
+	 * Instance Checking
+	 * @param program
+	 * @param query
+	 * @return
+	 */
+	boolean isEntailed(List<Clause> program, Literal query);
 
 //	boolean query(DLProgram program, Clause query);
 //
 	List<Literal> query(DLProgram program, Literal query);
 
-	boolean booleanQuery(List<Clause> program, Clause query);
+	
+	/**
+	 * Instance Checking
+	 * @param program
+	 * @param query
+	 * @return
+	 */
+	boolean isEntailed(DLProgram program, Literal query);
 
 }

@@ -53,10 +53,11 @@ public class DLVWrapperTest {
 		String q2 = "u(a,b)";
 		String q3 = "t(a)";
 		String q4 = "e";
-		assertFalse(dlv.queryWFS(q1));
-		assertTrue(dlv.queryWFS(q2));
-		assertFalse(dlv.queryWFS(q3));
-		assertFalse(dlv.queryWFS(q4));
+		
+		assertFalse(dlv.isEntailed(q1));
+		assertTrue(dlv.isEntailed(q2));
+		assertFalse(dlv.isEntailed(q3));
+		assertFalse(dlv.isEntailed(q4));
 
 	}
 }

@@ -2,6 +2,7 @@ package misc;
 
 import java.io.File;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import com.declarativa.interprolog.PrologOutputListener;
 import com.declarativa.interprolog.XSBSubprocessEngine;
 
+@Ignore
 public class InterprologTest {
 
 	public static void main(String args[]) {

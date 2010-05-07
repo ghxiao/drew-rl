@@ -10,18 +10,18 @@ package at.ac.tuwien.kr.ldlpprogram.reasoner;
 import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
 
 import at.ac.tuwien.kr.datalog.DatalogReasoner;
-import at.ac.tuwien.kr.datalog.DlvDatalogReasoner;
+import at.ac.tuwien.kr.datalog.DLVReasoner;
 import at.ac.tuwien.kr.dlprogram.DLProgram;
 import at.ac.tuwien.kr.dlprogram.DLProgramKB;
 import at.ac.tuwien.kr.dlprogram.Literal;
 
 /**
- * TODO describe this class please.
+ * Reasoner for DLProgram KB
  */
 public class KBReasoner {
 
 	KBCompiler compiler = new KBCompiler();
-	DatalogReasoner datalogReasoner = new DlvDatalogReasoner();
+	DatalogReasoner datalogReasoner = new DLVReasoner();
 
 	DLProgram compiledClauses;
 
@@ -38,6 +38,6 @@ public class KBReasoner {
 	public boolean isEntailed(Literal query) {
 		Literal newQuery = compiler.compileNormalLiteral(query);
 
-		return datalogReasoner.query(compiledClauses, newQuery);
+		return datalogReasoner.isEntailed(compiledClauses, newQuery);
 	}
 }

@@ -135,13 +135,9 @@ public class XSBDatalogReasoner implements DatalogReasoner {
 //		i = core.xsb_close();
 //	}
 
-	@Override
-	public boolean query(List<Clause> program, Clause query) {
-		throw new UnsupportedOperationException();
-	}
 
 	@Override
-	public boolean query(List<Clause> program, Literal query) {
+	public boolean isEntailed(List<Clause> program, Literal query) {
 		String path = "/usr/local/XSB/3.2/bin/xsb";
 		XSBWrapper xsb = new XSBWrapper(path);
 		
@@ -165,13 +161,20 @@ public class XSBDatalogReasoner implements DatalogReasoner {
 	}
 
 	@Override
-	public boolean query(DLProgram program, Clause query) {
+	public boolean isEntailed(DLProgram program, Literal query) {
+		return isEntailed(program.getClauses(),query);
+	}
+
+	@Override
+	public List<Literal> query(List<Clause> program, Literal query) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public boolean query(DLProgram program, Literal query) {
+	public List<Literal> query(DLProgram program, Literal query) {
 		throw new UnsupportedOperationException();
 	}
+
+
 
 }

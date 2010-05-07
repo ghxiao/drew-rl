@@ -12,7 +12,7 @@ import at.ac.tuwien.kr.dlprogram.Literal;
 import at.ac.tuwien.kr.dlprogram.parser.DLProgramParser;
 import at.ac.tuwien.kr.dlprogram.parser.ParseException;
 
-public class DlvDatalogReasonerTest {
+public class DLVReasonerTest {
 
 	@Test
 	public void testQuery001() throws ParseException {
@@ -23,8 +23,8 @@ public class DlvDatalogReasonerTest {
 		reader = new StringReader("p(a)");
 		parser = new DLProgramParser(reader);
 		Literal query = parser.literal();
-		DlvDatalogReasoner reasoner = new DlvDatalogReasoner();
-		assertTrue(reasoner.query(program, query));
+		DLVReasoner reasoner = new DLVReasoner();
+		assertTrue(reasoner.isEntailed(program, query));
 	}
 
 	@Test
@@ -37,8 +37,8 @@ public class DlvDatalogReasonerTest {
 		parser = new DLProgramParser(reader);
 		Literal query = parser.literal();
 
-		DlvDatalogReasoner reasoner = new DlvDatalogReasoner();
-		assertFalse(reasoner.query(program, query));
+		DLVReasoner reasoner = new DLVReasoner();
+		assertFalse(reasoner.isEntailed(program, query));
 	}
 
 }
