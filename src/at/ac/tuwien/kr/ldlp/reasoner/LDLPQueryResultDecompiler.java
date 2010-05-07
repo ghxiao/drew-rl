@@ -3,34 +3,85 @@ package at.ac.tuwien.kr.ldlp.reasoner;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import at.ac.tuwien.kr.dlprogram.CacheManager;
+import at.ac.tuwien.kr.dlprogram.Constant;
 import at.ac.tuwien.kr.dlprogram.Literal;
 import at.ac.tuwien.kr.dlprogram.NormalPredicate;
 import at.ac.tuwien.kr.dlprogram.Predicate;
+import at.ac.tuwien.kr.dlprogram.Term;
+import at.ac.tuwien.kr.dlprogram.Variable;
 
 public class LDLPQueryResultDecompiler {
-	List<Literal> decompile(List<Literal> lits) {
+	
+	final static Logger logger = LoggerFactory
+	.getLogger(LDLPQueryResultDecompiler.class);
+	
+	List<Literal> decompileLiterals(List<Literal> lits) {
 		List<Literal> newLits = new ArrayList<Literal>();
 		for(Literal lit:lits){
-			Literal newLit = decompile(lit);
+			Literal newLit = decompileLiteral(lit);
 			newLits.add(newLit);
 		}
 		return newLits;
 
 	}
 
-	Literal decompile(Literal lit) {
+	Literal decompileLiteral(Literal lit) {
 		Predicate predicate = lit.getPredicate();
-		Predicate newPredicate = decompile(predicate);
-		return null;
+		Predicate decompiledPredicate = decompilePredicate(predicate);
+		
+		List<Term> terms = lit.getTerms();
+		
+		List<Term> decompiledTerms = decompileTerms(terms);
+		
+		return new Literal(decompiledPredicate, decompiledTerms);
 	}
 
-	Predicate decompile(Predicate predicate) {
-		String name = ((NormalPredicate)predicate).getName();
-		String originalName;
+	private List<Term> decompileTerms(List<Term> terms) {
+
+		List<Term> decompiledTerms = new ArrayList<Term>();
 		
-		int index = Integer.parseInt(name.substring(1));
+		for(Term term: terms){
+			Term decompiledTerm = decompileTerm(term);
+			decompiledTerms.add(decompiledTerm);
+		}
 		
+		return decompiledTerms;
+	}
+
+	private Term decompileTerm(Term term) {
+		if(term instanceof Variable){
+			throw new IllegalStateException("Query Results should not contain Variable");
+		}else if(term instanceof Constant){
+			Constant constant = (Constant)term;
+			Constant decomiledConstant = decompileConstant(constant);
+			return decomiledConstant;
+		}
 		
-		return null;
+		throw new IllegalStateException();
+	}
+
+	private Constant decompileConstant(Constant constant) {
+		String name = constant.getName();
+		
+		String decompiledConstantName = LDLPCompilerManager.getInstance().decompile(name);
+		
+		Constant decompiledConstant = CacheManager.getInstance().getConstant(decompiledConstantName);
+		
+		return decompiledConstant;
+	}
+
+	Predicate decompilePredicate(Predicate predicate) {
+		NormalPredicate normalPredicate = (NormalPredicate)predicate;
+		String name = normalPredicate.getName();
+		int arity = normalPredicate.getArity();
+		
+		String decompiledName = LDLPCompilerManager.getInstance().decompile(name);
+		
+		NormalPredicate decompiledPredicate = CacheManager.getInstance().getPredicate(decompiledName, arity);
+		return decompiledPredicate;
 	}
 }

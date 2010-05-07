@@ -126,8 +126,10 @@ public class LDLPReasoner extends OWLReasonerAdapter {
 
 		List<Literal> queryResult = datalogReasoner.query(program, query.getHead());
 		
-		List<Literal> dlResult = toDL(queryResult);
-		return queryResult;
+		LDLPQueryResultDecompiler decompiler = new LDLPQueryResultDecompiler();
+		
+		List<Literal> result = decompiler.decompileLiterals(queryResult);
+		return result;
 	}
 
 	

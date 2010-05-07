@@ -11,6 +11,7 @@ public class SymbolEncoder<K> {
 	List<K> intToSymbol_List = new ArrayList<K>();
 
 	public K getSymbolByValue(int value) {
+		value--;
 		if (1 <= value && value <= currentMax)
 			return intToSymbol_List.get(value);
 		else {

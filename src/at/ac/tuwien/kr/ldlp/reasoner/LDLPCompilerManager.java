@@ -7,8 +7,6 @@
  */
 package at.ac.tuwien.kr.ldlp.reasoner;
 
-import org.semanticweb.owlapi.apibinding.OWLManager;
-import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLIndividual;
@@ -21,7 +19,7 @@ import org.slf4j.LoggerFactory;
 import at.ac.tuwien.kr.utils.SymbolEncoder;
 
 /**
- * TODO describe this class please.
+ * LDLPCompilerManager
  */
 public class LDLPCompilerManager {
 
@@ -114,5 +112,18 @@ public class LDLPCompilerManager {
 		return predicate;
 	}
 
-	public String get
+	public String decompile(String name) {
+
+		int index = Integer.parseInt(name.substring(1));
+
+		if (name.startsWith("p")) { // predicate
+			return predicates.getSymbolByValue(index);
+		}else if(name.startsWith("o")){ //constant
+			return constants.getSymbolByValue(index);
+		}else{
+			throw new IllegalStateException();
+		}
+
+		
+	}
 }

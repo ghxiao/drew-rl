@@ -273,7 +273,7 @@ http://www.Department0.University0.edu/FullProfessor9	FullProfessor9	FullProfess
 		Variable Y2 = CacheManager.getInstance().getVariable("Y2");
 		Variable Y3 = CacheManager.getInstance().getVariable("Y3");
 
-		Literal head = new Literal(ans, X);
+		Literal head = new Literal(ans, X, Y1, Y2, Y3);
 
 		NormalPredicate professor = CacheManager
 				.getInstance()
