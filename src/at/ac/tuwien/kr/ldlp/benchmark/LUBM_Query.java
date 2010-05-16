@@ -47,6 +47,8 @@ public class LUBM_Query {
 
 		// setOut("out.txt");
 
+		long t0 = System.currentTimeMillis();
+
 		OWLOntology ontology = null;
 
 		System.out.println();
@@ -88,14 +90,18 @@ public class LUBM_Query {
 
 		Clause query = getQuery4();
 
-		//LDLPReasoner reasoner = new LDLPReasoner(ontology, TYPE.XSB);
+		// LDLPReasoner reasoner = new LDLPReasoner(ontology, TYPE.XSB);
 		LDLPReasoner reasoner = new LDLPReasoner(ontology, TYPE.DLV);
 		List<Literal> results = reasoner.query(query);
-		
+
 		System.out.println("Query Results");
-		for(Literal result:results){
+		for (Literal result : results) {
 			System.out.println(result);
 		}
+
+		long t1 = System.currentTimeMillis();
+		long dt = t1 - t0;
+		System.out.println("Time: " + dt + "ms");
 
 	}
 
@@ -224,45 +230,46 @@ public class LUBM_Query {
 	 * /- This query has small input and high selectivity. It assumes subClassOf
 	 * relationship between Professor and its subclasses. Class Professor has a
 	 * wide hierarchy. Another feature is that it queries about multiple
-	 * properties of a single class. 
+	 * properties of a single class.
 	 * 
 	 * Results:
+	 * 
 	 * <pre>
-http://www.Department0.University0.edu/AssistantProfessor0	AssistantProfessor0	AssistantProfessor0@Department0.University0.edu	xxx-xxx-xxxx
-http://www.Department0.University0.edu/AssistantProfessor1	AssistantProfessor1	AssistantProfessor1@Department0.University0.edu	xxx-xxx-xxxx
-http://www.Department0.University0.edu/AssistantProfessor2	AssistantProfessor2	AssistantProfessor2@Department0.University0.edu	xxx-xxx-xxxx
-http://www.Department0.University0.edu/AssistantProfessor3	AssistantProfessor3	AssistantProfessor3@Department0.University0.edu	xxx-xxx-xxxx
-http://www.Department0.University0.edu/AssistantProfessor4	AssistantProfessor4	AssistantProfessor4@Department0.University0.edu	xxx-xxx-xxxx
-http://www.Department0.University0.edu/AssistantProfessor5	AssistantProfessor5	AssistantProfessor5@Department0.University0.edu	xxx-xxx-xxxx
-http://www.Department0.University0.edu/AssistantProfessor6	AssistantProfessor6	AssistantProfessor6@Department0.University0.edu	xxx-xxx-xxxx
-http://www.Department0.University0.edu/AssistantProfessor7	AssistantProfessor7	AssistantProfessor7@Department0.University0.edu	xxx-xxx-xxxx
-http://www.Department0.University0.edu/AssistantProfessor8	AssistantProfessor8	AssistantProfessor8@Department0.University0.edu	xxx-xxx-xxxx
-http://www.Department0.University0.edu/AssistantProfessor9	AssistantProfessor9	AssistantProfessor9@Department0.University0.edu	xxx-xxx-xxxx
-http://www.Department0.University0.edu/AssociateProfessor0	AssociateProfessor0	AssociateProfessor0@Department0.University0.edu	xxx-xxx-xxxx
-http://www.Department0.University0.edu/AssociateProfessor1	AssociateProfessor1	AssociateProfessor1@Department0.University0.edu	xxx-xxx-xxxx
-http://www.Department0.University0.edu/AssociateProfessor10	AssociateProfessor10	AssociateProfessor10@Department0.University0.edu	xxx-xxx-xxxx
-http://www.Department0.University0.edu/AssociateProfessor11	AssociateProfessor11	AssociateProfessor11@Department0.University0.edu	xxx-xxx-xxxx
-http://www.Department0.University0.edu/AssociateProfessor12	AssociateProfessor12	AssociateProfessor12@Department0.University0.edu	xxx-xxx-xxxx
-http://www.Department0.University0.edu/AssociateProfessor13	AssociateProfessor13	AssociateProfessor13@Department0.University0.edu	xxx-xxx-xxxx
-http://www.Department0.University0.edu/AssociateProfessor2	AssociateProfessor2	AssociateProfessor2@Department0.University0.edu	xxx-xxx-xxxx
-http://www.Department0.University0.edu/AssociateProfessor3	AssociateProfessor3	AssociateProfessor3@Department0.University0.edu	xxx-xxx-xxxx
-http://www.Department0.University0.edu/AssociateProfessor4	AssociateProfessor4	AssociateProfessor4@Department0.University0.edu	xxx-xxx-xxxx
-http://www.Department0.University0.edu/AssociateProfessor5	AssociateProfessor5	AssociateProfessor5@Department0.University0.edu	xxx-xxx-xxxx
-http://www.Department0.University0.edu/AssociateProfessor6	AssociateProfessor6	AssociateProfessor6@Department0.University0.edu	xxx-xxx-xxxx
-http://www.Department0.University0.edu/AssociateProfessor7	AssociateProfessor7	AssociateProfessor7@Department0.University0.edu	xxx-xxx-xxxx
-http://www.Department0.University0.edu/AssociateProfessor8	AssociateProfessor8	AssociateProfessor8@Department0.University0.edu	xxx-xxx-xxxx
-http://www.Department0.University0.edu/AssociateProfessor9	AssociateProfessor9	AssociateProfessor9@Department0.University0.edu	xxx-xxx-xxxx
-http://www.Department0.University0.edu/FullProfessor0	FullProfessor0	FullProfessor0@Department0.University0.edu	xxx-xxx-xxxx
-http://www.Department0.University0.edu/FullProfessor1	FullProfessor1	FullProfessor1@Department0.University0.edu	xxx-xxx-xxxx
-http://www.Department0.University0.edu/FullProfessor2	FullProfessor2	FullProfessor2@Department0.University0.edu	xxx-xxx-xxxx
-http://www.Department0.University0.edu/FullProfessor3	FullProfessor3	FullProfessor3@Department0.University0.edu	xxx-xxx-xxxx
-http://www.Department0.University0.edu/FullProfessor4	FullProfessor4	FullProfessor4@Department0.University0.edu	xxx-xxx-xxxx
-http://www.Department0.University0.edu/FullProfessor5	FullProfessor5	FullProfessor5@Department0.University0.edu	xxx-xxx-xxxx
-http://www.Department0.University0.edu/FullProfessor6	FullProfessor6	FullProfessor6@Department0.University0.edu	xxx-xxx-xxxx
-http://www.Department0.University0.edu/FullProfessor7	FullProfessor7	FullProfessor7@Department0.University0.edu	xxx-xxx-xxxx
-http://www.Department0.University0.edu/FullProfessor8	FullProfessor8	FullProfessor8@Department0.University0.edu	xxx-xxx-xxxx
-http://www.Department0.University0.edu/FullProfessor9	FullProfessor9	FullProfessor9@Department0.University0.edu	xxx-xxx-xxxx
-</pre>
+	 * http://www.Department0.University0.edu/AssistantProfessor0	AssistantProfessor0	AssistantProfessor0@Department0.University0.edu	xxx-xxx-xxxx
+	 * http://www.Department0.University0.edu/AssistantProfessor1	AssistantProfessor1	AssistantProfessor1@Department0.University0.edu	xxx-xxx-xxxx
+	 * http://www.Department0.University0.edu/AssistantProfessor2	AssistantProfessor2	AssistantProfessor2@Department0.University0.edu	xxx-xxx-xxxx
+	 * http://www.Department0.University0.edu/AssistantProfessor3	AssistantProfessor3	AssistantProfessor3@Department0.University0.edu	xxx-xxx-xxxx
+	 * http://www.Department0.University0.edu/AssistantProfessor4	AssistantProfessor4	AssistantProfessor4@Department0.University0.edu	xxx-xxx-xxxx
+	 * http://www.Department0.University0.edu/AssistantProfessor5	AssistantProfessor5	AssistantProfessor5@Department0.University0.edu	xxx-xxx-xxxx
+	 * http://www.Department0.University0.edu/AssistantProfessor6	AssistantProfessor6	AssistantProfessor6@Department0.University0.edu	xxx-xxx-xxxx
+	 * http://www.Department0.University0.edu/AssistantProfessor7	AssistantProfessor7	AssistantProfessor7@Department0.University0.edu	xxx-xxx-xxxx
+	 * http://www.Department0.University0.edu/AssistantProfessor8	AssistantProfessor8	AssistantProfessor8@Department0.University0.edu	xxx-xxx-xxxx
+	 * http://www.Department0.University0.edu/AssistantProfessor9	AssistantProfessor9	AssistantProfessor9@Department0.University0.edu	xxx-xxx-xxxx
+	 * http://www.Department0.University0.edu/AssociateProfessor0	AssociateProfessor0	AssociateProfessor0@Department0.University0.edu	xxx-xxx-xxxx
+	 * http://www.Department0.University0.edu/AssociateProfessor1	AssociateProfessor1	AssociateProfessor1@Department0.University0.edu	xxx-xxx-xxxx
+	 * http://www.Department0.University0.edu/AssociateProfessor10	AssociateProfessor10	AssociateProfessor10@Department0.University0.edu	xxx-xxx-xxxx
+	 * http://www.Department0.University0.edu/AssociateProfessor11	AssociateProfessor11	AssociateProfessor11@Department0.University0.edu	xxx-xxx-xxxx
+	 * http://www.Department0.University0.edu/AssociateProfessor12	AssociateProfessor12	AssociateProfessor12@Department0.University0.edu	xxx-xxx-xxxx
+	 * http://www.Department0.University0.edu/AssociateProfessor13	AssociateProfessor13	AssociateProfessor13@Department0.University0.edu	xxx-xxx-xxxx
+	 * http://www.Department0.University0.edu/AssociateProfessor2	AssociateProfessor2	AssociateProfessor2@Department0.University0.edu	xxx-xxx-xxxx
+	 * http://www.Department0.University0.edu/AssociateProfessor3	AssociateProfessor3	AssociateProfessor3@Department0.University0.edu	xxx-xxx-xxxx
+	 * http://www.Department0.University0.edu/AssociateProfessor4	AssociateProfessor4	AssociateProfessor4@Department0.University0.edu	xxx-xxx-xxxx
+	 * http://www.Department0.University0.edu/AssociateProfessor5	AssociateProfessor5	AssociateProfessor5@Department0.University0.edu	xxx-xxx-xxxx
+	 * http://www.Department0.University0.edu/AssociateProfessor6	AssociateProfessor6	AssociateProfessor6@Department0.University0.edu	xxx-xxx-xxxx
+	 * http://www.Department0.University0.edu/AssociateProfessor7	AssociateProfessor7	AssociateProfessor7@Department0.University0.edu	xxx-xxx-xxxx
+	 * http://www.Department0.University0.edu/AssociateProfessor8	AssociateProfessor8	AssociateProfessor8@Department0.University0.edu	xxx-xxx-xxxx
+	 * http://www.Department0.University0.edu/AssociateProfessor9	AssociateProfessor9	AssociateProfessor9@Department0.University0.edu	xxx-xxx-xxxx
+	 * http://www.Department0.University0.edu/FullProfessor0	FullProfessor0	FullProfessor0@Department0.University0.edu	xxx-xxx-xxxx
+	 * http://www.Department0.University0.edu/FullProfessor1	FullProfessor1	FullProfessor1@Department0.University0.edu	xxx-xxx-xxxx
+	 * http://www.Department0.University0.edu/FullProfessor2	FullProfessor2	FullProfessor2@Department0.University0.edu	xxx-xxx-xxxx
+	 * http://www.Department0.University0.edu/FullProfessor3	FullProfessor3	FullProfessor3@Department0.University0.edu	xxx-xxx-xxxx
+	 * http://www.Department0.University0.edu/FullProfessor4	FullProfessor4	FullProfessor4@Department0.University0.edu	xxx-xxx-xxxx
+	 * http://www.Department0.University0.edu/FullProfessor5	FullProfessor5	FullProfessor5@Department0.University0.edu	xxx-xxx-xxxx
+	 * http://www.Department0.University0.edu/FullProfessor6	FullProfessor6	FullProfessor6@Department0.University0.edu	xxx-xxx-xxxx
+	 * http://www.Department0.University0.edu/FullProfessor7	FullProfessor7	FullProfessor7@Department0.University0.edu	xxx-xxx-xxxx
+	 * http://www.Department0.University0.edu/FullProfessor8	FullProfessor8	FullProfessor8@Department0.University0.edu	xxx-xxx-xxxx
+	 * http://www.Department0.University0.edu/FullProfessor9	FullProfessor9	FullProfessor9@Department0.University0.edu	xxx-xxx-xxxx
+	 * </pre>
 	 * 
 	 */
 	private static Clause getQuery4() {
@@ -297,12 +304,12 @@ http://www.Department0.University0.edu/FullProfessor9	FullProfessor9	FullProfess
 				"<http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#name>",
 				2);
 		Literal body3 = new Literal(name, X, Y1);
-		
+
 		NormalPredicate emailAddress = CacheManager.getInstance().getPredicate(
 				"<http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#emailAddress>",
 				2);
 		Literal body4 = new Literal(emailAddress, X, Y2);
-		
+
 		NormalPredicate telephone = CacheManager.getInstance().getPredicate(
 				"<http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#telephone>",
 				2);
