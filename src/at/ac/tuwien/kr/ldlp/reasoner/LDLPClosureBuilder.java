@@ -9,7 +9,11 @@ package at.ac.tuwien.kr.ldlp.reasoner;
 
 import java.util.Set;
 
+import org.semanticweb.owlapi.model.OWLAnnotationAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLAnnotationPropertyDomainAxiom;
+import org.semanticweb.owlapi.model.OWLAnnotationPropertyRangeAxiom;
 import org.semanticweb.owlapi.model.OWLAnonymousIndividual;
+import org.semanticweb.owlapi.model.OWLAsymmetricObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
@@ -21,10 +25,31 @@ import org.semanticweb.owlapi.model.OWLDataHasValue;
 import org.semanticweb.owlapi.model.OWLDataMaxCardinality;
 import org.semanticweb.owlapi.model.OWLDataMinCardinality;
 import org.semanticweb.owlapi.model.OWLDataProperty;
+import org.semanticweb.owlapi.model.OWLDataPropertyAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLDataPropertyDomainAxiom;
+import org.semanticweb.owlapi.model.OWLDataPropertyRangeAxiom;
 import org.semanticweb.owlapi.model.OWLDataSomeValuesFrom;
+import org.semanticweb.owlapi.model.OWLDatatypeDefinitionAxiom;
+import org.semanticweb.owlapi.model.OWLDeclarationAxiom;
+import org.semanticweb.owlapi.model.OWLDifferentIndividualsAxiom;
+import org.semanticweb.owlapi.model.OWLDisjointClassesAxiom;
+import org.semanticweb.owlapi.model.OWLDisjointDataPropertiesAxiom;
+import org.semanticweb.owlapi.model.OWLDisjointObjectPropertiesAxiom;
+import org.semanticweb.owlapi.model.OWLDisjointUnionAxiom;
+import org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom;
+import org.semanticweb.owlapi.model.OWLEquivalentDataPropertiesAxiom;
+import org.semanticweb.owlapi.model.OWLEquivalentObjectPropertiesAxiom;
+import org.semanticweb.owlapi.model.OWLFunctionalDataPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLFunctionalObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLHasKeyAxiom;
 import org.semanticweb.owlapi.model.OWLIndividual;
 import org.semanticweb.owlapi.model.OWLIndividualVisitor;
+import org.semanticweb.owlapi.model.OWLInverseFunctionalObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLInverseObjectPropertiesAxiom;
+import org.semanticweb.owlapi.model.OWLIrreflexiveObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
+import org.semanticweb.owlapi.model.OWLNegativeDataPropertyAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLNegativeObjectPropertyAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLObjectAllValuesFrom;
 import org.semanticweb.owlapi.model.OWLObjectComplementOf;
 import org.semanticweb.owlapi.model.OWLObjectExactCardinality;
@@ -37,14 +62,23 @@ import org.semanticweb.owlapi.model.OWLObjectMinCardinality;
 import org.semanticweb.owlapi.model.OWLObjectOneOf;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLObjectPropertyAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLObjectPropertyDomainAxiom;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
+import org.semanticweb.owlapi.model.OWLObjectPropertyRangeAxiom;
 import org.semanticweb.owlapi.model.OWLObjectSomeValuesFrom;
 import org.semanticweb.owlapi.model.OWLObjectUnionOf;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLPropertyExpressionVisitor;
+import org.semanticweb.owlapi.model.OWLReflexiveObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLSameIndividualAxiom;
+import org.semanticweb.owlapi.model.OWLSubAnnotationPropertyOfAxiom;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
+import org.semanticweb.owlapi.model.OWLSubDataPropertyOfAxiom;
 import org.semanticweb.owlapi.model.OWLSubObjectPropertyOfAxiom;
+import org.semanticweb.owlapi.model.OWLSubPropertyChainOfAxiom;
+import org.semanticweb.owlapi.model.OWLSymmetricObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLTransitiveObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.SWRLRule;
 import org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter;
 
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyChainOf;
@@ -306,5 +340,315 @@ public class LDLPClosureBuilder extends OWLAxiomVisitorAdapter implements OWLCla
 	@Override
 	public void visit(OWLTransitiveObjectPropertyAxiom axiom) {
 		axiom.getProperty().accept(this);		
+	}
+
+	/* (non-Javadoc)
+	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLAnnotationAssertionAxiom)
+	 */
+	@Override
+	public void visit(OWLAnnotationAssertionAxiom axiom) {
+		// TODO Auto-generated method stub
+		super.visit(axiom);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLAnnotationPropertyDomainAxiom)
+	 */
+	@Override
+	public void visit(OWLAnnotationPropertyDomainAxiom axiom) {
+		// TODO Auto-generated method stub
+		super.visit(axiom);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLAnnotationPropertyRangeAxiom)
+	 */
+	@Override
+	public void visit(OWLAnnotationPropertyRangeAxiom axiom) {
+		// TODO Auto-generated method stub
+		super.visit(axiom);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLAsymmetricObjectPropertyAxiom)
+	 */
+	@Override
+	public void visit(OWLAsymmetricObjectPropertyAxiom axiom) {
+		// TODO Auto-generated method stub
+		super.visit(axiom);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLDataPropertyAssertionAxiom)
+	 */
+	@Override
+	public void visit(OWLDataPropertyAssertionAxiom axiom) {
+		// TODO Auto-generated method stub
+		super.visit(axiom);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLDataPropertyDomainAxiom)
+	 */
+	@Override
+	public void visit(OWLDataPropertyDomainAxiom axiom) {
+		// TODO Auto-generated method stub
+		super.visit(axiom);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLDataPropertyRangeAxiom)
+	 */
+	@Override
+	public void visit(OWLDataPropertyRangeAxiom axiom) {
+		// TODO Auto-generated method stub
+		super.visit(axiom);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLDatatypeDefinitionAxiom)
+	 */
+	@Override
+	public void visit(OWLDatatypeDefinitionAxiom axiom) {
+		// TODO Auto-generated method stub
+		super.visit(axiom);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLDeclarationAxiom)
+	 */
+	@Override
+	public void visit(OWLDeclarationAxiom axiom) {
+		// TODO Auto-generated method stub
+		super.visit(axiom);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLDifferentIndividualsAxiom)
+	 */
+	@Override
+	public void visit(OWLDifferentIndividualsAxiom axiom) {
+		// TODO Auto-generated method stub
+		super.visit(axiom);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLDisjointClassesAxiom)
+	 */
+	@Override
+	public void visit(OWLDisjointClassesAxiom axiom) {
+		// TODO Auto-generated method stub
+		super.visit(axiom);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLDisjointDataPropertiesAxiom)
+	 */
+	@Override
+	public void visit(OWLDisjointDataPropertiesAxiom axiom) {
+		// TODO Auto-generated method stub
+		super.visit(axiom);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLDisjointObjectPropertiesAxiom)
+	 */
+	@Override
+	public void visit(OWLDisjointObjectPropertiesAxiom axiom) {
+		// TODO Auto-generated method stub
+		super.visit(axiom);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLDisjointUnionAxiom)
+	 */
+	@Override
+	public void visit(OWLDisjointUnionAxiom axiom) {
+		// TODO Auto-generated method stub
+		super.visit(axiom);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom)
+	 */
+	@Override
+	public void visit(OWLEquivalentClassesAxiom axiom) {
+		//FIXME: More cases should be considered
+		for(OWLClassExpression cls:axiom.getClassExpressions()) {
+			cls.accept(this);
+		}
+		super.visit(axiom);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLEquivalentDataPropertiesAxiom)
+	 */
+	@Override
+	public void visit(OWLEquivalentDataPropertiesAxiom axiom) {
+		// TODO Auto-generated method stub
+		super.visit(axiom);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLEquivalentObjectPropertiesAxiom)
+	 */
+	@Override
+	public void visit(OWLEquivalentObjectPropertiesAxiom axiom) {
+		// TODO Auto-generated method stub
+		super.visit(axiom);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLFunctionalDataPropertyAxiom)
+	 */
+	@Override
+	public void visit(OWLFunctionalDataPropertyAxiom axiom) {
+		// TODO Auto-generated method stub
+		super.visit(axiom);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLFunctionalObjectPropertyAxiom)
+	 */
+	@Override
+	public void visit(OWLFunctionalObjectPropertyAxiom axiom) {
+		// TODO Auto-generated method stub
+		super.visit(axiom);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLHasKeyAxiom)
+	 */
+	@Override
+	public void visit(OWLHasKeyAxiom axiom) {
+		// TODO Auto-generated method stub
+		super.visit(axiom);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLInverseFunctionalObjectPropertyAxiom)
+	 */
+	@Override
+	public void visit(OWLInverseFunctionalObjectPropertyAxiom axiom) {
+		// TODO Auto-generated method stub
+		super.visit(axiom);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLInverseObjectPropertiesAxiom)
+	 */
+	@Override
+	public void visit(OWLInverseObjectPropertiesAxiom axiom) {
+		// TODO Auto-generated method stub
+		super.visit(axiom);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLIrreflexiveObjectPropertyAxiom)
+	 */
+	@Override
+	public void visit(OWLIrreflexiveObjectPropertyAxiom axiom) {
+		// TODO Auto-generated method stub
+		super.visit(axiom);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLNegativeDataPropertyAssertionAxiom)
+	 */
+	@Override
+	public void visit(OWLNegativeDataPropertyAssertionAxiom axiom) {
+		// TODO Auto-generated method stub
+		super.visit(axiom);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLNegativeObjectPropertyAssertionAxiom)
+	 */
+	@Override
+	public void visit(OWLNegativeObjectPropertyAssertionAxiom axiom) {
+		// TODO Auto-generated method stub
+		super.visit(axiom);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLObjectPropertyDomainAxiom)
+	 */
+	@Override
+	public void visit(OWLObjectPropertyDomainAxiom axiom) {
+		// TODO Auto-generated method stub
+		super.visit(axiom);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLObjectPropertyRangeAxiom)
+	 */
+	@Override
+	public void visit(OWLObjectPropertyRangeAxiom axiom) {
+		// TODO Auto-generated method stub
+		super.visit(axiom);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLReflexiveObjectPropertyAxiom)
+	 */
+	@Override
+	public void visit(OWLReflexiveObjectPropertyAxiom axiom) {
+		// TODO Auto-generated method stub
+		super.visit(axiom);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLSameIndividualAxiom)
+	 */
+	@Override
+	public void visit(OWLSameIndividualAxiom axiom) {
+		// TODO Auto-generated method stub
+		super.visit(axiom);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLSubAnnotationPropertyOfAxiom)
+	 */
+	@Override
+	public void visit(OWLSubAnnotationPropertyOfAxiom axiom) {
+		// TODO Auto-generated method stub
+		super.visit(axiom);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLSubDataPropertyOfAxiom)
+	 */
+	@Override
+	public void visit(OWLSubDataPropertyOfAxiom axiom) {
+		// TODO Auto-generated method stub
+		super.visit(axiom);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLSubPropertyChainOfAxiom)
+	 */
+	@Override
+	public void visit(OWLSubPropertyChainOfAxiom axiom) {
+		// TODO Auto-generated method stub
+		super.visit(axiom);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLSymmetricObjectPropertyAxiom)
+	 */
+	@Override
+	public void visit(OWLSymmetricObjectPropertyAxiom axiom) {
+		// TODO Auto-generated method stub
+
+		super.visit(axiom);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.SWRLRule)
+	 */
+	@Override
+	public void visit(SWRLRule rule) {
+		// TODO Auto-generated method stub
+		super.visit(rule);
 	}
 }
