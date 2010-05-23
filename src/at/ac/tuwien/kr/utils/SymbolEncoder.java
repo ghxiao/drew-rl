@@ -12,7 +12,7 @@ public class SymbolEncoder<K> {
 
 	public K getSymbolByValue(int value) {
 		value--;
-		if (1 <= value && value <= currentMax)
+		if (0 <= value && value <= currentMax-1)
 			return intToSymbol_List.get(value);
 		else {
 			throw new IllegalArgumentException();

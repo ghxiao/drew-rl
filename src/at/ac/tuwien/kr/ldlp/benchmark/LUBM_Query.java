@@ -40,20 +40,20 @@ public class LUBM_Query {
 	public static void main(String[] args) {
 		long t0 = System.currentTimeMillis();
 		OWLOntology ontology = loadOntology(uri, phyUri);
-		Clause query = getQuery4();
+		Clause query = getQuery14();
 
 		// LDLPReasoner reasoner = new LDLPReasoner(ontology, TYPE.XSB);
 		LDLPReasoner reasoner = new LDLPReasoner(ontology, TYPE.DLV);
 		List<Literal> results = reasoner.query(query);
 
-		System.out.println("Query Results");
+		System.out.println(results.size() + " Query Results");
 		for (Literal result : results) {
 			System.out.println(result);
 		}
-
+		System.out.println(results.size() + " Query Results");
 		long t1 = System.currentTimeMillis();
 		long dt = t1 - t0;
-		System.out.println("Time: " + dt + "ms");
+		System.out.println("Time: " + dt + " ms");
 
 	}
 
@@ -101,7 +101,7 @@ public class LUBM_Query {
 
 	}
 
-	public Literal createLUBMLiteral(String predicateIRI, String... args) {
+	public static Literal createLUBMLiteral(String predicateIRI, String... args) {
 
 		NormalPredicate pred = CacheManager.getInstance()
 				.getPredicate(IRI.create(
@@ -124,15 +124,22 @@ public class LUBM_Query {
 	}
 
 	/**
-	 * *Query1* (type GraduateStudent ?X)<br/>
-	 * (takesCourse ?X http://www.Department0.University0.edu/GraduateCourse0)<br/>
+	 * *Query1*
+	 * 
+	 * <pre>
+	 * (type GraduateStudent ?X)<br/>
+	 * (takesCourse ?X http://www.Department0.University0.edu/GraduateCourse0)
+	 * 
+	 * <pre>
+	 * <br/>
 	 * /- This query bears large input and high selectivity. It queries about<br/>
 	 * just one class and one property and does not assume any hierarchy<br/>
 	 * information or inference./<br/>
 	 * 
 	 * DL Query: [GraduateStudent and takesCourse value GraduateCourse0]<br/>
 	 * 
-	 * 4 results: GraduateStudent44, 101, 124, 142<br/>
+	 * 4 results: GraduateStudent44, 101, 124, 142
+	 * <br/>
 	 */
 	private static Clause getQuery1() {
 		Clause query = new Clause();
@@ -167,6 +174,40 @@ public class LUBM_Query {
 		query.setHead(head);
 		query.getPositiveBody().add(body1);
 		query.getPositiveBody().add(body2);
+		return query;
+	}
+
+	/**
+	 * *Query2*
+	 * 
+	 * <pre>
+	 * (type GraduateStudent ?X)
+	 * (type University ?Y)
+	 * (type Department ?Z)
+	 * (memberOf ?X ?Z)
+	 * (subOrganizationOf ?Z ?Y)
+	 * (undergraduateDegreeFrom ?X ?Y)
+	 * </pre>
+	 * 
+	 * /- This query increases in complexity: 3 classes and 3 properties are
+	 * involved. Additionally, there is a triangular pattern of relationships
+	 * between the objects involved.
+	 * 
+	 * @return
+	 */
+	private static Clause getQuery2() {
+
+		Clause query = new Clause();
+		NormalPredicate ans = CacheManager.getInstance().getPredicate("ans", 1);
+		Variable X = CacheManager.getInstance().getVariable("X");
+		Literal head = new Literal(ans, X);
+		query.setHead(head);
+		query.getPositiveBody().add(createLUBMLiteral("GraduateStudent", "X"));
+		query.getPositiveBody().add(createLUBMLiteral("University", "Y"));
+		query.getPositiveBody().add(createLUBMLiteral("Department", "Z"));
+		query.getPositiveBody().add(createLUBMLiteral("memberOf", "X", "Z"));
+		query.getPositiveBody().add(createLUBMLiteral("subOrganizationOf", "Z", "Y"));
+		query.getPositiveBody().add(createLUBMLiteral("undergraduateDegreeFrom", "X", "Y"));
 		return query;
 	}
 
@@ -341,6 +382,291 @@ public class LUBM_Query {
 		query.getPositiveBody().add(body5);
 		return query;
 
+	}
+
+	/**
+	 * /*Query5
+	 * 
+	 * <pre>
+	 * (type Person ?X)
+	 * (memberOf ?X http://www.Department0.University0.edu)
+	 * </pre>
+	 * 
+	 * /- This query assumes subClassOf relationship between Person and its
+	 * subclasses and subPropertyOf relationship between memberOf and its
+	 * subproperties. Moreover, class Person features a deep and wide hierarchy.
+	 * 
+	 * 
+	 * @return
+	 */
+	private static Clause getQuery5() {
+
+		Clause query = new Clause();
+		NormalPredicate ans = CacheManager.getInstance().getPredicate("ans", 1);
+		Variable X = CacheManager.getInstance().getVariable("X");
+		Literal head = new Literal(ans, X);
+		query.setHead(head);
+		query.getPositiveBody().add(createLUBMLiteral("Person", "X"));
+		query.getPositiveBody().add(createLUBMLiteral("memberOf", "X", "<http://www.Department0.University0.edu>"));
+
+		return query;
+	}
+
+	/**
+	 *Query6*
+	 * 
+	 * <pre>
+	 * (type Student ?X)
+	 * </pre>
+	 * 
+	 * /- This query queries about only one class. But it assumes both the
+	 * explicit subClassOf relationship between UndergraduateStudent and Student
+	 * and the implicit one between GraduateStudent and Student. In addition, it
+	 * has large input and low selectivity.
+	 * 
+	 * @param out
+	 * @return
+	 */
+	private static Clause getQuery6() {
+
+		Clause query = new Clause();
+		NormalPredicate ans = CacheManager.getInstance().getPredicate("ans", 1);
+		Variable X = CacheManager.getInstance().getVariable("X");
+		Literal head = new Literal(ans, X);
+		query.setHead(head);
+		query.getPositiveBody().add(createLUBMLiteral("Student", "X"));
+		return query;
+	}
+
+	/**
+	 * Query7*
+	 * 
+	 * <pre>
+	 * (type Student ?X)
+	 * 	(type Course ?Y)
+	 * 	(teacherOf http://www.Department0.University0.edu/AssociateProfessor0 ?Y)
+	 * 	(takesCourse ?X ?Y)
+	 * </pre>
+	 * 
+	 * This query is similar to Query 6 in terms of class Student but it
+	 * increases in the number of classes and properties and its selectivity is
+	 * high.
+	 */
+	private static Clause getQuery7() {
+
+		Clause query = new Clause();
+		NormalPredicate ans = CacheManager.getInstance().getPredicate("ans", 2);
+		Variable X = CacheManager.getInstance().getVariable("X");
+		Variable Y = CacheManager.getInstance().getVariable("Y");
+		Literal head = new Literal(ans, X, Y);
+		query.setHead(head);
+		query.getPositiveBody().add(createLUBMLiteral("Student", "X"));
+		query.getPositiveBody().add(createLUBMLiteral("Course", "Y"));
+		query.getPositiveBody().add(createLUBMLiteral("teacherOf", "<http://www.Department0.University0.edu/AssociateProfessor0>", "Y"));
+		query.getPositiveBody().add(createLUBMLiteral("takesCourse", "X", "Y"));
+		return query;
+	}
+
+	/**
+	 * Query8*
+	 * 
+	 * <pre>
+	 *  (type Student ?X)
+	 * (type Department ?Y)
+	 * (memberOf ?X ?Y)
+	 * (subOrganizationOf ?Y http://www.University0.edu)
+	 * (emailAddress ?X ?Z)
+	 * /- This query is further more complex than Query 7 by including one more
+	 * property.
+	 * </pre>
+	 */
+	private static Clause getQuery8() {
+
+		Clause query = new Clause();
+		NormalPredicate ans = CacheManager.getInstance().getPredicate("ans", 3);
+		Variable X = CacheManager.getInstance().getVariable("X");
+		Variable Y = CacheManager.getInstance().getVariable("Y");
+		Variable Z = CacheManager.getInstance().getVariable("Z");
+		Literal head = new Literal(ans, X, Y);
+		query.setHead(head);
+		query.getPositiveBody().add(createLUBMLiteral("Student", "X"));
+		query.getPositiveBody().add(createLUBMLiteral("Department", "Y"));
+		query.getPositiveBody().add(createLUBMLiteral("memberOf", "X", "Y"));
+		query.getPositiveBody().add(createLUBMLiteral("subOrganizationOf", "Y", "<http://www.University0.edu>"));
+		query.getPositiveBody().add(createLUBMLiteral("emailAddress", "X", "Z"));
+
+		return query;
+	}
+
+	/**
+	 * Query9*
+	 * 
+	 * <pre>
+	 * (type Student ?X)
+	 * (type Faculty ?Y)
+	 * (type Course ?Z)
+	 * (advisor ?X ?Y)
+	 * (takesCourse ?X ?Z)
+	 * (teacherOf ?Y ?Z)
+	 * </pre>
+	 * 
+	 * /- This query is further more complex than Query 7 by including one more
+	 * property. </pre>
+	 */
+	private static Clause getQuery9() {
+
+		Clause query = new Clause();
+		NormalPredicate ans = CacheManager.getInstance().getPredicate("ans", 3);
+		Variable X = CacheManager.getInstance().getVariable("X");
+		Variable Y = CacheManager.getInstance().getVariable("Y");
+		Variable Z = CacheManager.getInstance().getVariable("Z");
+		Literal head = new Literal(ans, X, Y, Z);
+		query.setHead(head);
+		query.getPositiveBody().add(createLUBMLiteral("Student", "X"));
+		query.getPositiveBody().add(createLUBMLiteral("Faculty", "Y"));
+		query.getPositiveBody().add(createLUBMLiteral("Course", "Z"));
+		query.getPositiveBody().add(createLUBMLiteral("advisor", "X", "Y"));
+		query.getPositiveBody().add(createLUBMLiteral("takesCourse", "X", "Z"));
+		query.getPositiveBody().add(createLUBMLiteral("teacherOf", "Y", "Z"));
+
+		return query;
+	}
+
+	/**
+	 * Query10*
+	 * 
+	 * <pre>
+	 * /(type Student ?X)
+	 * (takesCourse ?X http://www.Department0.University0.edu/GraduateCourse0)
+	 * </pre>
+	 * 
+	 * /- This query differs from Query 6, 7, 8 and 9 in that it only requires
+	 * the (implicit) subClassOf relationship between GraduateStudent and
+	 * Student, i.e., subClassOf relationship between UndergraduateStudent and
+	 * Student does not add to the results.
+	 */
+	private static Clause getQuery10() {
+
+		Clause query = new Clause();
+		NormalPredicate ans = CacheManager.getInstance().getPredicate("ans", 3);
+		Variable X = CacheManager.getInstance().getVariable("X");
+		Variable Y = CacheManager.getInstance().getVariable("Y");
+		Literal head = new Literal(ans, X);
+		query.setHead(head);
+		query.getPositiveBody().add(createLUBMLiteral("Student", "X"));
+		query.getPositiveBody().add(createLUBMLiteral("takesCourse", "X", "<http://www.Department0.University0.edu/GraduateCourse0>"));
+		return query;
+	}
+
+	/**
+	 * Query11*
+	 * 
+	 * <pre>
+	 *  (type ResearchGroup ?X)
+	 * 	(subOrganizationOf ?X http://www.University0.edu)
+	 * </pre>
+	 * 
+	 * /- Query 11, 12 and 13 are intended to verify the presence of certain
+	 * reasoning capabilities in the system. In this query, property
+	 * subOrganizationOf is defined as transitive. Since in the benchmark data,
+	 * instances of ResearchGroup are stated as a sub-organization of a
+	 * Department individual and the later suborganization of a University
+	 * individual, inference about the subOrgnizationOf relationship between
+	 * instances of ResearchGroup and University is required to answer this
+	 * query. Additionally, its input is small./
+	 */
+	private static Clause getQuery11() {
+
+		Clause query = new Clause();
+		NormalPredicate ans = CacheManager.getInstance().getPredicate("ans", 3);
+		Variable X = CacheManager.getInstance().getVariable("X");
+		Literal head = new Literal(ans, X);
+		query.setHead(head);
+		query.getPositiveBody().add(createLUBMLiteral("ResearchGroup", "X"));
+		query.getPositiveBody().add(createLUBMLiteral("subOrganizationOf", "X", "<http://www.University0.edu>"));
+		return query;
+	}
+
+	/**
+	 *Query12
+	 * 
+	 * <pre>
+	 * (type Chair ?X)
+	 * 	(type Department ?Y)
+	 * 	(worksFor ?X ?Y)
+	 * 	(subOrganizationOf ?Y http://www.University0.edu)
+	 * </pre>
+	 * 
+	 * /- The benchmark data do not produce any instances of class Chair.
+	 * Instead, each Department individual is linked to the chair professor of
+	 * that department by property headOf. Hence this query requires
+	 * realization, i.e., inference that that professor is an instance of class
+	 * Chair because he or she is the head of a department. Input of this query
+	 * is small as well./
+	 */
+	private static Clause getQuery12() {
+
+		Clause query = new Clause();
+		NormalPredicate ans = CacheManager.getInstance().getPredicate("ans", 1);
+		Variable X = CacheManager.getInstance().getVariable("X");
+		Literal head = new Literal(ans, X);
+		query.setHead(head);
+		query.getPositiveBody().add(createLUBMLiteral("Chair", "X"));
+		query.getPositiveBody().add(createLUBMLiteral("Department", "Y"));
+		query.getPositiveBody().add(createLUBMLiteral("worksFor", "X", "Y"));
+		query.getPositiveBody().add(createLUBMLiteral("subOrganizationOf", "Y", "<http://www.University0.edu>"));
+		return query;
+	}
+
+	/**
+	 *Query13
+	 * 
+	 * <pre>
+	 * (type Person ?X)
+	 * 	(hasAlumnus http://www.University0.edu ?X)
+	 * </pre>
+	 * 
+	 * /- Property hasAlumnus is defined in the benchmark ontology as the
+	 * inverse of property degreeFrom, which has three subproperties:
+	 * undergraduateDegreeFrom, mastersDegreeFrom, and doctoralDegreeFrom. The
+	 * benchmark data state a person as an alumnus of a university using one of
+	 * these three subproperties instead of hasAlumnus. Therefore, this query
+	 * assumes subPropertyOf relationships between degreeFrom and its
+	 * subproperties, and also requires inference about inverseOf.
+	 */
+	private static Clause getQuery13() {
+
+		Clause query = new Clause();
+		NormalPredicate ans = CacheManager.getInstance().getPredicate("ans", 1);
+		Variable X = CacheManager.getInstance().getVariable("X");
+		Literal head = new Literal(ans, X);
+		query.setHead(head);
+		query.getPositiveBody().add(createLUBMLiteral("Person", "X"));
+		query.getPositiveBody().add(createLUBMLiteral("hasAlumnus", "<http://www.University0.edu>", "X"));
+		return query;
+	}
+
+	/**
+	 * /*Query14*
+	 * 
+	 * <pre>
+	 * (type UndergraduateStudent ?X)
+	 * </pre>
+	 * 
+	 * /- This query is the simplest in the test set. This query represents
+	 * those with large input and low selectivity and does not assume any
+	 * hierarchy information or inference. /
+	 */
+	private static Clause getQuery14() {
+
+		Clause query = new Clause();
+		NormalPredicate ans = CacheManager.getInstance().getPredicate("ans", 1);
+		Variable X = CacheManager.getInstance().getVariable("X");
+		Literal head = new Literal(ans, X);
+		query.setHead(head);
+		query.getPositiveBody().add(createLUBMLiteral("UndergraduateStudent", "X"));
+		
+		return query;
 	}
 
 	private PrintStream setOut(PrintStream out) {
