@@ -350,17 +350,27 @@ public class LDLPClosureCompiler implements OWLClassExpressionVisitor,
 		logger.debug("{}\n\t->\n{}", property, clause);
 	}
 
+	
+	//R^-(X,Y) :- R(Y,X).
+	//R(X,Y) :- R^-(Y,X).
 	@Override
 	public void visit(OWLObjectInverseOf property) {
-		Literal[] head = new Literal[1];
-		final OWLObjectPropertyExpression inverse = property.getInverse();
-		head[0] = new Literal(manager.getPredicate(inverse), X, Y);
-		Literal[] body = new Literal[1];
-		String predicate = manager.getPredicate(property);
-		body[0] = new Literal(predicate, Y, X);
-		Clause clause = new Clause(head, body);
-		clauses.add(clause);
-		logger.debug("{}\n\t->\n{}", property, clause);
+		
+		Literal[] head1 = new Literal[1];
+		final OWLObjectPropertyExpression inverse1 = property.getInverse();
+		head1[0] = new Literal(manager.getPredicate(inverse1), X, Y);
+		Literal[] body1 = new Literal[1];
+		String predicate1 = manager.getPredicate(property);
+		body1[0] = new Literal(predicate1, Y, X);
+		Clause clause1 = new Clause(head1, body1);
+		
+		Clause clause2 = new Clause(body1, head1);
+		
+		clauses.add(clause1);
+		clauses.add(clause2);
+		
+		logger.debug("{}\n\t->\n{}", property, clause1);
+		logger.debug("{}\n\t->\n{}", property, clause2);
 	}
 
 	@Override

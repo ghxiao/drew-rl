@@ -40,7 +40,7 @@ public class LUBM_Query {
 	public static void main(String[] args) {
 		long t0 = System.currentTimeMillis();
 		OWLOntology ontology = loadOntology(uri, phyUri);
-		Clause query = getQuery14();
+		Clause query = getQuery13();
 
 		// LDLPReasoner reasoner = new LDLPReasoner(ontology, TYPE.XSB);
 		LDLPReasoner reasoner = new LDLPReasoner(ontology, TYPE.DLV);
