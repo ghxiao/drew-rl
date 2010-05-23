@@ -8,16 +8,20 @@
 package at.ac.tuwien.kr.ldlp.reasoner;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLClassExpression;
+import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLDataPropertyAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLDataPropertyDomainAxiom;
 import org.semanticweb.owlapi.model.OWLDataPropertyExpression;
 import org.semanticweb.owlapi.model.OWLDataPropertyRangeAxiom;
+import org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom;
 import org.semanticweb.owlapi.model.OWLIndividual;
 import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLObjectAllValuesFrom;
@@ -27,6 +31,7 @@ import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 import org.semanticweb.owlapi.model.OWLObjectPropertyRangeAxiom;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.model.OWLSubObjectPropertyOfAxiom;
+import org.semanticweb.owlapi.model.OWLTransitiveObjectPropertyAxiom;
 import org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,11 +42,9 @@ import at.ac.tuwien.kr.dlprogram.Literal;
 import at.ac.tuwien.kr.dlprogram.Term;
 import at.ac.tuwien.kr.dlprogram.Variable;
 
-
-
 public class LDLPAxiomCompiler extends OWLAxiomVisitorAdapter {
 
-	LDLPCompilerManager datalogObjectFactory = LDLPCompilerManager
+	LDLPCompilerManager ldlpCompierManager = LDLPCompilerManager
 			.getInstance();
 	final static Logger logger = LoggerFactory
 			.getLogger(LDLPAxiomCompiler.class);
@@ -84,9 +87,9 @@ public class LDLPAxiomCompiler extends OWLAxiomVisitorAdapter {
 		Literal[] body = null;
 		head = new Literal[1];
 
-		String predicate = datalogObjectFactory.getPredicate(property);
-		String a = datalogObjectFactory.getConstant(subject);
-		String b = datalogObjectFactory.getConstant(object);
+		String predicate = ldlpCompierManager.getPredicate(property);
+		String a = ldlpCompierManager.getConstant(subject);
+		String b = ldlpCompierManager.getConstant(object);
 
 		head[0] = new Literal(predicate, new Term[] {
 				CacheManager.getInstance().getConstant(a),
@@ -104,8 +107,8 @@ public class LDLPAxiomCompiler extends OWLAxiomVisitorAdapter {
 		Literal[] head = new Literal[1];
 		Literal[] body = null;
 
-		String predicate = datalogObjectFactory.getPredicate(cls);
-		String a = datalogObjectFactory.getConstant(individual);
+		String predicate = ldlpCompierManager.getPredicate(cls);
+		String a = ldlpCompierManager.getConstant(individual);
 		head[0] = new Literal(predicate, new Term[] { CacheManager
 				.getInstance().getConstant(a) });
 		body = new Literal[0];
@@ -124,22 +127,22 @@ public class LDLPAxiomCompiler extends OWLAxiomVisitorAdapter {
 		if (!(superClass instanceof OWLObjectAllValuesFrom)) {
 			head = new Literal[1];
 			head[0] = new Literal(
-					datalogObjectFactory.getPredicate(superClass),
+					ldlpCompierManager.getPredicate(superClass),
 					new Term[] { X });
 			body = new Literal[1];
-			body[0] = new Literal(datalogObjectFactory.getPredicate(subClass),
+			body[0] = new Literal(ldlpCompierManager.getPredicate(subClass),
 					new Term[] { X });
 		} else {
 			OWLObjectAllValuesFrom E_only_A = (OWLObjectAllValuesFrom) superClass;
 			final OWLClassExpression A = E_only_A.getFiller();
 			final OWLObjectPropertyExpression E = E_only_A.getProperty();
 			head = new Literal[1];
-			head[0] = new Literal(datalogObjectFactory.getPredicate(A),
+			head[0] = new Literal(ldlpCompierManager.getPredicate(A),
 					new Term[] { Y });
 			body = new Literal[2];
-			body[0] = new Literal(datalogObjectFactory.getPredicate(subClass),
+			body[0] = new Literal(ldlpCompierManager.getPredicate(subClass),
 					new Term[] { X });
-			body[1] = new Literal(datalogObjectFactory.getPredicate(E),
+			body[1] = new Literal(ldlpCompierManager.getPredicate(E),
 					new Term[] { X, Y });
 		}
 
@@ -154,10 +157,10 @@ public class LDLPAxiomCompiler extends OWLAxiomVisitorAdapter {
 		final OWLObjectPropertyExpression superProperty = axiom
 				.getSuperProperty();
 		Literal[] head = new Literal[1];
-		head[0] = new Literal(datalogObjectFactory.getPredicate(superProperty),
+		head[0] = new Literal(ldlpCompierManager.getPredicate(superProperty),
 				new Term[] { X, Y });
 		Literal[] body = new Literal[1];
-		body[0] = new Literal(datalogObjectFactory.getPredicate(subProperty),
+		body[0] = new Literal(ldlpCompierManager.getPredicate(subProperty),
 				new Term[] { X, Y });
 		Clause clause = new Clause(head, body);
 		clauses.add(clause);
@@ -170,10 +173,10 @@ public class LDLPAxiomCompiler extends OWLAxiomVisitorAdapter {
 		OWLClassExpression domain = axiom.getDomain();
 
 		Literal[] head = new Literal[1];
-		head[0] = new Literal(datalogObjectFactory.getPredicate(domain),
+		head[0] = new Literal(ldlpCompierManager.getPredicate(domain),
 				new Term[] { X });
 		Literal[] body = new Literal[1];
-		body[0] = new Literal(datalogObjectFactory.getPredicate(property),
+		body[0] = new Literal(ldlpCompierManager.getPredicate(property),
 				new Term[] { X, Y });
 
 		Clause clause = new Clause(head, body);
@@ -187,10 +190,10 @@ public class LDLPAxiomCompiler extends OWLAxiomVisitorAdapter {
 		OWLClassExpression range = axiom.getRange();
 
 		Literal[] head = new Literal[1];
-		head[0] = new Literal(datalogObjectFactory.getPredicate(range),
+		head[0] = new Literal(ldlpCompierManager.getPredicate(range),
 				new Term[] { Y });
 		Literal[] body = new Literal[1];
-		body[0] = new Literal(datalogObjectFactory.getPredicate(property),
+		body[0] = new Literal(ldlpCompierManager.getPredicate(property),
 				new Term[] { X, Y });
 
 		Clause clause = new Clause(head, body);
@@ -206,20 +209,20 @@ public class LDLPAxiomCompiler extends OWLAxiomVisitorAdapter {
 		return clauses;
 
 	}
-	
+
 	@Override
 	public void visit(OWLDataPropertyAssertionAxiom axiom) {
 		OWLDataPropertyExpression property = axiom.getProperty();
 		final OWLIndividual subject = axiom.getSubject();
-		
+
 		final OWLLiteral object = axiom.getObject();
 		Literal[] head = null;
 		Literal[] body = null;
 		head = new Literal[1];
 
-		String predicate = datalogObjectFactory.getPredicate(property);
-		String a = datalogObjectFactory.getConstant(subject);
-		String b = datalogObjectFactory.getConstant(object);
+		String predicate = ldlpCompierManager.getPredicate(property);
+		String a = ldlpCompierManager.getConstant(subject);
+		String b = ldlpCompierManager.getConstant(object);
 
 		head[0] = new Literal(predicate, new Term[] {
 				CacheManager.getInstance().getConstant(a),
@@ -228,7 +231,7 @@ public class LDLPAxiomCompiler extends OWLAxiomVisitorAdapter {
 		Clause clause = new Clause(head, body);
 		clauses.add(clause);
 		logger.debug("{}\n\t->\n{}", axiom, clause);
-		
+
 	}
 
 	@Override
@@ -240,6 +243,54 @@ public class LDLPAxiomCompiler extends OWLAxiomVisitorAdapter {
 	@Override
 	public void visit(OWLDataPropertyRangeAxiom axiom) {
 		// TODO Auto-generated method stub
+		super.visit(axiom);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+	 * .owlapi.model.OWLTransitiveObjectPropertyAxiom)
+	 */
+	@Override
+	public void visit(OWLTransitiveObjectPropertyAxiom axiom) {
+		final OWLObjectPropertyExpression property = axiom.getProperty();
+		String predicate = ldlpCompierManager.getPredicate(property);
+		Literal[] head = null;
+		Literal[] body = null;
+		head = new Literal[1];
+		head[0] = new Literal(predicate, X, Z);
+		body = new Literal[2];
+		body[0] = new Literal(predicate, X, Y);
+		body[1] = new Literal(predicate, Y, Z);
+		Clause clause = new Clause(head, body);
+		clauses.add(clause);
+		logger.debug("{}\n\t->\n{}", axiom, clause);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom)
+	 */
+	@Override
+	public void visit(OWLEquivalentClassesAxiom axiom) {
+		final Set<OWLClassExpression> classExpressions = axiom.getClassExpressions();
+		if(classExpressions.size() != 2) {
+			throw new IllegalStateException("Now we only support OWLEquivalentClassesAxiom with 2 classes");
+		}
+		
+		final Iterator<OWLClassExpression> iterator = classExpressions.iterator();
+		final OWLClassExpression left = iterator.next();
+		final OWLClassExpression right = iterator.next();
+		
+		final OWLDataFactory owlDataFactory = OWLManager.getOWLDataFactory();
+		
+		final OWLSubClassOfAxiom left2right = owlDataFactory.getOWLSubClassOfAxiom(left,right);
+		final OWLSubClassOfAxiom right2left = owlDataFactory.getOWLSubClassOfAxiom(right,left);
+		
+		left2right.accept(this);
+		right2left.accept(this);
+		
 		super.visit(axiom);
 	}
 }

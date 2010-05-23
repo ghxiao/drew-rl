@@ -13,51 +13,53 @@ public interface DLProgramParserConstants {
   /** RegularExpression Id. */
   int NAF = 6;
   /** RegularExpression Id. */
-  int NAMESPACE = 7;
+  int TRUE = 7;
   /** RegularExpression Id. */
-  int CONJUNCTION = 8;
+  int NAMESPACE = 8;
   /** RegularExpression Id. */
-  int IMPLY = 9;
+  int CONJUNCTION = 9;
   /** RegularExpression Id. */
-  int COLON = 10;
+  int IMPLY = 10;
   /** RegularExpression Id. */
-  int ENDOFSTATEMENT = 11;
+  int COLON = 11;
   /** RegularExpression Id. */
-  int COMPARISON = 12;
+  int ENDOFSTATEMENT = 12;
   /** RegularExpression Id. */
-  int DL_ATOM = 13;
+  int COMPARISON = 13;
   /** RegularExpression Id. */
-  int LEFT_SQUARE_BRACKET = 14;
+  int DL_ATOM = 14;
   /** RegularExpression Id. */
-  int RIGHT_SQUARE_BRACKET = 15;
+  int LEFT_SQUARE_BRACKET = 15;
   /** RegularExpression Id. */
-  int IDENTIFIER = 16;
+  int RIGHT_SQUARE_BRACKET = 16;
   /** RegularExpression Id. */
-  int INTEGER = 17;
+  int IDENTIFIER = 17;
   /** RegularExpression Id. */
-  int DOUBLE = 18;
+  int INTEGER = 18;
   /** RegularExpression Id. */
-  int STRING = 19;
+  int DOUBLE = 19;
   /** RegularExpression Id. */
-  int VARIABLE = 20;
+  int STRING = 20;
   /** RegularExpression Id. */
-  int PLUS = 21;
+  int VARIABLE = 21;
   /** RegularExpression Id. */
-  int MINUS = 22;
+  int PLUS = 22;
   /** RegularExpression Id. */
-  int TIMES = 23;
+  int MINUS = 23;
   /** RegularExpression Id. */
-  int DIVIDE = 24;
+  int TIMES = 24;
   /** RegularExpression Id. */
-  int LEFTBRACKET = 25;
+  int DIVIDE = 25;
   /** RegularExpression Id. */
-  int RIGHTBRACKET = 26;
+  int LEFTBRACKET = 26;
   /** RegularExpression Id. */
-  int UPLUS = 27;
+  int RIGHTBRACKET = 27;
   /** RegularExpression Id. */
-  int UMINUS = 28;
+  int UPLUS = 28;
   /** RegularExpression Id. */
-  int DLPREDICATE = 29;
+  int UMINUS = 29;
+  /** RegularExpression Id. */
+  int DLPREDICATE = 30;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -71,6 +73,7 @@ public interface DLProgramParserConstants {
     "\"\\r\"",
     "<token of kind 5>",
     "\"not\"",
+    "\"True\"",
     "\"#namespace\"",
     "\",\"",
     "\":-\"",
@@ -95,6 +98,8 @@ public interface DLProgramParserConstants {
     "\"-=\"",
     "<DLPREDICATE>",
     "\";\"",
+    "\"{\"",
+    "\"}\"",
   };
 
 }

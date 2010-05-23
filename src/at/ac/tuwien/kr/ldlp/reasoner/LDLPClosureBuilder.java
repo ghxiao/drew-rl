@@ -44,6 +44,7 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLPropertyExpressionVisitor;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.model.OWLSubObjectPropertyOfAxiom;
+import org.semanticweb.owlapi.model.OWLTransitiveObjectPropertyAxiom;
 import org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter;
 
 import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyChainOf;
@@ -299,5 +300,11 @@ public class LDLPClosureBuilder extends OWLAxiomVisitorAdapter implements OWLCla
 	public void visit(LDLObjectPropertyOneOf property) {
 		closure.addComplexProperty(property);
 		
+	}
+
+	
+	@Override
+	public void visit(OWLTransitiveObjectPropertyAxiom axiom) {
+		axiom.getProperty().accept(this);		
 	}
 }

@@ -6,11 +6,8 @@ import java.io.PrintStream;
 import java.util.List;
 import java.util.Set;
 
-import misc.Slf4jExample;
-
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
-import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
@@ -26,6 +23,7 @@ import at.ac.tuwien.kr.dlprogram.Clause;
 import at.ac.tuwien.kr.dlprogram.Constant;
 import at.ac.tuwien.kr.dlprogram.Literal;
 import at.ac.tuwien.kr.dlprogram.NormalPredicate;
+import at.ac.tuwien.kr.dlprogram.Term;
 import at.ac.tuwien.kr.dlprogram.Variable;
 import at.ac.tuwien.kr.ldlp.profile.LDLPProfile;
 import at.ac.tuwien.kr.ldlp.reasoner.LDLPReasoner;
@@ -40,14 +38,26 @@ public class LUBM_Query {
 			.createOWLOntologyManager();
 
 	public static void main(String[] args) {
-		loadOntology(uri, phyUri);
+		long t0 = System.currentTimeMillis();
+		OWLOntology ontology = loadOntology(uri, phyUri);
+		Clause query = getQuery4();
+
+		// LDLPReasoner reasoner = new LDLPReasoner(ontology, TYPE.XSB);
+		LDLPReasoner reasoner = new LDLPReasoner(ontology, TYPE.DLV);
+		List<Literal> results = reasoner.query(query);
+
+		System.out.println("Query Results");
+		for (Literal result : results) {
+			System.out.println(result);
+		}
+
+		long t1 = System.currentTimeMillis();
+		long dt = t1 - t0;
+		System.out.println("Time: " + dt + "ms");
+
 	}
 
-	private static void loadOntology(String uri, String phyUri) {
-
-		// setOut("out.txt");
-
-		long t0 = System.currentTimeMillis();
+	private static OWLOntology loadOntology(String uri, String phyUri) {
 
 		OWLOntology ontology = null;
 
@@ -87,22 +97,30 @@ public class LUBM_Query {
 				System.out.println(v);
 			}
 		}
+		return ontology;
 
-		Clause query = getQuery4();
+	}
 
-		// LDLPReasoner reasoner = new LDLPReasoner(ontology, TYPE.XSB);
-		LDLPReasoner reasoner = new LDLPReasoner(ontology, TYPE.DLV);
-		List<Literal> results = reasoner.query(query);
+	public Literal createLUBMLiteral(String predicateIRI, String... args) {
 
-		System.out.println("Query Results");
-		for (Literal result : results) {
-			System.out.println(result);
+		NormalPredicate pred = CacheManager.getInstance()
+				.getPredicate(IRI.create(
+								"http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#" + predicateIRI)
+						.toQuotedString(), args.length);
+
+		int n = args.length;
+		Term[] terms = new Term[n];
+		for (int i = 0; i < n; i++) {
+			String name = args[i];
+			if (name.startsWith("<")) {
+				terms[i] = CacheManager.getInstance().getConstant(name);
+			} else {
+				terms[i] = CacheManager.getInstance().getVariable(name);
+			}
 		}
 
-		long t1 = System.currentTimeMillis();
-		long dt = t1 - t0;
-		System.out.println("Time: " + dt + "ms");
-
+		Literal literal = new Literal(pred, terms);
+		return literal;
 	}
 
 	/**

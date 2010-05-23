@@ -136,28 +136,39 @@ public class DLVWrapper {
 			while ((line = reader.readLine()) != null) {
 				logger.info("DLV Output: {}", line);
 
-				NamedPattern linePattern = NamedPattern.compile(lineRegex);
-				NamedMatcher lineMatcher = linePattern.matcher(line);
-				if (lineMatcher.find()) {
-					String lits = lineMatcher.group("literalList");
-					System.out.println("literalList " + lits);
-					NamedPattern literalPattern = NamedPattern
-							.compile(literalRegex);
-					NamedMatcher literalMatcher = literalPattern.matcher(lits);
-					while (literalMatcher.find()) {
-						String lit = literalMatcher.group("literal");
-						// System.out.println("literal " + lit);
-						DLProgramParser parser = new DLProgramParser(
-								new StringReader(lit));
-						Literal literal = parser.literal();
-						result.add(literal);
-						// if (lit.equals(queryStr)) {
-						// logger.debug("Query \"{}\" found", queryStr);
-						// result = true;
-						// break;
-						// }
-					}
+				DLProgramParser parser = new DLProgramParser(
+						new StringReader(line));
+				List<Literal> model = null;
+				try {
+					model = parser.getModel();
+					return model;
+				} catch (ParseException e) {
+					// DO Nothing
+					// Just Try Next
 				}
+
+				// NamedPattern linePattern = NamedPattern.compile(lineRegex);
+				// NamedMatcher lineMatcher = linePattern.matcher(line);
+				// if (lineMatcher.find()) {
+				// String lits = lineMatcher.group("literalList");
+				// System.out.println("literalList " + lits);
+				// NamedPattern literalPattern = NamedPattern
+				// .compile(literalRegex);
+				// NamedMatcher literalMatcher = literalPattern.matcher(lits);
+				// while (literalMatcher.find()) {
+				// String lit = literalMatcher.group("literal");
+				// // System.out.println("literal " + lit);
+				// DLProgramParser parser = new DLProgramParser(
+				// new StringReader(lit));
+				// Literal literal = parser.literal();
+				// result.add(literal);
+				// // if (lit.equals(queryStr)) {
+				// // logger.debug("Query \"{}\" found", queryStr);
+				// // result = true;
+				// // break;
+				// // }
+				// }
+				// }
 			}
 
 			BufferedReader errorReader = new BufferedReader(
@@ -182,10 +193,7 @@ public class DLVWrapper {
 		} catch (InterruptedException ex) {
 			throw new DLVInvocationException(
 					"An error is occurred calling DLV: " + ex.getMessage());
-		} catch (ParseException ex) {
-			throw new DLVInvocationException(
-					"An error is occurred calling DLV: " + ex.getMessage());
-		}
+		} 
 
 		return result;
 

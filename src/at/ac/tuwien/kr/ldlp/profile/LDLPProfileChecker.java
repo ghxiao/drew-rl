@@ -37,6 +37,8 @@ import org.semanticweb.owlapi.model.OWLObjectPropertyRangeAxiom;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.model.OWLSubDataPropertyOfAxiom;
 import org.semanticweb.owlapi.model.OWLSubObjectPropertyOfAxiom;
+import org.semanticweb.owlapi.model.OWLSymmetricObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLTransitiveObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.SWRLRule;
 import org.semanticweb.owlapi.profiles.OWLProfileViolation;
 import org.semanticweb.owlapi.profiles.UseOfIllegalAxiom;
@@ -314,5 +316,23 @@ class LDLPProfileChecker extends OWLOntologyWalkerVisitor {
 	public Object visit(OWLNegativeObjectPropertyAssertionAxiom axiom) {
 		profileViolations.add(new UseOfIllegalAxiom(getCurrentOntology(), getCurrentAxiom()));
 		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.semanticweb.owlapi.util.OWLObjectVisitorExAdapter#visit(org.semanticweb.owlapi.model.OWLSymmetricObjectPropertyAxiom)
+	 */
+	@Override
+	public Object visit(OWLSymmetricObjectPropertyAxiom axiom) {
+		// TODO Auto-generated method stub
+		return super.visit(axiom);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.semanticweb.owlapi.util.OWLObjectVisitorExAdapter#visit(org.semanticweb.owlapi.model.OWLTransitiveObjectPropertyAxiom)
+	 */
+	@Override
+	public Object visit(OWLTransitiveObjectPropertyAxiom axiom) {
+		// TODO Auto-generated method stub
+		return super.visit(axiom);
 	}
 }
