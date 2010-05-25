@@ -134,7 +134,7 @@ public class DLVWrapper {
 			String line;
 
 			while ((line = reader.readLine()) != null) {
-				logger.info("DLV Output: {}", line);
+				logger.debug("DLV Output: {}", line);
 
 				DLProgramParser parser = new DLProgramParser(
 						new StringReader(line));

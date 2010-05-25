@@ -575,7 +575,26 @@ public class LDLPAxiomCompiler extends OWLAxiomVisitorAdapter {
 	 */
 	@Override
 	public void visit(OWLSymmetricObjectPropertyAxiom axiom) {
-		logger.debug("Skip Axiom: " + axiom);
+		final OWLObjectPropertyExpression property = axiom.getProperty();
+		
+
+		String p = ldlpCompierManager.getPredicate(property);
+		
+		Literal[] head = null;
+		Literal[] body = null;
+		head = new Literal[1];
+		head[0] = new Literal(p, X, Y);
+		body = new Literal[2];
+		body[0] = new Literal(p, Y, X);
+		
+		Clause clause1 = new Clause(head, body);
+		clauses.add(clause1);
+		logger.debug("{}\n\t->\n{}", axiom, clause1);
+		
+		Clause clause2 = new Clause(body, head);
+		clauses.add(clause2);
+		logger.debug("{}\n\t->\n{}", axiom, clause2);
+		
 		super.visit(axiom);
 	}
 

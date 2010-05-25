@@ -638,8 +638,8 @@ public class LDLPClosureBuilder extends OWLAxiomVisitorAdapter implements OWLCla
 	 */
 	@Override
 	public void visit(OWLSymmetricObjectPropertyAxiom axiom) {
-		// TODO Auto-generated method stub
-
+		axiom.getProperty().accept(this);
+		
 		super.visit(axiom);
 	}
 
