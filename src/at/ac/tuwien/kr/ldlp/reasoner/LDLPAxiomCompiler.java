@@ -586,11 +586,11 @@ public class LDLPAxiomCompiler extends OWLAxiomVisitorAdapter {
 		head[0] = new Literal(p, X, Y);
 		body = new Literal[2];
 		body[0] = new Literal(p, Y, X);
-		
-		Clause clause1 = new Clause(head, body);
-		clauses.add(clause1);
-		logger.debug("{}\n\t->\n{}", axiom, clause1);
-		
+//		
+//		Clause clause1 = new Clause(head, body);
+//		clauses.add(clause1);
+//		logger.debug("{}\n\t->\n{}", axiom, clause1);
+//		
 		Clause clause2 = new Clause(body, head);
 		clauses.add(clause2);
 		logger.debug("{}\n\t->\n{}", axiom, clause2);

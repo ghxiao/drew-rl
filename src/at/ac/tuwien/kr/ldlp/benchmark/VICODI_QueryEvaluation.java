@@ -29,7 +29,7 @@ public class VICODI_QueryEvaluation {
 
 	// public final static String phyUri =
 	// "file:benchmark/vicodi_0/vicodi_0.owl";
-	public final static String phyUri = "file:benchmark/vicodi_0/vicodi_0.owl";
+	public final static String phyUri = "file:benchmark/vicodi_2/vicodi_2.owl";
 
 	final static Logger logger = LoggerFactory.getLogger(VICODI_QueryEvaluation.class);
 	private OWLOntologyManager manager = OWLManager
@@ -60,9 +60,9 @@ public class VICODI_QueryEvaluation {
 		List<Literal> results = reasoner.query(query);
 
 		System.out.println(results.size() + " Query Results");
-		for (Literal result : results) {
-			System.out.println(result);
-		}
+//		for (Literal result : results) {
+//			System.out.println(result);
+//		}
 		System.out.println(results.size() + " Query Results");
 		long t1 = System.currentTimeMillis();
 		long dt = t1 - t0;
