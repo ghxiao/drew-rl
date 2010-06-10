@@ -114,6 +114,7 @@ public class LDLPCompilerManager {
 
 	public String decompile(String name) {
 
+		
 		int index = Integer.parseInt(name.substring(1));
 
 		if (name.startsWith("p")) { // predicate

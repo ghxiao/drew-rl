@@ -1,0 +1,28 @@
+Dear Thomas and Stijn,
+
+The following is the comparation of 
+query answering
+DReW and dlvhex+dlplugin on LUBM ontology
+
+Query	DReW	dlvhex+dlplugin
+	ms	ms
+0	1188 	4307 
+1	931 	3514 
+2	899 	3877 
+3	1028 	4043 
+4	878 	3508 
+
+1. some of the queries are from TK's master thesis and others are modified from LUBM query benchmark.
+
+for example, query 1 is 
+f (X, Y) :- DL[Faculty](X), DL[Faculty](Y), D1 = D2 , U1 != U2 ,
+			DL[doctoralDegreeFrom](X, U1), DL[worksFor](X, D1 ),
+            DL[doctoralDegreeFrom](Y, U2), DL[worksFor](Y, D2 ).
+
+2. Not all the results return by DReW and dlvhex are the same. I am checking the details now. 
+
+3. All the dl atoms are of the form "DL[;Q](X,Y)". I do not have complex dl-program bechmark now.
+
+4. Usually, DReW spent 1/4 of the time of dlvhex
+
+Best,

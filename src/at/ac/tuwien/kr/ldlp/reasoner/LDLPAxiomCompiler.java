@@ -483,7 +483,7 @@ public class LDLPAxiomCompiler extends OWLAxiomVisitorAdapter {
 		Literal[] body = null;
 		head = new Literal[1];
 		head[0] = new Literal(first, X, Y);
-		body = new Literal[2];
+		body = new Literal[1];
 		body[0] = new Literal(second, Y, X);
 		
 		Clause clause1 = new Clause(head, body);

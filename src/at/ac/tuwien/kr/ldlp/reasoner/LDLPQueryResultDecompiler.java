@@ -19,7 +19,7 @@ public class LDLPQueryResultDecompiler {
 	final static Logger logger = LoggerFactory
 	.getLogger(LDLPQueryResultDecompiler.class);
 	
-	List<Literal> decompileLiterals(List<Literal> lits) {
+	public List<Literal> decompileLiterals(List<Literal> lits) {
 		List<Literal> newLits = new ArrayList<Literal>();
 		for(Literal lit:lits){
 			Literal newLit = decompileLiteral(lit);

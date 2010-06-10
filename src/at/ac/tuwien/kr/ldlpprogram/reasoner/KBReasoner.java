@@ -7,6 +7,8 @@
  */
 package at.ac.tuwien.kr.ldlpprogram.reasoner;
 
+import java.util.List;
+
 import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
 
 import at.ac.tuwien.kr.datalog.DatalogReasoner;
@@ -14,6 +16,7 @@ import at.ac.tuwien.kr.datalog.DLVReasoner;
 import at.ac.tuwien.kr.dlprogram.DLProgram;
 import at.ac.tuwien.kr.dlprogram.DLProgramKB;
 import at.ac.tuwien.kr.dlprogram.Literal;
+import at.ac.tuwien.kr.ldlp.reasoner.LDLPQueryResultDecompiler;
 
 /**
  * Reasoner for DLProgram KB
@@ -21,6 +24,7 @@ import at.ac.tuwien.kr.dlprogram.Literal;
 public class KBReasoner {
 
 	KBCompiler compiler = new KBCompiler();
+
 	DatalogReasoner datalogReasoner = new DLVReasoner();
 
 	DLProgram compiledClauses;
@@ -32,12 +36,27 @@ public class KBReasoner {
 	public boolean isEntailed(OWLClassAssertionAxiom axiom) {
 		Literal query = compiler.compile(axiom);
 		return isEntailed(query);
-
 	}
 
 	public boolean isEntailed(Literal query) {
 		Literal newQuery = compiler.compileNormalLiteral(query);
-
 		return datalogReasoner.isEntailed(compiledClauses, newQuery);
+	}
+
+	public List<Literal> query(Literal q) {
+
+		//LDLPQueryCompiler queryComiler = new LDLPQueryCompiler();
+		//Literal query = queryComiler.compileLiteral(q);
+
+		
+		List<Literal> result = datalogReasoner.query(compiledClauses, q);
+		
+		LDLPQueryResultDecompiler decompiler = new LDLPQueryResultDecompiler();
+		
+//		result = decompiler.decompileLiterals(result);
+				
+		return result;
+
+
 	}
 }

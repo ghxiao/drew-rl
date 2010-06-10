@@ -133,8 +133,8 @@ realization, i.e., inference that that professor is an instance of class
 Chair because he or she is the head of a department. Input of this query
 is small as well./
 
-*Query13
-*(type Person ?X)
+*Query13*
+(type Person ?X)
 (hasAlumnus http://www.University0.edu ?X)
 /- Property hasAlumnus is defined in the benchmark ontology as the
 inverse of property degreeFrom, which has three subproperties:
@@ -143,8 +143,9 @@ benchmark data state a person as an alumnus of a university using one of
 these three subproperties instead of hasAlumnus. Therefore, this query
 assumes subPropertyOf relationships between degreeFrom and its
 subproperties, and also requires inference about inverseOf.
+/
 
-/*Query14*
+*Query14*
 (type UndergraduateStudent ?X)
 /- This query is the simplest in the test set. This query represents
 those with large input and low selectivity and does not assume any

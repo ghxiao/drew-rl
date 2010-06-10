@@ -36,7 +36,7 @@ public class LDLPQueryCompiler {
 		return newQuery;
 	}
 
-	private Literal compileLiteral(Literal literal) {
+	public Literal compileLiteral(Literal literal) {
 		NormalPredicate normalLiteral = (NormalPredicate) literal
 				.getPredicate();
 		NormalPredicate newHeadPredicate = compileNormalPredicate(normalLiteral);
