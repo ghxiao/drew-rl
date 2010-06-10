@@ -1,0 +1,1 @@
+v(X):- c(vicodi:Economics), c(vicodi:Social ),DL[hasCategory](X, Y ), c(Y ).

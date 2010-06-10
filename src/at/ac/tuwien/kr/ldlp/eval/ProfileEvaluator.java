@@ -1,4 +1,4 @@
-package at.ac.tuwien.kr.ldlp.benchmark;
+package at.ac.tuwien.kr.ldlp.eval;
 
 import java.util.HashMap;
 import java.util.Map;
