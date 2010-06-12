@@ -54,41 +54,41 @@ http://www.Department0.University0.edu/AssistantProfessor0/Publication5
 /- This query has small input and high selectivity. It assumes
 subClassOf relationship between Professor and its subclasses. Class
 Professor has a wide hierarchy. Another feature is that it queries about
-multiple properties of a single class.
+multiple properties of a single class./
 
-/*Query5
-*(type Person ?X)
+*Query5*
+(type Person ?X)
 (memberOf ?X http://www.Department0.University0.edu)
 /- This query assumes subClassOf relationship between Person and its
 subclasses and subPropertyOf relationship between memberOf and its
-subproperties. Moreover, class Person features a deep and wide hierarchy.
+subproperties. Moreover, class Person features a deep and wide hierarchy./
 
-/*Query6*
+*Query6*
 (type Student ?X)
 /- This query queries about only one class. But it assumes both the
 explicit subClassOf relationship between UndergraduateStudent and
 Student and the implicit one between GraduateStudent and Student. In
-addition, it has large input and low selectivity.
+addition, it has large input and low selectivity./
 
-/*Query7*
+*Query7*
 (type Student ?X)
 (type Course ?Y)
 (teacherOf http://www.Department0.University0.edu/AssociateProfessor0 ?Y)
 (takesCourse ?X ?Y)
 /- This query is similar to Query 6 in terms of class Student but it
 increases in the number of classes and properties and its selectivity is
-high.
+high./
 
-/*Query8
-*(type Student ?X)
+*Query8*
+(type Student ?X)
 (type Department ?Y)
 (memberOf ?X ?Y)
 (subOrganizationOf ?Y http://www.University0.edu)
 (emailAddress ?X ?Z)
 /- This query is further more complex than Query 7 by including one more
-property.
+property./
 
-/*Query9*
+*Query9*
 (type Student ?X)
 (type Faculty ?Y)
 (type Course ?Z)
@@ -98,18 +98,18 @@ property.
 /- Besides the aforementioned features of class Student and the wide
 hierarchy of class Faculty, like Query 2, this query is characterized by
 the most classes and properties in the query set and there is a
-triangular pattern of relationships.
+triangular pattern of relationships./
 
 *Query10*
-/(type Student ?X)
+(type Student ?X)
 (takesCourse ?X http://www.Department0.University0.edu/GraduateCourse0)
 /- This query differs from Query 6, 7, 8 and 9 in that it only requires
 the (implicit) subClassOf relationship between GraduateStudent and
 Student, i.e., subClassOf relationship between UndergraduateStudent and
-Student does not add to the results.
+Student does not add to the results./
 
-/*Query11
-*(type ResearchGroup ?X)
+*Query11*
+(type ResearchGroup ?X)
 (subOrganizationOf ?X http://www.University0.edu)
 /- Query 11, 12 and 13 are intended to verify the presence of certain
 reasoning capabilities in the system. In this query, property
@@ -121,8 +121,8 @@ instances of ResearchGroup and University is required to answer this
 query. Additionally, its input is small./
 
 
-*Query12
-*(type Chair ?X)
+*Query12*
+(type Chair ?X)
 (type Department ?Y)
 (worksFor ?X ?Y)
 (subOrganizationOf ?Y http://www.University0.edu)
