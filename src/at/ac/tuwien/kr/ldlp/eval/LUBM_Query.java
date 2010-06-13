@@ -2,7 +2,9 @@ package at.ac.tuwien.kr.ldlp.eval;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -26,6 +28,7 @@ import at.ac.tuwien.kr.dlprogram.NormalPredicate;
 import at.ac.tuwien.kr.dlprogram.Term;
 import at.ac.tuwien.kr.dlprogram.Variable;
 import at.ac.tuwien.kr.ldlp.profile.LDLPProfile;
+import at.ac.tuwien.kr.ldlp.reasoner.LDLPCompilerManager;
 import at.ac.tuwien.kr.ldlp.reasoner.LDLPReasoner;
 
 public class LUBM_Query {
@@ -33,27 +36,63 @@ public class LUBM_Query {
 
 	public final static String phyUri = "file:benchmark/uba/University0_0.owl";
 
+	public final static List<Clause> queries = new ArrayList<Clause>();
+
 	final static Logger logger = LoggerFactory.getLogger(LUBM_Query.class);
 	private static OWLOntologyManager manager = OWLManager
 			.createOWLOntologyManager();
 
 	public static void main(String[] args) {
+
+		queries.add(getQuery1());
+		queries.add(getQuery2());
+		queries.add(getQuery3());
+		queries.add(getQuery4());
+		queries.add(getQuery5());
+		queries.add(getQuery6());
+		queries.add(getQuery7());
+		queries.add(getQuery8());
+		queries.add(getQuery9());
+		queries.add(getQuery10());
+		queries.add(getQuery11());
+		queries.add(getQuery12());
+		queries.add(getQuery13());
+		queries.add(getQuery14());
+
+		// for (int k = 0; k < 2; k++)
+		//
+		// // for (int i = 0; i < 14; i++) {
+		// for (int i = 13; i >= 0; i--) {
+
+		int i = 1;
+		if (args.length > 0) {
+			i = Integer.parseInt(args[0]);
+		}
+
 		long t0 = System.currentTimeMillis();
+		System.out.println("-----------------------------------------");
+		System.out.println("Query ID: " + (i));
 		OWLOntology ontology = loadOntology(uri, phyUri);
-		Clause query = getQuery9();
+		Clause query = queries.get(i - 1);
 
 		// LDLPReasoner reasoner = new LDLPReasoner(ontology, TYPE.XSB);
 		LDLPReasoner reasoner = new LDLPReasoner(ontology, TYPE.DLV);
 		List<Literal> results = reasoner.query(query);
 
 		System.out.println(results.size() + " Query Results");
-		for (Literal result : results) {
-			System.out.println(result);
-		}
+		// for (Literal result : results) {
+		// System.out.println(result);
+		// }
 		System.out.println(results.size() + " Query Results");
 		long t1 = System.currentTimeMillis();
 		long dt = t1 - t0;
 		System.out.println("Time: " + dt + " ms");
+		System.out.println("-----------------------------------------");
+//		manager.removeOntology(ontology);
+//		LDLPCompilerManager.getInstance().reset();
+		// }
+
+	
 
 	}
 
@@ -62,10 +101,8 @@ public class LUBM_Query {
 		OWLOntology ontology = null;
 
 		System.out.println();
-		System.out
-				.println("------------------------------------------------------");
 
-		logger.info("Reading file " + uri + "...");
+		logger.debug("Reading file " + uri + "...");
 
 		manager.addIRIMapper(new SimpleIRIMapper(IRI.create(uri), IRI
 				.create(phyUri)));
@@ -76,7 +113,7 @@ public class LUBM_Query {
 			// for (OWLAxiom axiom : ontology.getAxioms()) {
 			// System.out.println(axiom);
 			// }
-			logger.info("Loading complete");
+			logger.debug("Loading complete");
 			System.out.println(ontology);
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
@@ -90,12 +127,12 @@ public class LUBM_Query {
 			System.out.println("The ontology is in LDL+ profile");
 		} else {
 			System.out.println("The ontology is not in LDL+ profile:");
-			Set<OWLProfileViolation> violations = report.getViolations();
-			System.out.println("The following " + violations.size()
-					+ " axioms are violated");
-			for (OWLProfileViolation v : violations) {
-				System.out.println(v);
-			}
+			// Set<OWLProfileViolation> violations = report.getViolations();
+			// System.out.println("The following " + violations.size()
+			// + " axioms are violated");
+			// for (OWLProfileViolation v : violations) {
+			// System.out.println(v);
+			// }
 		}
 		return ontology;
 
@@ -103,10 +140,10 @@ public class LUBM_Query {
 
 	public static Literal createLUBMLiteral(String predicateIRI, String... args) {
 
-		NormalPredicate pred = CacheManager.getInstance()
-				.getPredicate(IRI.create(
-								"http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#" + predicateIRI)
-						.toQuotedString(), args.length);
+		NormalPredicate pred = CacheManager.getInstance().getPredicate(
+				IRI.create(
+						"http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#"
+								+ predicateIRI).toQuotedString(), args.length);
 
 		int n = args.length;
 		Term[] terms = new Term[n];
@@ -206,8 +243,10 @@ public class LUBM_Query {
 		query.getPositiveBody().add(createLUBMLiteral("University", "Y"));
 		query.getPositiveBody().add(createLUBMLiteral("Department", "Z"));
 		query.getPositiveBody().add(createLUBMLiteral("memberOf", "X", "Z"));
-		query.getPositiveBody().add(createLUBMLiteral("subOrganizationOf", "Z", "Y"));
-		query.getPositiveBody().add(createLUBMLiteral("undergraduateDegreeFrom", "X", "Y"));
+		query.getPositiveBody().add(
+				createLUBMLiteral("subOrganizationOf", "Z", "Y"));
+		query.getPositiveBody().add(
+				createLUBMLiteral("undergraduateDegreeFrom", "X", "Y"));
 		return query;
 	}
 
@@ -364,14 +403,18 @@ public class LUBM_Query {
 				2);
 		Literal body3 = new Literal(name, X, Y1);
 
-		NormalPredicate emailAddress = CacheManager.getInstance().getPredicate(
-				"<http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#emailAddress>",
-				2);
+		NormalPredicate emailAddress = CacheManager
+				.getInstance()
+				.getPredicate(
+						"<http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#emailAddress>",
+						2);
 		Literal body4 = new Literal(emailAddress, X, Y2);
 
-		NormalPredicate telephone = CacheManager.getInstance().getPredicate(
-				"<http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#telephone>",
-				2);
+		NormalPredicate telephone = CacheManager
+				.getInstance()
+				.getPredicate(
+						"<http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#telephone>",
+						2);
 		Literal body5 = new Literal(telephone, X, Y3);
 
 		query.setHead(head);
@@ -407,7 +450,9 @@ public class LUBM_Query {
 		Literal head = new Literal(ans, X);
 		query.setHead(head);
 		query.getPositiveBody().add(createLUBMLiteral("Person", "X"));
-		query.getPositiveBody().add(createLUBMLiteral("memberOf", "X", "<http://www.Department0.University0.edu>"));
+		query.getPositiveBody().add(
+				createLUBMLiteral("memberOf", "X",
+						"<http://www.Department0.University0.edu>"));
 
 		return query;
 	}
@@ -462,7 +507,13 @@ public class LUBM_Query {
 		query.setHead(head);
 		query.getPositiveBody().add(createLUBMLiteral("Student", "X"));
 		query.getPositiveBody().add(createLUBMLiteral("Course", "Y"));
-		query.getPositiveBody().add(createLUBMLiteral("teacherOf", "<http://www.Department0.University0.edu/AssociateProfessor0>", "Y"));
+		query
+				.getPositiveBody()
+				.add(
+						createLUBMLiteral(
+								"teacherOf",
+								"<http://www.Department0.University0.edu/AssociateProfessor0>",
+								"Y"));
 		query.getPositiveBody().add(createLUBMLiteral("takesCourse", "X", "Y"));
 		return query;
 	}
@@ -492,8 +543,11 @@ public class LUBM_Query {
 		query.getPositiveBody().add(createLUBMLiteral("Student", "X"));
 		query.getPositiveBody().add(createLUBMLiteral("Department", "Y"));
 		query.getPositiveBody().add(createLUBMLiteral("memberOf", "X", "Y"));
-		query.getPositiveBody().add(createLUBMLiteral("subOrganizationOf", "Y", "<http://www.University0.edu>"));
-		query.getPositiveBody().add(createLUBMLiteral("emailAddress", "X", "Z"));
+		query.getPositiveBody().add(
+				createLUBMLiteral("subOrganizationOf", "Y",
+						"<http://www.University0.edu>"));
+		query.getPositiveBody()
+				.add(createLUBMLiteral("emailAddress", "X", "Z"));
 
 		return query;
 	}
@@ -554,7 +608,11 @@ public class LUBM_Query {
 		Literal head = new Literal(ans, X);
 		query.setHead(head);
 		query.getPositiveBody().add(createLUBMLiteral("Student", "X"));
-		query.getPositiveBody().add(createLUBMLiteral("takesCourse", "X", "<http://www.Department0.University0.edu/GraduateCourse0>"));
+		query
+				.getPositiveBody()
+				.add(
+						createLUBMLiteral("takesCourse", "X",
+								"<http://www.Department0.University0.edu/GraduateCourse0>"));
 		return query;
 	}
 
@@ -583,7 +641,9 @@ public class LUBM_Query {
 		Literal head = new Literal(ans, X);
 		query.setHead(head);
 		query.getPositiveBody().add(createLUBMLiteral("ResearchGroup", "X"));
-		query.getPositiveBody().add(createLUBMLiteral("subOrganizationOf", "X", "<http://www.University0.edu>"));
+		query.getPositiveBody().add(
+				createLUBMLiteral("subOrganizationOf", "X",
+						"<http://www.University0.edu>"));
 		return query;
 	}
 
@@ -614,7 +674,9 @@ public class LUBM_Query {
 		query.getPositiveBody().add(createLUBMLiteral("Chair", "X"));
 		query.getPositiveBody().add(createLUBMLiteral("Department", "Y"));
 		query.getPositiveBody().add(createLUBMLiteral("worksFor", "X", "Y"));
-		query.getPositiveBody().add(createLUBMLiteral("subOrganizationOf", "Y", "<http://www.University0.edu>"));
+		query.getPositiveBody().add(
+				createLUBMLiteral("subOrganizationOf", "Y",
+						"<http://www.University0.edu>"));
 		return query;
 	}
 
@@ -642,7 +704,9 @@ public class LUBM_Query {
 		Literal head = new Literal(ans, X);
 		query.setHead(head);
 		query.getPositiveBody().add(createLUBMLiteral("Person", "X"));
-		query.getPositiveBody().add(createLUBMLiteral("hasAlumnus", "<http://www.University0.edu>", "X"));
+		query.getPositiveBody().add(
+				createLUBMLiteral("hasAlumnus", "<http://www.University0.edu>",
+						"X"));
 		return query;
 	}
 
@@ -664,8 +728,9 @@ public class LUBM_Query {
 		Variable X = CacheManager.getInstance().getVariable("X");
 		Literal head = new Literal(ans, X);
 		query.setHead(head);
-		query.getPositiveBody().add(createLUBMLiteral("UndergraduateStudent", "X"));
-		
+		query.getPositiveBody().add(
+				createLUBMLiteral("UndergraduateStudent", "X"));
+
 		return query;
 	}
 

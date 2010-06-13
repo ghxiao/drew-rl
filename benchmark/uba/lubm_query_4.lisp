@@ -11,16 +11,19 @@
 
 
 
-(retrieve (?x ?y1 ?y2 ?y3)
+(retrieve (?x ;?y1 
+;?y2 
+;?y3
+)
 	(and
-		(?x |http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Professor|)
+	;	(?x |http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Professor|)
 		
-		(?x |http://www.Department0.University0.edu| 
-		|http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#worksFor|)
+	;	(?x |http://www.Department0.University0.edu| 
+	;	|http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#worksFor|)
 		
-		(?x ?y1 |http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#name|)
+	;	(?x ?y1 |http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#name|)
 		
-		(?x ?y2 |http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#emailAddress|)
+	;	(?x ?y2 |http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#emailAddress|)
 		
 		(?x ?y3 |http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#telephone|)
 	)

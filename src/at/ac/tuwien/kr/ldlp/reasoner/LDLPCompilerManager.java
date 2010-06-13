@@ -114,17 +114,20 @@ public class LDLPCompilerManager {
 
 	public String decompile(String name) {
 
-		
 		int index = Integer.parseInt(name.substring(1));
 
 		if (name.startsWith("p")) { // predicate
 			return predicates.getSymbolByValue(index);
-		}else if(name.startsWith("o")){ //constant
+		} else if (name.startsWith("o")) { // constant
 			return constants.getSymbolByValue(index);
-		}else{
+		} else {
 			throw new IllegalStateException();
 		}
 
-		
+	}
+
+	public void reset() {
+		predicates = new SymbolEncoder<String>();
+		constants = new SymbolEncoder<String>();
 	}
 }

@@ -1,0 +1,140 @@
+-----------------------------------------
+Query ID: 1
+
+Ontology(<http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl> [Axioms: 8762] [Logical axioms: 8612])
+The ontology is not in LDL+ profile:
+4 Query Results
+4 Query Results
+Time: 3288 ms
+-----------------------------------------
+-----------------------------------------
+Query ID: 2
+
+Ontology(<http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl> [Axioms: 8762] [Logical axioms: 8612])
+The ontology is not in LDL+ profile:
+0 Query Results
+0 Query Results
+Time: 2523 ms
+-----------------------------------------
+-----------------------------------------
+Query ID: 3
+
+Ontology(<http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl> [Axioms: 8762] [Logical axioms: 8612])
+The ontology is not in LDL+ profile:
+6 Query Results
+6 Query Results
+Time: 2791 ms
+-----------------------------------------
+-----------------------------------------
+Query ID: 4
+
+Ontology(<http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl> [Axioms: 8762] [Logical axioms: 8612])
+The ontology is not in LDL+ profile:
+34 Query Results
+34 Query Results
+Time: 2613 ms
+-----------------------------------------
+-----------------------------------------
+Query ID: 5
+
+Ontology(<http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl> [Axioms: 8762] [Logical axioms: 8612])
+The ontology is not in LDL+ profile:
+719 Query Results
+719 Query Results
+Time: 2667 ms
+-----------------------------------------
+-----------------------------------------
+Query ID: 6
+
+Ontology(<http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl> [Axioms: 8762] [Logical axioms: 8612])
+The ontology is not in LDL+ profile:
+678 Query Results
+678 Query Results
+Time: 2648 ms
+-----------------------------------------
+-----------------------------------------
+Query ID: 7
+
+Ontology(<http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl> [Axioms: 8762] [Logical axioms: 8612])
+The ontology is not in LDL+ profile:
+67 Query Results
+67 Query Results
+Time: 2406 ms
+-----------------------------------------
+-----------------------------------------
+Query ID: 8
+
+Ontology(<http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl> [Axioms: 8762] [Logical axioms: 8612])
+The ontology is not in LDL+ profile:
+678 Query Results
+678 Query Results
+Time: 2488 ms
+-----------------------------------------
+-----------------------------------------
+Query ID: 9
+
+Ontology(<http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl> [Axioms: 8762] [Logical axioms: 8612])
+The ontology is not in LDL+ profile:
+13 Query Results
+13 Query Results
+Time: 2378 ms
+-----------------------------------------
+-----------------------------------------
+Query ID: 10
+
+Ontology(<http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl> [Axioms: 8762] [Logical axioms: 8612])
+The ontology is not in LDL+ profile:
+4 Query Results
+4 Query Results
+Time: 2531 ms
+-----------------------------------------
+-----------------------------------------
+Query ID: 11
+
+Ontology(<http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl> [Axioms: 8762] [Logical axioms: 8612])
+The ontology is not in LDL+ profile:
+10 Query Results
+10 Query Results
+Time: 2690 ms
+-----------------------------------------
+-----------------------------------------
+Query ID: 12
+
+Ontology(<http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl> [Axioms: 8762] [Logical axioms: 8612])
+The ontology is not in LDL+ profile:
+1 Query Results
+1 Query Results
+Time: 3342 ms
+-----------------------------------------
+-----------------------------------------
+Query ID: 13
+
+Ontology(<http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl> [Axioms: 8762] [Logical axioms: 8612])
+The ontology is not in LDL+ profile:
+1 Query Results
+1 Query Results
+Time: 3457 ms
+-----------------------------------------
+-----------------------------------------
+Query ID: 14
+
+Ontology(<http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl> [Axioms: 8762] [Logical axioms: 8612])
+The ontology is not in LDL+ profile:
+532 Query Results
+532 Query Results
+Time: 2356 ms
+-----------------------------------------
+t=3.943906
+t=3.174002
+t=3.359659
+t=3.143497
+t=3.237668
+t=3.203038
+t=3.241948
+t=3.058382
+t=2.951512
+t=3.127837
+t=3.469820
+t=3.954046
+t=4.114101
+t=3.009319

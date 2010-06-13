@@ -6,7 +6,7 @@ import os
 
 def main():
     ontology = "University0_0.owl"
-    q = "lubm_query_14.lisp"
+    q = "lubm_query_4.lisp"
     cmd = "RacerPro -f %s -q %s"%(ontology, q)
 
     t1 = time.time()

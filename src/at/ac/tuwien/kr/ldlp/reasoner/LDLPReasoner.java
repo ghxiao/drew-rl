@@ -1,10 +1,8 @@
 package at.ac.tuwien.kr.ldlp.reasoner;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.semanticweb.owlapi.model.OWLAxiom;
-import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLIndividual;
 import org.semanticweb.owlapi.model.OWLOntology;
@@ -20,19 +18,12 @@ import org.semanticweb.owlapi.reasoner.UnsupportedEntailmentTypeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import at.ac.tuwien.kr.datalog.DatalogReasoner;
 import at.ac.tuwien.kr.datalog.DLVReasoner;
+import at.ac.tuwien.kr.datalog.DatalogReasoner;
 import at.ac.tuwien.kr.datalog.XSBDatalogReasoner;
 import at.ac.tuwien.kr.datalog.DatalogReasoner.TYPE;
-import at.ac.tuwien.kr.dlprogram.CacheManager;
 import at.ac.tuwien.kr.dlprogram.Clause;
-import at.ac.tuwien.kr.dlprogram.Constant;
 import at.ac.tuwien.kr.dlprogram.Literal;
-import at.ac.tuwien.kr.dlprogram.NormalPredicate;
-import at.ac.tuwien.kr.dlprogram.Predicate;
-import at.ac.tuwien.kr.dlprogram.Term;
-import at.ac.tuwien.kr.dlprogram.Variable;
-import at.ac.tuwien.kr.ldlpprogram.reasoner.KBCompiler;
 
 public class LDLPReasoner extends OWLReasonerAdapter {
 	final static Logger logger = LoggerFactory
