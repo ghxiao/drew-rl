@@ -7,9 +7,10 @@
 ;/- This query is further more complex than Query 7 by including one more
 ;property./
 
+(ENABLE-DATA-SUBSTRATE-MIRRORING)
 
-
-(retrieve (?x ?y ?z)
+(retrieve (?*x ?y $?*z
+)
 	(and
 		(?x |http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Student|)
 		
@@ -20,6 +21,6 @@
 		(?y |http://www.University0.edu| 
 		   |http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#subOrganizationOf|)
 			
-		(?x ?z |http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#emailAddress|)	
+		(?*x $?*z (:owl-datatype-role |http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#emailAddress|))	
 	)
 )

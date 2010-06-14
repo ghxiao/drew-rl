@@ -51,9 +51,9 @@ public class KBReasoner {
 		
 		List<Literal> result = datalogReasoner.query(compiledClauses, q);
 		
-		LDLPQueryResultDecompiler decompiler = new LDLPQueryResultDecompiler();
+		LDLPProgramQueryResultDecompiler decompiler = new LDLPProgramQueryResultDecompiler();
 		
-//		result = decompiler.decompileLiterals(result);
+		result = decompiler.decompileLiterals(result);
 				
 		return result;
 

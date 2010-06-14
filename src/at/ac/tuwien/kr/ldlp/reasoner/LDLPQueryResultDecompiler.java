@@ -29,7 +29,7 @@ public class LDLPQueryResultDecompiler {
 
 	}
 
-	Literal decompileLiteral(Literal lit) {
+	public Literal decompileLiteral(Literal lit) {
 		Predicate predicate = lit.getPredicate();
 		Predicate decompiledPredicate = decompilePredicate(predicate);
 		
@@ -40,7 +40,7 @@ public class LDLPQueryResultDecompiler {
 		return new Literal(decompiledPredicate, decompiledTerms);
 	}
 
-	private List<Term> decompileTerms(List<Term> terms) {
+	public	List<Term> decompileTerms(List<Term> terms) {
 
 		List<Term> decompiledTerms = new ArrayList<Term>();
 		
@@ -52,7 +52,7 @@ public class LDLPQueryResultDecompiler {
 		return decompiledTerms;
 	}
 
-	private Term decompileTerm(Term term) {
+	public Term decompileTerm(Term term) {
 		if(term instanceof Variable){
 			throw new IllegalStateException("Query Results should not contain Variable");
 		}else if(term instanceof Constant){
@@ -64,7 +64,7 @@ public class LDLPQueryResultDecompiler {
 		throw new IllegalStateException();
 	}
 
-	private Constant decompileConstant(Constant constant) {
+	public Constant decompileConstant(Constant constant) {
 		String name = constant.getName();
 		
 		String decompiledConstantName = LDLPCompilerManager.getInstance().decompile(name);
@@ -74,7 +74,7 @@ public class LDLPQueryResultDecompiler {
 		return decompiledConstant;
 	}
 
-	Predicate decompilePredicate(Predicate predicate) {
+	public Predicate decompilePredicate(Predicate predicate) {
 		NormalPredicate normalPredicate = (NormalPredicate)predicate;
 		String name = normalPredicate.getName();
 		int arity = normalPredicate.getArity();

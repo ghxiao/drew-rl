@@ -19,12 +19,12 @@ import at.ac.tuwien.kr.ldlpprogram.reasoner.KBReasoner;
 public class LUBMQuery {
 	public static void main(String[] args) throws OWLOntologyCreationException,
 			ParseException {
-
+		long t0 = System.currentTimeMillis();
 		OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
 		OWLOntology ontology = manager.loadOntologyFromOntologyDocument(IRI
 				.create("file:benchmark/uba/University0_0.owl"));
 
-		long t0 = System.currentTimeMillis();
+		
 		// String text =
 		// "p(a). s(a). s(b). q:-DL[C+=s;D](a), not DL[C+=p;D](b).";
 
@@ -62,7 +62,7 @@ public class LUBMQuery {
 		};
 
 		DLProgramParser parser = new DLProgramParser(new StringReader(
-				queries[3]));
+				queries[4]));
 
 		DLProgram program = parser.program();
 
@@ -70,6 +70,10 @@ public class LUBMQuery {
 		kb.setOntology(ontology);
 		kb.setProgram(program);
 
+		System.out.println("Query:");
+		
+		System.out.println(program);
+		
 		KBReasoner reasoner = new KBReasoner(kb);
 
 		String queryText = "f(X,Y)";

@@ -116,6 +116,8 @@ public class Clause implements Cloneable, Comparable<Clause> {
 	 * Get normal body literals, aka, literals without built-in and logical
 	 * predicates.
 	 * 
+	 * update: all literals except DL Atoms
+	 * 
 	 * @return all body literals
 	 */
 	public List<Literal> getNormalPositiveBody() {
@@ -123,8 +125,9 @@ public class Clause implements Cloneable, Comparable<Clause> {
 
 		for (Literal literal : positives) {
 			if (literal.getPredicate() instanceof NormalPredicate
-					&& ((NormalPredicate) literal.getPredicate()).type
-							.equals(PredicateType.NORMAL)) {
+//					&& ((NormalPredicate) literal.getPredicate()).type
+//							.equals(PredicateType.NORMAL)
+					) {
 				result.add(literal);
 			}
 		}
@@ -137,8 +140,9 @@ public class Clause implements Cloneable, Comparable<Clause> {
 
 		for (Literal literal : negatives) {
 			if (literal.getPredicate() instanceof NormalPredicate
-					&& ((NormalPredicate) literal.getPredicate()).type
-							.equals(PredicateType.NORMAL)) {
+//					&& ((NormalPredicate) literal.getPredicate()).type
+//							.equals(PredicateType.NORMAL)
+							) {
 				result.add(literal);
 			}
 		}

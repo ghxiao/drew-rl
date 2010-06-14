@@ -24,6 +24,6 @@
 		
 		(?x ?z |http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#takesCourse|)	
 		
-		(?x ?z |http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#teacherOf|)	
+		(?y ?z |http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#teacherOf|)	
 	)
 )
