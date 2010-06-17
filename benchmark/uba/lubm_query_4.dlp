@@ -1,6 +1,6 @@
-f(X, Y1, Y2, Y3) :-  DL[Professor](X), DL[worksFor](X,Z), 
-Z="<http://www.Department0.University0.edu>",
-DL[name](X,Y1),
-DL[emailAddress](X,Y2),
-DL[telephone](X,Y3).
+f(X, Y1, Y2, Y3) :-  DL[Professor](X), a(X,Z), b(X,Y1), c(X,Y2), d(X,Y3).
+a(X,Z) :- DL[worksFor](X,Z), Z="<http://www.Department0.University0.edu>".
+b(X,Y1) :- DL[name](X,Y1).
+c(X,Y2) :- DL[emailAddress](X,Y2).
+d(X,Y3) :- DL[telephone](X,Y3).
  

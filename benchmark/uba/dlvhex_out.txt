@@ -1,0 +1,6 @@
+DLVHEX 1.7.0 [build May 31 2010   gcc 4.4.3]
+
+
+{f("<http://www.Department0.University0.edu/AssistantProfessor0/Publication5>","<http://www.Department0.University0.edu/AssistantProfessor0>"), f("<http://www.Department0.University0.edu/AssistantProfessor0/Publication4>","<http://www.Department0.University0.edu/AssistantProfessor0>"), f("<http://www.Department0.University0.edu/AssistantProfessor0/Publication3>","<http://www.Department0.University0.edu/AssistantProfessor0>"), f("<http://www.Department0.University0.edu/AssistantProfessor0/Publication2>","<http://www.Department0.University0.edu/AssistantProfessor0>"), f("<http://www.Department0.University0.edu/AssistantProfessor0/Publication1>","<http://www.Department0.University0.edu/AssistantProfessor0>"), f("<http://www.Department0.University0.edu/AssistantProfessor0/Publication0>","<http://www.Department0.University0.edu/AssistantProfessor0>")}
+
+t=3.679068

@@ -32,7 +32,9 @@ public class ProfileEvaluator {
 		loadAndCheck("", "file:benchmark/galen/galen.owl","Galen");
 		loadAndCheck("", "file:benchmark/dolce/dolce.owl","Dolce");
 		loadAndCheck("", "file:benchmark/wine_0/wine_0.owl","Wine");
-		loadAndCheck("", "file:benchmark/vicodi_0/vicodi_0.owl","Vicodi");
+		loadAndCheck("", "file:benchmark/vicodi_0/vicodi_0.owl","Vicodi_0");
+		//loadAndCheck("", "file:benchmark/vicodi_1/vicodi_1.owl","Vicodi_1");
+		//loadAndCheck("", "file:benchmark/vicodi_2/vicodi_2.owl","Vicodi_2");
 		loadAndCheck("", "file:benchmark/semintec_0/semintec_0.owl","Seminitec");
 		loadAndCheck("", "file:benchmark/uba/University0_0.owl","LUBM");
 		// loadAndCheck("",
@@ -66,15 +68,16 @@ public class ProfileEvaluator {
 			
 			//System.out.println(ontology);
 			
-			System.out.println("Logical Axioms : " + ontology.getLogicalAxiomCount());
+			System.out.print ("Logical Axioms : " + ontology.getLogicalAxiomCount() + "  ");
 			
-			System.out.println("individuls : "+ ontology.getIndividualsInSignature().size());
+			System.out.print("individuls : "+ ontology.getIndividualsInSignature().size()+ "  ");
 			
-			System.out.println("classes : "+ ontology.getClassesInSignature().size());
+			System.out.print("classes : "+ ontology.getClassesInSignature().size()+ "  ");
 			
-			System.out.println("object properties : " + ontology.getObjectPropertiesInSignature().size());
+			System.out.print("object properties : " + ontology.getObjectPropertiesInSignature().size()+ "  ");
 			
-			System.out.println("data propterties : " + ontology.getDataPropertiesInSignature().size());
+			System.out.print("data propterties : " + ontology.getDataPropertiesInSignature().size()+ "  ");
+			
 			
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
@@ -85,6 +88,8 @@ public class ProfileEvaluator {
 		OWLProfileReport report = profile.checkOntology(ontology);
 
 		reportViolations(report, ontology.getLogicalAxiomCount());
+		
+		manager.removeOntology(ontology);
 
 		// System.out.println(report);
 

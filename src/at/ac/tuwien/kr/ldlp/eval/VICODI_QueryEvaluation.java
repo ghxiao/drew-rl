@@ -27,9 +27,9 @@ import at.ac.tuwien.kr.ldlp.reasoner.LDLPReasoner;
 
 public class VICODI_QueryEvaluation {
 
-	// public final static String phyUri =
-	// "file:benchmark/vicodi_0/vicodi_0.owl";
-	public final static String phyUri = "file:benchmark/vicodi_2/vicodi_2.owl";
+	 public final static String phyUri =
+	 "file:benchmark/vicodi_2/vicodi_2.owl";
+	//public final static String phyUri = "file:benchmark/vicodi_2/vicodi_2.owl";
 
 	final static Logger logger = LoggerFactory.getLogger(VICODI_QueryEvaluation.class);
 	private OWLOntologyManager manager = OWLManager
@@ -178,8 +178,5 @@ public class VICODI_QueryEvaluation {
 		return ontology;
 	}
 
-	public void setQuery1() {
-
-	}
 
 }

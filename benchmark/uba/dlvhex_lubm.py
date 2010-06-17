@@ -6,7 +6,8 @@ import os
 
 def main():
     ontology = "University0_0.owl"
-    dlp = "lubm_query_4.dlp"
+    #dlp = "lubm_query_5.dlp"
+    dlp = "lubm_dlvhex_7.dlp"
     cmd = "dlvhex --ontology=%s %s"%(ontology, dlp)
 
     t1 = time.time()
