@@ -1,4 +1,0 @@
-:- table shaves/2.
-shaves(barber,Person):- person(Person), tnot(shaves(Person,Person)).
-person(barber).
-person(mayor).
