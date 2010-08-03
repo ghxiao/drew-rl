@@ -1,0 +1,26 @@
+refactor
+modules
+1. drew-ldl-owlapi (owl-api-ldl-src) 
+2. drew-utils (helper, utils) [1]
+
+3. drew-ldlp-profile [1,2]
+4. drew-ldlp-dl-reasoner [1,2,3,10]
+5. drew-ldlp-dl-reasoner-evaluation [1,2,3,10,4]
+
+6. drew-dl-program-model 
+7. drew-dl-program-parser
+8. drew-ldlp-program-reasoner
+9. drew-ldlp-program-evaluation
+
+10. drew-datalog-reasoner
+11. drew-dlv-java-wrapper
+12. drew-xsb-java-wrapper
+
+13. drew-examples
+
+14. drew-ant-build
+
+
+
+
+
