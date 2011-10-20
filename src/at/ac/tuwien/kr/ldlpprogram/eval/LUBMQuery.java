@@ -19,16 +19,19 @@ import at.ac.tuwien.kr.ldlpprogram.reasoner.KBReasoner;
 public class LUBMQuery {
 	public static void main(String[] args) throws OWLOntologyCreationException,
 			ParseException {
+		System.setProperty("entityExpansionLimit", "512000");
+
 		long t0 = System.currentTimeMillis();
 		OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
 		OWLOntology ontology = manager.loadOntologyFromOntologyDocument(IRI
-				.create("file:benchmark/uba/University0_0.owl"));
+		 .create("file:benchmark/uba/University0_0.owl"));
+			//	.create("file:benchmark/uba/full-lubm.owl"));
 
 		// String text =
 		// "p(a). s(a). s(b). q:-DL[C+=s;D](a), not DL[C+=p;D](b).";
 
 		String[] queries = {
-		// queries[0]
+				// queries[0]
 				"#namespace(\"ub\",\"http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#\").\n"
 						+ "f (X, Y) :- DL[;ub:Faculty](X), DL[;ub:Faculty](Y), D1 = D2 , U1 != U2 ,\n"
 						+ "DL[;ub:doctoralDegreeFrom](X, U1), DL[;ub:worksFor](X, D1 ),\n"
@@ -92,8 +95,13 @@ public class LUBMQuery {
 
 		};
 
+		int queryID = 0;
+		if (args.length > 0) {
+			queryID = Integer.parseInt(args[0]);
+		}
+
 		DLProgramParser parser = new DLProgramParser(new StringReader(
-				queries[7]));
+				queries[queryID]));
 
 		DLProgram program = parser.program();
 

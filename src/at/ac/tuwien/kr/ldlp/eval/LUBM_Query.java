@@ -36,6 +36,8 @@ public class LUBM_Query {
 
 	public final static String phyUri = "file:benchmark/uba/University0_0.owl";
 
+//	public final static String phyUri = "file:benchmark/uba/full-lubm.owl";
+
 	public final static List<Clause> queries = new ArrayList<Clause>();
 
 	final static Logger logger = LoggerFactory.getLogger(LUBM_Query.class);
