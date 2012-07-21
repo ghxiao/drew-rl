@@ -42,12 +42,12 @@ import at.ac.tuwien.kr.dlprogram.Literal;
 import at.ac.tuwien.kr.dlprogram.NormalPredicate;
 import at.ac.tuwien.kr.dlprogram.Term;
 import at.ac.tuwien.kr.dlprogram.Variable;
-import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyChainOf;
-import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyIntersectionOf;
-import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyOneOf;
-import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyTransitiveClosureOf;
-import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyUnionOf;
-import at.ac.tuwien.kr.owlapi.model.ldl.LDLIndividualPair;
+//import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyChainOf;
+//import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyIntersectionOf;
+//import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyOneOf;
+//import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyTransitiveClosureOf;
+//import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyUnionOf;
+//import at.ac.tuwien.kr.owlapi.model.ldl.LDLIndividualPair;
 
 //import edu.stanford.db.lp.Literal;
 //import edu.stanford.db.lp.ProgramClause;
@@ -213,7 +213,7 @@ public class LDLPClosureCompiler implements OWLClassExpressionVisitor,
 	@Override
 	public void visit(OWLObjectHasValue ce) {
 		// TODO Auto-generated method stub
-
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -378,104 +378,104 @@ public class LDLPClosureCompiler implements OWLClassExpressionVisitor,
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
-	public void visit(LDLObjectPropertyIntersectionOf property) {
-		final Set<OWLObjectPropertyExpression> operands = property
-				.getOperands();
-		int n = operands.size();
-		Literal[] head = new Literal[1];
-		head[0] = new Literal(manager.getPredicate(property),
-				new Term[] { X, Y });
-		Literal[] body = new Literal[n];
+//	@Override
+//	public void visit(LDLObjectPropertyIntersectionOf property) {
+//		final Set<OWLObjectPropertyExpression> operands = property
+//				.getOperands();
+//		int n = operands.size();
+//		Literal[] head = new Literal[1];
+//		head[0] = new Literal(manager.getPredicate(property),
+//				new Term[] { X, Y });
+//		Literal[] body = new Literal[n];
+//
+//		int i = 0;
+//		for (OWLObjectPropertyExpression operand : operands) {
+//			body[i] = new Literal(manager.getPredicate(operand), new Term[] {
+//					X, Y });
+//			i++;
+//		}
+//
+//		final Clause clause = new Clause(head, body);
+//		clauses.add(clause);
+//		logger.debug("{}\n\t->\n{}", property, clause);
+//	}
 
-		int i = 0;
-		for (OWLObjectPropertyExpression operand : operands) {
-			body[i] = new Literal(manager.getPredicate(operand), new Term[] {
-					X, Y });
-			i++;
-		}
-
-		final Clause clause = new Clause(head, body);
-		clauses.add(clause);
-		logger.debug("{}\n\t->\n{}", property, clause);
-	}
-
-	@Override
-	public void visit(LDLObjectPropertyUnionOf property) {
-		final Set<OWLObjectPropertyExpression> operands = property
-				.getOperands();
-
-		for (OWLObjectPropertyExpression operand : operands) {
-			Literal[] head = new Literal[1];
-			head[0] = new Literal(manager.getPredicate(property), new Term[] {
-					X, Y });
-			Literal[] body = new Literal[1];
-
-			body[0] = new Literal(manager.getPredicate(operand), new Term[] {
-					X, Y });
-
-			final Clause clause = new Clause(head, body);
-			clauses.add(clause);
-			logger.debug("{}\n\t->\n{}", property, clause);
-		}
-
-	}
+//	@Override
+//	public void visit(LDLObjectPropertyUnionOf property) {
+//		final Set<OWLObjectPropertyExpression> operands = property
+//				.getOperands();
+//
+//		for (OWLObjectPropertyExpression operand : operands) {
+//			Literal[] head = new Literal[1];
+//			head[0] = new Literal(manager.getPredicate(property), new Term[] {
+//					X, Y });
+//			Literal[] body = new Literal[1];
+//
+//			body[0] = new Literal(manager.getPredicate(operand), new Term[] {
+//					X, Y });
+//
+//			final Clause clause = new Clause(head, body);
+//			clauses.add(clause);
+//			logger.debug("{}\n\t->\n{}", property, clause);
+//		}
+//
+//	}
 
 	// trans(E)(X,Y):-E(X,Y)
 	// trans(E)(X,Z):-E(X,Y),trans(Y,Z).
-	@Override
-	public void visit(LDLObjectPropertyTransitiveClosureOf property) {
-		final OWLObjectPropertyExpression operand = property.getOperand();
-
-		Literal[] head1 = new Literal[1];
-		head1[0] = new Literal(manager.getPredicate(property), new Term[] { X,
-				Y });
-		Literal[] body1 = new Literal[1];
-		body1[0] = new Literal(manager.getPredicate(operand),
-				new Term[] { X, Y });
-		final Clause clause1 = new Clause(head1, body1);
-		logger.debug("{}\n\t->\n{}", property, clause1);
-		clauses.add(clause1);
-		Literal[] head2 = new Literal[1];
-		head2[0] = new Literal(manager.getPredicate(property), new Term[] { X,
-				Z });
-		Literal[] body2 = new Literal[2];
-		body2[0] = new Literal(manager.getPredicate(operand),
-				new Term[] { X, Y });
-		body2[1] = new Literal(manager.getPredicate(property), new Term[] { Y,
-				Z });
-		final Clause clause2 = new Clause(head2, body2);
-		clauses.add(clause2);
-		logger.debug("{}\n\t->\n{}", property, clause2);
-	}
+//	@Override
+//	public void visit(LDLObjectPropertyTransitiveClosureOf property) {
+//		final OWLObjectPropertyExpression operand = property.getOperand();
+//
+//		Literal[] head1 = new Literal[1];
+//		head1[0] = new Literal(manager.getPredicate(property), new Term[] { X,
+//				Y });
+//		Literal[] body1 = new Literal[1];
+//		body1[0] = new Literal(manager.getPredicate(operand),
+//				new Term[] { X, Y });
+//		final Clause clause1 = new Clause(head1, body1);
+//		logger.debug("{}\n\t->\n{}", property, clause1);
+//		clauses.add(clause1);
+//		Literal[] head2 = new Literal[1];
+//		head2[0] = new Literal(manager.getPredicate(property), new Term[] { X,
+//				Z });
+//		Literal[] body2 = new Literal[2];
+//		body2[0] = new Literal(manager.getPredicate(operand),
+//				new Term[] { X, Y });
+//		body2[1] = new Literal(manager.getPredicate(property), new Term[] { Y,
+//				Z });
+//		final Clause clause2 = new Clause(head2, body2);
+//		clauses.add(clause2);
+//		logger.debug("{}\n\t->\n{}", property, clause2);
+//	}
 
 	// compose(E1, E2, ... En)(X1,Xn+1):- E1(X1,X2), E2(X2,X3), ... ,
 	// En(Xn,Xn+1)
-	@Override
-	public void visit(LDLObjectPropertyChainOf property) {
-		final Set<OWLObjectPropertyExpression> operands = property
-				.getOperands();
-		int n = operands.size();
-		Variable[] Xs = new Variable[n + 1];
-		for (int i = 0; i < n + 1; i++) {
-			Xs[i] = CacheManager.getInstance().getVariable("X" + (i + 1));
-		}
-
-		Literal[] head = new Literal[1];
-		head[0] = new Literal(manager.getPredicate(property), new Term[] {
-				Xs[0], Xs[n] });
-		Literal[] body = new Literal[n];
-		int i = 0;
-		for (OWLObjectPropertyExpression operand : operands) {
-			body[i] = new Literal(manager.getPredicate(operand), new Term[] {
-					Xs[i], Xs[i + 1] });
-			i++;
-		}
-		final Clause clause = new Clause(head, body);
-		clauses.add(clause);
-		logger.debug("{}\n\t->\n{}", property, clause);
-
-	}
+//	@Override
+//	public void visit(LDLObjectPropertyChainOf property) {
+//		final Set<OWLObjectPropertyExpression> operands = property
+//				.getOperands();
+//		int n = operands.size();
+//		Variable[] Xs = new Variable[n + 1];
+//		for (int i = 0; i < n + 1; i++) {
+//			Xs[i] = CacheManager.getInstance().getVariable("X" + (i + 1));
+//		}
+//
+//		Literal[] head = new Literal[1];
+//		head[0] = new Literal(manager.getPredicate(property), new Term[] {
+//				Xs[0], Xs[n] });
+//		Literal[] body = new Literal[n];
+//		int i = 0;
+//		for (OWLObjectPropertyExpression operand : operands) {
+//			body[i] = new Literal(manager.getPredicate(operand), new Term[] {
+//					Xs[i], Xs[i + 1] });
+//			i++;
+//		}
+//		final Clause clause = new Clause(head, body);
+//		clauses.add(clause);
+//		logger.debug("{}\n\t->\n{}", property, clause);
+//
+//	}
 
 	@Override
 	public void visit(OWLNamedIndividual individual) {
@@ -489,32 +489,32 @@ public class LDLPClosureCompiler implements OWLClassExpressionVisitor,
 
 	}
 
-	/**
-	 * <pre>
-	 * 	{<o11,o12>,<o21,o22>)
-	 * 
-	 * {<o11,o12>,<o21,o22>)(o11,o12).
-	 * {<o11,o12>,<o21,o22>)(o21,o22).
-	 * </pre>
-	 * 
-	 */
-	@Override
-	public void visit(LDLObjectPropertyOneOf property) {
-		final Set<LDLIndividualPair> individualPairs = property.getOperands();
-		final String predicate = manager.getPredicate(property);
-		for (LDLIndividualPair pair : individualPairs) {
-			Literal[] head = new Literal[1];
-			final String constant1 = manager.getConstant(pair.getFirst());
-			final String constant2 = manager.getConstant(pair.getSecond());
-			head[0] = new Literal(predicate, CacheManager.getInstance()
-					.getConstant(constant1), CacheManager.getInstance()
-					.getConstant(constant2));
-			Literal[] body = new Literal[0];
-			final Clause clause = new Clause(head, body);
-			clauses.add(clause);
-			logger.debug("{}\n\t->\n{}", property, clause);
-		}
-
-	}
+//	/**
+//	 * <pre>
+//	 * 	{<o11,o12>,<o21,o22>)
+//	 * 
+//	 * {<o11,o12>,<o21,o22>)(o11,o12).
+//	 * {<o11,o12>,<o21,o22>)(o21,o22).
+//	 * </pre>
+//	 * 
+//	 */
+//	@Override
+//	public void visit(LDLObjectPropertyOneOf property) {
+//		final Set<LDLIndividualPair> individualPairs = property.getOperands();
+//		final String predicate = manager.getPredicate(property);
+//		for (LDLIndividualPair pair : individualPairs) {
+//			Literal[] head = new Literal[1];
+//			final String constant1 = manager.getConstant(pair.getFirst());
+//			final String constant2 = manager.getConstant(pair.getSecond());
+//			head[0] = new Literal(predicate, CacheManager.getInstance()
+//					.getConstant(constant1), CacheManager.getInstance()
+//					.getConstant(constant2));
+//			Literal[] body = new Literal[0];
+//			final Clause clause = new Clause(head, body);
+//			clauses.add(clause);
+//			logger.debug("{}\n\t->\n{}", property, clause);
+//		}
+//
+//	}
 
 }

@@ -6,11 +6,11 @@ import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 import org.semanticweb.owlapi.model.OWLPropertyExpressionVisitorEx;
 
-import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyChainOf;
-import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyIntersectionOf;
-import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyOneOf;
-import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyTransitiveClosureOf;
-import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyUnionOf;
+//import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyChainOf;
+//import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyIntersectionOf;
+//import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyOneOf;
+//import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyTransitiveClosureOf;
+//import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyUnionOf;
 
 public class LDLPSubPropertyExpressionChecker implements OWLPropertyExpressionVisitorEx<Boolean> {
 
@@ -35,44 +35,44 @@ public class LDLPSubPropertyExpressionChecker implements OWLPropertyExpressionVi
 
 	}
 
-	@Override
-	public Boolean visit(LDLObjectPropertyIntersectionOf property) {
-		for(OWLObjectPropertyExpression op:property.getOperands()){
-			if(!op.accept(this)){
-				return false;
-			}
-		}
-		return true;
-	}
+//	@Override
+//	public Boolean visit(LDLObjectPropertyIntersectionOf property) {
+//		for(OWLObjectPropertyExpression op:property.getOperands()){
+//			if(!op.accept(this)){
+//				return false;
+//			}
+//		}
+//		return true;
+//	}
+//
+//	@Override
+//	public Boolean visit(LDLObjectPropertyUnionOf property) {
+//		for(OWLObjectPropertyExpression op:property.getOperands()){
+//			if(!op.accept(this)){
+//				return false;
+//			}
+//		}
+//		return true;
+//	}
 
-	@Override
-	public Boolean visit(LDLObjectPropertyUnionOf property) {
-		for(OWLObjectPropertyExpression op:property.getOperands()){
-			if(!op.accept(this)){
-				return false;
-			}
-		}
-		return true;
-	}
+//	@Override
+//	public Boolean visit(LDLObjectPropertyTransitiveClosureOf property) {
+//		return property.getOperand().accept(this);
+//	}
+//
+//	@Override
+//	public Boolean visit(LDLObjectPropertyChainOf property) {
+//		for(OWLObjectPropertyExpression op:property.getOperands()){
+//			if(!op.accept(this)){
+//				return false;
+//			}
+//		}
+//		return true;
+//	}
 
-	@Override
-	public Boolean visit(LDLObjectPropertyTransitiveClosureOf property) {
-		return property.getOperand().accept(this);
-	}
-
-	@Override
-	public Boolean visit(LDLObjectPropertyChainOf property) {
-		for(OWLObjectPropertyExpression op:property.getOperands()){
-			if(!op.accept(this)){
-				return false;
-			}
-		}
-		return true;
-	}
-
-	@Override
-	public Boolean visit(LDLObjectPropertyOneOf property) {
-		return true;
-	}
+//	@Override
+//	public Boolean visit(LDLObjectPropertyOneOf property) {
+//		return true;
+//	}
 
 }

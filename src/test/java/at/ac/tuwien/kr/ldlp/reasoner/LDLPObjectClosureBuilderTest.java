@@ -27,14 +27,14 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
-import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyIntersectionOf;
-import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyTransitiveClosureOf;
-
-import edu.stanford.db.lp.ProgramClause;
+//import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyIntersectionOf;
+//import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyTransitiveClosureOf;
+//
+//import edu.stanford.db.lp.ProgramClause;
 
 public class LDLPObjectClosureBuilderTest {
 
-	private List<ProgramClause> clauses;
+	//private List<ProgramClause> clauses;
 	
 	private OWLOntologyManager manager;
 	private OWLDataFactory factory;
@@ -51,7 +51,7 @@ public class LDLPObjectClosureBuilderTest {
 
 	@Before
 	public void setUp() {
-		clauses = new ArrayList<ProgramClause>();
+		//clauses = new ArrayList<ProgramClause>();
 		
 		manager = OWLManager.createOWLOntologyManager();
 		factory = manager.getOWLDataFactory();
@@ -105,24 +105,24 @@ public class LDLPObjectClosureBuilderTest {
 		assertEquals(1, closure.getNamedIndividuals().size());
 	}
 
-	@Test
-	public void testVisitOWLObjectPropertyAssertionAxiom() throws OWLOntologyCreationException {
-		final LDLObjectPropertyIntersectionOf property = factory.getLDLObjectPropertyIntersectionOf(E, F);
-		final OWLAxiom axiom = factory.getOWLObjectPropertyAssertionAxiom(property, a, b);
-		Set<OWLAxiom> axioms = new HashSet<OWLAxiom>();
-		axioms.add(axiom);
-		ontology = manager.createOntology(axioms);
-		final LDLPClosure closure = builder.build(ontology);
-		assertEquals(0, closure.getNamedClasses().size());
-
-		assertEquals(0, closure.getComplexClassExpressions().size());
-
-		assertEquals(1, closure.getComplexPropertyExpressions().size());
-		assertTrue(closure.getComplexPropertyExpressions().contains(property));
-
-		assertEquals(2, closure.getNamedProperties().size());
-		assertEquals(2, closure.getNamedIndividuals().size());
-	}
+//	@Test
+//	public void testVisitOWLObjectPropertyAssertionAxiom() throws OWLOntologyCreationException {
+//		final LDLObjectPropertyIntersectionOf property = factory.getLDLObjectPropertyIntersectionOf(E, F);
+//		final OWLAxiom axiom = factory.getOWLObjectPropertyAssertionAxiom(property, a, b);
+//		Set<OWLAxiom> axioms = new HashSet<OWLAxiom>();
+//		axioms.add(axiom);
+//		ontology = manager.createOntology(axioms);
+//		final LDLPClosure closure = builder.build(ontology);
+//		assertEquals(0, closure.getNamedClasses().size());
+//
+//		assertEquals(0, closure.getComplexClassExpressions().size());
+//
+//		assertEquals(1, closure.getComplexPropertyExpressions().size());
+//		assertTrue(closure.getComplexPropertyExpressions().contains(property));
+//
+//		assertEquals(2, closure.getNamedProperties().size());
+//		assertEquals(2, closure.getNamedIndividuals().size());
+//	}
 
 	@Test
 	public void testVisitOWLSubClassOfAxiom() throws OWLOntologyCreationException {
@@ -182,26 +182,26 @@ public class LDLPObjectClosureBuilderTest {
 
 	//a:(E and E and F) some (E^+ all A) 
 
-	@Test
-	public void testVisitOWLObjectAllValuesFrom() throws OWLOntologyCreationException {
-		final LDLObjectPropertyIntersectionOf E_and_E_and_F = factory.getLDLObjectPropertyIntersectionOf(E,E,F);
-		final LDLObjectPropertyTransitiveClosureOf Et = factory.getLDLObjectPropertyTransitiveClosureOf(E);
-		final OWLObjectAllValuesFrom Ep_all_A = factory.getOWLObjectAllValuesFrom(Et, A);
-		final OWLObjectSomeValuesFrom cls = factory.getOWLObjectSomeValuesFrom(E_and_E_and_F, Ep_all_A);
-		final OWLClassAssertionAxiom axiom = factory.getOWLClassAssertionAxiom(cls, a);
-		Set<OWLAxiom> axioms = new HashSet<OWLAxiom>();
-		axioms.add(axiom);
-		ontology = manager.createOntology(axioms);
-		final LDLPClosure closure = builder.build(ontology);
-		assertEquals(1, closure.getNamedClasses().size());
-
-		assertEquals(2, closure.getComplexClassExpressions().size());
-
-		assertEquals(2, closure.getComplexPropertyExpressions().size());
-
-		assertEquals(2, closure.getNamedProperties().size());
-		assertEquals(1, closure.getNamedIndividuals().size());
-	}
+//	@Test
+//	public void testVisitOWLObjectAllValuesFrom() throws OWLOntologyCreationException {
+//		final LDLObjectPropertyIntersectionOf E_and_E_and_F = factory.getLDLObjectPropertyIntersectionOf(E,E,F);
+//		final LDLObjectPropertyTransitiveClosureOf Et = factory.getLDLObjectPropertyTransitiveClosureOf(E);
+//		final OWLObjectAllValuesFrom Ep_all_A = factory.getOWLObjectAllValuesFrom(Et, A);
+//		final OWLObjectSomeValuesFrom cls = factory.getOWLObjectSomeValuesFrom(E_and_E_and_F, Ep_all_A);
+//		final OWLClassAssertionAxiom axiom = factory.getOWLClassAssertionAxiom(cls, a);
+//		Set<OWLAxiom> axioms = new HashSet<OWLAxiom>();
+//		axioms.add(axiom);
+//		ontology = manager.createOntology(axioms);
+//		final LDLPClosure closure = builder.build(ontology);
+//		assertEquals(1, closure.getNamedClasses().size());
+//
+//		assertEquals(2, closure.getComplexClassExpressions().size());
+//
+//		assertEquals(2, closure.getComplexPropertyExpressions().size());
+//
+//		assertEquals(2, closure.getNamedProperties().size());
+//		assertEquals(1, closure.getNamedIndividuals().size());
+//	}
 
 	@Test
 	public void testVisitOWLObjectHasValue() {

@@ -42,7 +42,7 @@ import at.ac.tuwien.kr.dlprogram.parser.ParseException;
 import at.ac.tuwien.kr.ldlp.reasoner.LDLPOntologyCompiler;
 import at.ac.tuwien.kr.ldlp.reasoner.LDLPReasoner;
 import at.ac.tuwien.kr.ldlpprogram.reasoner.KBReasoner;
-import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyTransitiveClosureOf;
+//import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyTransitiveClosureOf;
 
 /**
  * TODO describe this class please.

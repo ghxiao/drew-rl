@@ -8,7 +8,7 @@ import static at.ac.tuwien.kr.helper.LDLHelper.min;
 import static at.ac.tuwien.kr.helper.LDLHelper.prop;
 import static at.ac.tuwien.kr.helper.LDLHelper.sub;
 import static at.ac.tuwien.kr.helper.LDLHelper.topClass;
-import static at.ac.tuwien.kr.helper.LDLHelper.trans;
+//import static at.ac.tuwien.kr.helper.LDLHelper.trans;
 
 import java.util.List;
 
@@ -40,7 +40,7 @@ public class CompilerDemo {
 		final OWLNamedIndividual c = ind("c");
 		OWLAxiom axioms[] = new OWLAxiom[4];
 		axioms[0] = sub(min(2, PapToRev, topClass()), Over);
-		axioms[1] = sub(Over, all(trans(Super), Over));
+		//axioms[1] = sub(Over, all(trans(Super), Over));
 		axioms[2] = assert$(Super, a, b);
 		axioms[3] = assert$(Super, b, c);
 		LDLPClosureBuilder builder = new LDLPClosureBuilder();
@@ -102,7 +102,7 @@ public class CompilerDemo {
 		final OWLNamedIndividual c = ind("c");
 		OWLAxiom axioms[] = new OWLAxiom[4];
 		axioms[0] = sub(min(2, PapToRev, topClass()), Over);
-		axioms[1] = sub(Over, all(trans(Super), Over));
+		//axioms[1] = sub(Over, all(trans(Super), Over));
 		axioms[2] = assert$(Super, a, b);
 		axioms[3] = assert$(Super, b, c);
 

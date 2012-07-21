@@ -81,11 +81,11 @@ import org.semanticweb.owlapi.model.OWLTransitiveObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.SWRLRule;
 import org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter;
 
-import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyChainOf;
-import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyIntersectionOf;
-import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyOneOf;
-import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyTransitiveClosureOf;
-import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyUnionOf;
+//import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyChainOf;
+//import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyIntersectionOf;
+//import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyOneOf;
+//import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyTransitiveClosureOf;
+//import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyUnionOf;
 
 /**
  * TODO describe this class please.
@@ -287,36 +287,36 @@ public class LDLPClosureBuilder extends OWLAxiomVisitorAdapter implements OWLCla
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
-	public void visit(LDLObjectPropertyIntersectionOf property) {
-		closure.addComplexProperty(property);
-		for (OWLObjectPropertyExpression operand : property.getOperands()) {
-			operand.accept(this);
-		}
-	}
-
-	@Override
-	public void visit(LDLObjectPropertyUnionOf property) {
-		closure.addComplexProperty(property);
-		for (OWLObjectPropertyExpression operand : property.getOperands()) {
-			operand.accept(this);
-		}
-	}
-
-	@Override
-	public void visit(LDLObjectPropertyTransitiveClosureOf property) {
-		closure.addComplexProperty(property);
-		property.getOperand().accept(this);
-
-	}
-
-	@Override
-	public void visit(LDLObjectPropertyChainOf property) {
-		closure.addComplexProperty(property);
-		for (OWLObjectPropertyExpression operand : property.getOperands()) {
-			operand.accept(this);
-		}
-	}
+//	@Override
+//	public void visit(LDLObjectPropertyIntersectionOf property) {
+//		closure.addComplexProperty(property);
+//		for (OWLObjectPropertyExpression operand : property.getOperands()) {
+//			operand.accept(this);
+//		}
+//	}
+//
+//	@Override
+//	public void visit(LDLObjectPropertyUnionOf property) {
+//		closure.addComplexProperty(property);
+//		for (OWLObjectPropertyExpression operand : property.getOperands()) {
+//			operand.accept(this);
+//		}
+//	}
+//
+//	@Override
+//	public void visit(LDLObjectPropertyTransitiveClosureOf property) {
+//		closure.addComplexProperty(property);
+//		property.getOperand().accept(this);
+//
+//	}
+//
+//	@Override
+//	public void visit(LDLObjectPropertyChainOf property) {
+//		closure.addComplexProperty(property);
+//		for (OWLObjectPropertyExpression operand : property.getOperands()) {
+//			operand.accept(this);
+//		}
+//	}
 
 	@Override
 	public void visit(OWLNamedIndividual individual) {
@@ -330,11 +330,11 @@ public class LDLPClosureBuilder extends OWLAxiomVisitorAdapter implements OWLCla
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
-	public void visit(LDLObjectPropertyOneOf property) {
-		closure.addComplexProperty(property);
-		
-	}
+//	@Override
+//	public void visit(LDLObjectPropertyOneOf property) {
+//		closure.addComplexProperty(property);
+//		
+//	}
 
 	
 	@Override

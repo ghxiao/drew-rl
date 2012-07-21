@@ -33,10 +33,10 @@ import at.ac.tuwien.kr.dlprogram.Clause;
 import at.ac.tuwien.kr.dlprogram.Literal;
 import at.ac.tuwien.kr.dlprogram.Term;
 import at.ac.tuwien.kr.ldlp.reasoner.LDLPCompilerManager;
-import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyChainOf;
-import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyOneOf;
-import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyTransitiveClosureOf;
-import at.ac.tuwien.kr.owlapi.model.ldl.LDLIndividualPair;
+//import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyChainOf;
+//import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyOneOf;
+//import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyTransitiveClosureOf;
+//import at.ac.tuwien.kr.owlapi.model.ldl.LDLIndividualPair;
 
 //import edu.stanford.db.lp.Literal;
 //import edu.stanford.db.lp.ProgramClause;
@@ -79,17 +79,17 @@ public class LDLHelper {
 		return factory.getOWLObjectIntersectionOf(operands);
 	}
 
-	public static OWLObjectPropertyExpression and(OWLObjectPropertyExpression... operands) {
-		return factory.getLDLObjectPropertyIntersectionOf(operands);
-	}
+//	public static OWLObjectPropertyExpression and(OWLObjectPropertyExpression... operands) {
+//		return factory.getLDLObjectPropertyIntersectionOf(operands);
+//	}
 
 	public static OWLClassExpression or(OWLClassExpression... operands) {
 		return factory.getOWLObjectUnionOf(operands);
 	}
 
-	public static OWLObjectPropertyExpression or(OWLObjectPropertyExpression... operands) {
-		return factory.getLDLObjectPropertyUnionOf(operands);
-	}
+//	public static OWLObjectPropertyExpression or(OWLObjectPropertyExpression... operands) {
+//		return factory.getLDLObjectPropertyUnionOf(operands);
+//	}
 
 	public static OWLClassAssertionAxiom assert$(OWLClassExpression cls, OWLIndividual ind) {
 		return factory.getOWLClassAssertionAxiom(cls, ind);
@@ -111,13 +111,13 @@ public class LDLHelper {
 		return factory.getOWLObjectInverseOf(prop);
 	}
 
-	public static LDLObjectPropertyTransitiveClosureOf trans(OWLObjectPropertyExpression prop) {
-		return factory.getLDLObjectPropertyTransitiveClosureOf(prop);
-	}
-
-	public static LDLObjectPropertyChainOf compose(OWLObjectPropertyExpression... props) {
-		return factory.getLDLObjectPropertyChainOf(props);
-	}
+//	public static LDLObjectPropertyTransitiveClosureOf trans(OWLObjectPropertyExpression prop) {
+//		return factory.getLDLObjectPropertyTransitiveClosureOf(prop);
+//	}
+//
+//	public static LDLObjectPropertyChainOf compose(OWLObjectPropertyExpression... props) {
+//		return factory.getLDLObjectPropertyChainOf(props);
+//	}
 
 	public static OWLObjectMinCardinality min(int n, OWLObjectPropertyExpression property, OWLClassExpression cls) {
 		return factory.getOWLObjectMinCardinality(n, property, cls);
@@ -127,13 +127,13 @@ public class LDLHelper {
 		return factory.getOWLObjectOneOf(individuals);
 	}
 	
-	public static LDLObjectPropertyOneOf oneOf(LDLIndividualPair... pairs) {
-		return factory.getLDLObjectPropertyOneOf(pairs);
-	}
-	
-	public static LDLIndividualPair pair(OWLIndividual first, OWLIndividual second){
-		return factory.getLDLIndiviualPair(first, second);
-	}
+//	public static LDLObjectPropertyOneOf oneOf(LDLIndividualPair... pairs) {
+//		return factory.getLDLObjectPropertyOneOf(pairs);
+//	}
+//	
+//	public static LDLIndividualPair pair(OWLIndividual first, OWLIndividual second){
+//		return factory.getLDLIndiviualPair(first, second);
+//	}
 
 	public static Clause clause(Literal[] head, Literal[] body) {
 		return new Clause(head, body);

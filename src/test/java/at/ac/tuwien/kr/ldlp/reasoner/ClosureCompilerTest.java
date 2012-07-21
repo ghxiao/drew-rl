@@ -33,10 +33,10 @@ import org.semanticweb.owlapi.model.OWLSubObjectPropertyOfAxiom;
 import at.ac.tuwien.kr.dlprogram.CacheManager;
 import at.ac.tuwien.kr.dlprogram.Clause;
 import at.ac.tuwien.kr.dlprogram.Variable;
-import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyChainOf;
-import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyOneOf;
-import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyTransitiveClosureOf;
-import at.ac.tuwien.kr.owlapi.model.ldl.LDLIndividualPair;
+//import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyChainOf;
+//import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyOneOf;
+//import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyTransitiveClosureOf;
+//import at.ac.tuwien.kr.owlapi.model.ldl.LDLIndividualPair;
 
 
 import static at.ac.tuwien.kr.helper.LDLHelper.*;
@@ -201,67 +201,67 @@ public class ClosureCompilerTest {
 		assertTrue(clauses.contains(clause(head(literal(p(E), X, Y)), body(literal(p(inv_E), Y, X)))));
 	}
 
-	// and(E,F)(X,Y):-E(X,Y),F(X,Y).
-	@Test
-	public void testVisitLDLObjectPropertyIntersectionOf() {
-		final OWLObjectPropertyExpression E_and_F = and(E, F);
-		closure = builder.build(assert$(E_and_F, a, b));
-		final List<Clause> clauses = closureCompiler.compile(closure);
-		assertTrue(clauses.contains(clause(head(literal(TOP2, X, Y)), body(literal(p(E), X, Y)))));
-		assertTrue(clauses.contains(clause(head(literal(p(E_and_F), X, Y)), body(literal(p(E), X, Y), literal(p(F), X, Y)))));
-	}
+//	// and(E,F)(X,Y):-E(X,Y),F(X,Y).
+//	@Test
+//	public void testVisitLDLObjectPropertyIntersectionOf() {
+//		final OWLObjectPropertyExpression E_and_F = and(E, F);
+//		closure = builder.build(assert$(E_and_F, a, b));
+//		final List<Clause> clauses = closureCompiler.compile(closure);
+//		assertTrue(clauses.contains(clause(head(literal(TOP2, X, Y)), body(literal(p(E), X, Y)))));
+//		assertTrue(clauses.contains(clause(head(literal(p(E_and_F), X, Y)), body(literal(p(E), X, Y), literal(p(F), X, Y)))));
+//	}
+//
+//	@Test
+//	public void testVisitLDLObjectPropertyUnionOf() {
+//		final OWLObjectPropertyExpression E_or_F = or(E, F);
+//		closure = builder.build(assert$(E_or_F, a, b));
+//		final List<Clause> clauses = closureCompiler.compile(closure);
+//		assertTrue(clauses.contains(clause(head(literal(TOP2, X, Y)), body(literal(p(E), X, Y)))));
+//		assertTrue(clauses.contains(clause(head(literal(p(E_or_F), X, Y)), body(literal(p(E), X, Y)))));
+//	}
 
-	@Test
-	public void testVisitLDLObjectPropertyUnionOf() {
-		final OWLObjectPropertyExpression E_or_F = or(E, F);
-		closure = builder.build(assert$(E_or_F, a, b));
-		final List<Clause> clauses = closureCompiler.compile(closure);
-		assertTrue(clauses.contains(clause(head(literal(TOP2, X, Y)), body(literal(p(E), X, Y)))));
-		assertTrue(clauses.contains(clause(head(literal(p(E_or_F), X, Y)), body(literal(p(E), X, Y)))));
-	}
-
-	// trans(E)(X,Y):-E(X,Y)
-	// trans(E)(X,Z):-E(X,Y),trans(Y,Z).
-	@Test
-	public void testVisitLDLObjectPropertyTransitiveClosureOf() {
-		final LDLObjectPropertyTransitiveClosureOf trans_E = trans(E);
-		final OWLObjectPropertyAssertionAxiom axiom = assert$(trans_E, a, b);
-		closure = builder.build(axiom);
-		final List<Clause> clauses = closureCompiler.compile(closure);
-		assertTrue(clauses.contains(clause(head(literal(p(trans_E), X, Y)), body(literal(p(E), X, Y)))));
-		assertTrue(clauses.contains(clause(head(literal(p(trans_E), X, Z)), body(literal(p(E), X, Y), literal(p(trans_E), Y, Z)))));
-	}
-
-	// compose(E1, E2, ... En)(X1,Xn+1):- E1(X1,X2), E2(X2,X3), ... ,
-	// En(Xn,Xn+1)
-	@Test
-	public void testVisitLDLObjectPropertyChainOf() {
-		final LDLObjectPropertyChainOf E_o_F = compose(E, F);
-		final OWLObjectPropertyAssertionAxiom axiom = assert$(E_o_F, a, b);
-		closure = builder.build(axiom);
-		final List<Clause> clauses = closureCompiler.compile(closure);
-		assertTrue(clauses.contains(clause(head(literal(p(E_o_F), X1, X3)), body(literal(p(E), X1, X2), literal(p(F), X2, X3)))));
-	}
-
-	/**
-	 * <pre>
-	 * 	{<o11,o12>,<o21,o22>)
-	 * 
-	 * {<o11,o12>,<o21,o22>)(o11,o12).
-	 * {<o11,o12>,<o21,o22>)(o21,o22).
-	 * </pre>
-	 * 
-	 */
-	@Test
-	public void testVisitOWLObjectPropertyOneOf() {
-		LDLIndividualPair pair1 = pair(a, b);
-		LDLIndividualPair pair2 = pair(b, c);
-		final LDLObjectPropertyOneOf prop = oneOf(pair1, pair2);
-		final OWLSubObjectPropertyOfAxiom axiom = sub(prop, E);
-		closure = builder.build(axiom);
-		final List<Clause> clauses = closureCompiler.compile(closure);
-		assertTrue(clauses.contains(clause(head(literal(p(prop), term(a), term(b))), body())));
-		assertTrue(clauses.contains(clause(head(literal(p(prop), term(b), term(c))), body())));
-	}
+//	// trans(E)(X,Y):-E(X,Y)
+//	// trans(E)(X,Z):-E(X,Y),trans(Y,Z).
+//	@Test
+//	public void testVisitLDLObjectPropertyTransitiveClosureOf() {
+//		final LDLObjectPropertyTransitiveClosureOf trans_E = trans(E);
+//		final OWLObjectPropertyAssertionAxiom axiom = assert$(trans_E, a, b);
+//		closure = builder.build(axiom);
+//		final List<Clause> clauses = closureCompiler.compile(closure);
+//		assertTrue(clauses.contains(clause(head(literal(p(trans_E), X, Y)), body(literal(p(E), X, Y)))));
+//		assertTrue(clauses.contains(clause(head(literal(p(trans_E), X, Z)), body(literal(p(E), X, Y), literal(p(trans_E), Y, Z)))));
+//	}
+//
+//	// compose(E1, E2, ... En)(X1,Xn+1):- E1(X1,X2), E2(X2,X3), ... ,
+//	// En(Xn,Xn+1)
+//	@Test
+//	public void testVisitLDLObjectPropertyChainOf() {
+//		final LDLObjectPropertyChainOf E_o_F = compose(E, F);
+//		final OWLObjectPropertyAssertionAxiom axiom = assert$(E_o_F, a, b);
+//		closure = builder.build(axiom);
+//		final List<Clause> clauses = closureCompiler.compile(closure);
+//		assertTrue(clauses.contains(clause(head(literal(p(E_o_F), X1, X3)), body(literal(p(E), X1, X2), literal(p(F), X2, X3)))));
+//	}
+//
+//	/**
+//	 * <pre>
+//	 * 	{<o11,o12>,<o21,o22>)
+//	 * 
+//	 * {<o11,o12>,<o21,o22>)(o11,o12).
+//	 * {<o11,o12>,<o21,o22>)(o21,o22).
+//	 * </pre>
+//	 * 
+//	 */
+//	@Test
+//	public void testVisitOWLObjectPropertyOneOf() {
+//		LDLIndividualPair pair1 = pair(a, b);
+//		LDLIndividualPair pair2 = pair(b, c);
+//		final LDLObjectPropertyOneOf prop = oneOf(pair1, pair2);
+//		final OWLSubObjectPropertyOfAxiom axiom = sub(prop, E);
+//		closure = builder.build(axiom);
+//		final List<Clause> clauses = closureCompiler.compile(closure);
+//		assertTrue(clauses.contains(clause(head(literal(p(prop), term(a), term(b))), body())));
+//		assertTrue(clauses.contains(clause(head(literal(p(prop), term(b), term(c))), body())));
+//	}
 
 }

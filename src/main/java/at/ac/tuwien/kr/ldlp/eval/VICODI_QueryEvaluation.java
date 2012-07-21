@@ -168,7 +168,7 @@ public class VICODI_QueryEvaluation {
 			System.out.println("The ontology is in LDL+ profile");
 		} else {
 			System.out.println("The ontology is not in LDL+ profile:");
-			Set<OWLProfileViolation> violations = report.getViolations();
+			List<OWLProfileViolation> violations = report.getViolations();
 			System.out.println("The following " + violations.size()
 					+ " axioms are violated");
 			for (OWLProfileViolation v : violations) {

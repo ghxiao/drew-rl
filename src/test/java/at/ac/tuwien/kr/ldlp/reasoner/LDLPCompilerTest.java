@@ -20,7 +20,7 @@ import org.semanticweb.owlapi.util.SimpleIRIMapper;
 import at.ac.tuwien.kr.dlprogram.Clause;
 import at.ac.tuwien.kr.ldlp.reasoner.LDLPOntologyCompiler;
 
-import edu.stanford.db.lp.ProgramClause;
+//import edu.stanford.db.lp.ProgramClause;
 
 /**
  * TODO describe this class please.

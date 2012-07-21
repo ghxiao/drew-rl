@@ -27,7 +27,7 @@ import org.slf4j.LoggerFactory;
 import at.ac.tuwien.kr.dlprogram.Clause;
 import at.ac.tuwien.kr.ldlp.reasoner.LDLPOntologyCompiler;
 import at.ac.tuwien.kr.ldlp.reasoner.LDLPReasoner;
-import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyTransitiveClosureOf;
+//import at.ac.tuwien.kr.owlapi.model.ldl.LDLObjectPropertyTransitiveClosureOf;
 
 /**
  * TODO describe this class please.
@@ -106,8 +106,9 @@ public class ECAI2010Demo {
 		OWLObjectPropertyExpression Super = owlDataFactory
 				.getOWLObjectProperty(IRI.create(uri + "#Super"));
 
-		LDLObjectPropertyTransitiveClosureOf TransSuper = owlDataFactory
-				.getLDLObjectPropertyTransitiveClosureOf(Super);
+		// FIXME: use proper owl axioms
+//		LDLObjectPropertyTransitiveClosureOf TransSuper = owlDataFactory
+//				.getLDLObjectPropertyTransitiveClosureOf(Super);
 
 		OWLNamedIndividual a = owlDataFactory.getOWLNamedIndividual(IRI
 				.create(uri + "#a"));
@@ -126,16 +127,16 @@ public class ECAI2010Demo {
 		boolean entailed = reasoner.isEntailed(axiom1);
 		System.out.println("Result:" + entailed);
 
-		OWLObjectPropertyAssertionAxiom axiom2 = owlDataFactory
-				.getOWLObjectPropertyAssertionAxiom(TransSuper, a, c);
+//		OWLObjectPropertyAssertionAxiom axiom2 = owlDataFactory
+//				.getOWLObjectPropertyAssertionAxiom(TransSuper, a, c);
 
-		System.out
-				.println("-------------------------------------------------------");
-		System.out.println("Query " + axiom2);
-
-		
-		entailed = reasoner.isEntailed(axiom2);
-		System.out.println("Result:" + entailed);
+//		System.out
+//				.println("-------------------------------------------------------");
+//		System.out.println("Query " + axiom2);
+//
+//		
+//		entailed = reasoner.isEntailed(axiom2);
+//		System.out.println("Result:" + entailed);
 
 	}
 

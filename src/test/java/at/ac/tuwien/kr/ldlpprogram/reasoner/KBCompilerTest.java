@@ -8,7 +8,7 @@ import static at.ac.tuwien.kr.helper.LDLHelper.min;
 import static at.ac.tuwien.kr.helper.LDLHelper.prop;
 import static at.ac.tuwien.kr.helper.LDLHelper.sub;
 import static at.ac.tuwien.kr.helper.LDLHelper.topClass;
-import static at.ac.tuwien.kr.helper.LDLHelper.trans;
+//import static at.ac.tuwien.kr.helper.LDLHelper.trans;
 import static org.junit.Assert.assertEquals;
 
 import java.io.StringReader;
@@ -86,11 +86,11 @@ public class KBCompilerTest {
 		final OWLNamedIndividual a = ind("a");
 		final OWLNamedIndividual b = ind("b");
 		final OWLNamedIndividual c = ind("c");
-		OWLAxiom axioms[] = new OWLAxiom[4];
+		OWLAxiom axioms[] = new OWLAxiom[3];
 		axioms[0] = sub(min(2, PapToRev, topClass()), Over);
-		axioms[1] = sub(Over, all(trans(Super), Over));
-		axioms[2] = assert$(Super, a, b);
-		axioms[3] = assert$(Super, b, c);
+		//axioms[1] = sub(Over, all(trans(Super), Over));
+		axioms[1] = assert$(Super, a, b);
+		axioms[2] = assert$(Super, b, c);
 		LDLPClosureBuilder builder = new LDLPClosureBuilder();
 		LDLPClosure closure = builder.build(axioms);
 
