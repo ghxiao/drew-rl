@@ -6,6 +6,7 @@ import static org.junit.Assert.*;
 import java.io.File;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class OSDetectorTest {
@@ -28,6 +29,7 @@ public class OSDetectorTest {
 	}
 	
 	@Test
+	@Ignore
 	public void testIsUnix() {
 		final char separatorChar = File.separatorChar;
 		

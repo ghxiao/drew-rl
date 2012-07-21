@@ -16,7 +16,8 @@ public class DLVWrapperTest {
 	public void testGetVersion() throws DLVInvocationException {
 		DLVWrapper dlv = new DLVWrapper();
 		// dlv.setDlvPath(".\\dlv\\dlv.mingw.exe");
-		dlv.setDlvPath("./dlv/dlv_magic");
+		//dlv.setDlvPath("./dlv/dlv_magic");
+		dlv.setDlvPath("/Users/xiao/bin/dlv");
 		String version = dlv.getVersion();
 		System.out.println(version);
 	}
@@ -48,7 +49,8 @@ public class DLVWrapperTest {
 		String program = "p:-not p. q. r. s:-r. t(a):-p. u(a,b).";
 		DLVWrapper dlv = new DLVWrapper();
 		dlv.setProgram(program);
-		dlv.setDlvPath("./dlv/dlv_magic");
+		dlv.setDlvPath("/Users/xiao/bin/dlv");
+		//dlv.setDlvPath("./dlv/dlv_magic");
 		String q1 = "p";
 		String q2 = "u(a,b)";
 		String q3 = "t(a)";

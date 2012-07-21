@@ -23,8 +23,7 @@ import at.ac.tuwien.kr.ldlp.reasoner.LDLPAxiomCompiler;
 
 public class DLVReasoner implements DatalogReasoner {
 
-	final static Logger logger = LoggerFactory
-			.getLogger(LDLPAxiomCompiler.class);
+	final static Logger logger = LoggerFactory.getLogger(LDLPAxiomCompiler.class);
 
 	// /*
 	// * (non-Javadoc)
@@ -100,23 +99,23 @@ public class DLVReasoner implements DatalogReasoner {
 	//
 	// while (m.hasMorePredicates()) {
 	// Predicate pr = m.nextPredicate();
-	//						
+	//
 	// while(pr.next()){
-	//							
+	//
 	// DLV.Predicate.Literal lit = pr.getLiteral();
 	// logger.debug("Literal: {}", lit);
-	//							
+	//
 	// if(lit.toString().equals(queryLiterals[0]+".")){
 	// result = true;
 	// }
 	// }
-	//						
+	//
 	// // while (literals.hasMoreElements()) {
 	// // Object object = (Object) literals.nextElement();
 	// // logger.debug("Literal: {}", object);
 	// // }
-	//						
-	//						
+	//
+	//
 	// }
 	//
 	// // m.
@@ -165,11 +164,14 @@ public class DLVReasoner implements DatalogReasoner {
 		}
 		dlv.setProgram(programText.toString());
 
-		if (OSDetector.isUnix()) {
-			dlv.setDlvPath("./dlv/dlv_magic");
-		} else {
-			dlv.setDlvPath("./dlv/dlv.mingw.exe");
-		}
+		// FIXME
+		// if (OSDetector.isUnix()) {
+		// dlv.setDlvPath("./dlv/dlv_magic");
+
+		dlv.setDlvPath("/Users/xiao/bin/dlv");
+		// } else {
+		// dlv.setDlvPath("./dlv/dlv.mingw.exe");
+		// }
 		return dlv;
 	}
 

@@ -1,5 +1,6 @@
 package at.ac.tuwien.kr.helper;
 
+import org.junit.Ignore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,6 +17,7 @@ public class OSDetector {
 		return osName.contains("Windows");
 	}
 
+	@Ignore("os x is a Unix")
 	public static boolean isUnix() {
 		final String osName = System.getProperty("os.name");
 
