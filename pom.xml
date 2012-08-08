@@ -21,7 +21,7 @@
 			<url>https://github.com/ghxiao/ghxiao-mvn-repo/raw/master/snapshots</url>
 		</repository>
 		<repository>
-			<id>github-ghxiao-releasess</id>
+			<id>github-ghxiao-releases</id>
 			<url>https://github.com/ghxiao/ghxiao-mvn-repo/raw/master/releases</url>
 			<!-- <url>http://clipper-reasoner.googlecode.com/svn/m2/releases</url> -->
 		</repository>
@@ -49,7 +49,23 @@
 		</dependency>
 	</dependencies>
 
+	<scm>
+		<connection>scm:git:https://github.com/ghxiao/drew.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com/ghxiao/drew.git</developerConnection>
+		<url>https://github.com/ghxiao/drew</url>
+	</scm>
+
 	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-scm-plugin</artifactId>
+				<version>1.7</version>
+				<configuration>
+					<goals>install</goals>
+				</configuration>
+			</plugin>
+		</plugins>
 		<pluginManagement>
 			<plugins>
 				<plugin>
