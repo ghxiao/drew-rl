@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.Set;
 
+import org.junit.Ignore;
 import org.semanticweb.drew.dlprogram.Clause;
 import org.semanticweb.drew.ldlp.reasoner.LDLPOntologyCompiler;
 import org.semanticweb.owlapi.apibinding.OWLManager;
@@ -14,6 +15,7 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
+@Ignore
 public class EDITest {
 	public static void main(String[] args) throws URISyntaxException, OWLOntologyCreationException, IOException {
 		

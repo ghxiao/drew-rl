@@ -112,6 +112,8 @@ public class CacheManager {
 
 		// clear term map
 		vars.clear();
+		integers.clear();
+		varchars.clear();
 	}
 
 }

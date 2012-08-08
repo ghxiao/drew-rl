@@ -6,8 +6,8 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.semanticweb.drew.dlprogram.CacheManager;
 import org.semanticweb.drew.dlprogram.Clause;
-import org.semanticweb.drew.ldlp.reasoner.LDLPAxiomCompiler;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
@@ -41,6 +41,8 @@ public class AxiomCompilerTest {
 	@Before
 	public void setUp() {
 
+		CacheManager.getInstance().reset();
+		LDLPCompilerManager.getInstance().reset();
 		axiomCompiler = new LDLPAxiomCompiler();
 
 		manager = OWLManager.createOWLOntologyManager();
