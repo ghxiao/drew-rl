@@ -207,7 +207,8 @@ public class LDLPClosureCompiler implements OWLClassExpressionVisitor,
 	@Override
 	public void visit(OWLObjectHasValue ce) {
 		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
+		System.err.println("skip" + ce);
+		//throw new UnsupportedOperationException();
 	}
 
 	/**

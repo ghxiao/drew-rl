@@ -105,7 +105,7 @@ public class ECAI2010Demo {
 	public static void main(String[] args) throws OWLOntologyCreationException, ParseException, FileNotFoundException {
 		demo1();
 
-		demo2();
+		//demo2();
 	}
 
 }
