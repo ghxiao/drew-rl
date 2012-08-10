@@ -250,6 +250,7 @@ public class LDLPClosureBuilder extends OWLAxiomVisitorAdapter implements OWLCla
 		throw new UnsupportedOperationException();
 	}
 
+	//TODO:
 	@Override
 	public void visit(OWLDataHasValue ce) {
 		System.err.println("skiping " + ce + "...");

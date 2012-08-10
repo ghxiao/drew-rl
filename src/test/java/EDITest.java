@@ -18,9 +18,9 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
 @Ignore
 public class EDITest {
 	public static void main(String[] args) throws URISyntaxException, OWLOntologyCreationException, IOException {
-		
-		URL url = EDITest.class.getResource("/MessageBI.owl");
-		IRI iri = IRI.create(url);
+		String bifile = "file:src/resources/MessageBI.owl";
+		//URL url = EDITest.class.getResource("/MessageBI.owl");
+		IRI iri = IRI.create(bifile);
 		
 		OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
 		OWLOntology ontology = manager.loadOntologyFromOntologyDocument(iri);

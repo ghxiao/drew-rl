@@ -26,6 +26,12 @@ public class Clause implements Cloneable, Comparable<Clause> {
 		this.positives = Arrays.asList(body);
 	}
 
+	public Clause(Literal head, List<Literal> body) {
+		this.head = head;
+
+		this.positives = body;
+	}
+	
 	public Clause() {
 
 	}
