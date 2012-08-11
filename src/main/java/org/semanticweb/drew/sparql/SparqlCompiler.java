@@ -23,12 +23,7 @@ import com.hp.hpl.jena.sparql.syntax.ElementPathBlock;
 
 public class SparqlCompiler {
 
-	// Query query;
-
-	private LDLPCompilerManager manager;
-
 	public SparqlCompiler() {
-		this.manager = LDLPCompilerManager.getInstance();
 	}
 
 	/**
@@ -53,7 +48,7 @@ public class SparqlCompiler {
 			ElementGroup group = (ElementGroup) queryPattern;
 			List<Element> elements = group.getElements();
 			for (Element ele : elements) {
-				System.out.println(ele.getClass());
+				// System.out.println(ele.getClass());
 				if (ele instanceof ElementPathBlock) {
 					ElementPathBlock block = (ElementPathBlock) ele;
 					Iterator<TriplePath> patternElts = block.patternElts();
@@ -61,7 +56,7 @@ public class SparqlCompiler {
 						TriplePath triplePath = patternElts.next();
 						Triple triple = triplePath.asTriple();
 						final Literal lit = complileTriple(triple);
-						System.out.println(triple + " ==> " + lit);
+						// System.out.println(triple + " ==> " + lit);
 						body.add(lit);
 					}
 					return new Clause(head, body);
@@ -99,7 +94,7 @@ public class SparqlCompiler {
 		if (predicate.isURI()) {
 			String uri = predicate.getURI();
 			LDLPCompilerManager manager = LDLPCompilerManager.getInstance();
-			return manager.getPredicate(uri);
+			return quote(uri);
 		} else {
 			throw new IllegalArgumentException();
 		}
@@ -108,16 +103,25 @@ public class SparqlCompiler {
 	private Term compileTerm(Node node) {
 		if (node.isURI()) {
 			String uri = node.getURI();
-			return CacheManager.getInstance().getConstant(manager.getConstant(uri));
+			return CacheManager.getInstance().getConstant(quote(uri));
 		} else if (node.isLiteral()) {
 			String uri = node.getLiteralDatatypeURI();
-			return CacheManager.getInstance().getConstant(manager.getConstant(uri));
+			return CacheManager.getInstance().getConstant(quote(uri));
 		} else if (node.isVariable()) {
 			String name = node.getName();
 			return CacheManager.getInstance().getVariable(name);
 		} else {
 			throw new IllegalArgumentException(node.toString());
 		}
+	}
+
+	/**
+	 * @param uri
+	 * @return
+	 */
+	private String quote(String uri) {
+		final String quotedIRI = "<" + uri + ">";
+		return quotedIRI;
 	}
 
 }

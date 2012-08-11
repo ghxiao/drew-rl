@@ -17,7 +17,6 @@ import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 /**
  * LDLPCompilerManager
  */
@@ -25,8 +24,7 @@ public class LDLPCompilerManager {
 
 	private static LDLPCompilerManager instance = new LDLPCompilerManager();
 
-	final static Logger logger = LoggerFactory
-			.getLogger(LDLPCompilerManager.class);
+	final static Logger logger = LoggerFactory.getLogger(LDLPCompilerManager.class);
 
 	public static LDLPCompilerManager getInstance() {
 		return instance;
@@ -62,11 +60,9 @@ public class LDLPCompilerManager {
 
 		String predicate;
 
-		if (owlObject instanceof OWLClass
-				&& ((OWLEntity) owlObject).isTopEntity()) {
+		if (owlObject instanceof OWLClass && ((OWLEntity) owlObject).isTopEntity()) {
 			predicate = getTop1();
-		} else if (owlObject instanceof OWLObjectProperty
-				&& ((OWLEntity) owlObject).isTopEntity()) {
+		} else if (owlObject instanceof OWLObjectProperty && ((OWLEntity) owlObject).isTopEntity()) {
 			predicate = getTop2();
 		} else {
 			final String iri = owlObject.toString();
@@ -129,5 +125,11 @@ public class LDLPCompilerManager {
 	public void reset() {
 		predicates = new SymbolEncoder<String>();
 		constants = new SymbolEncoder<String>();
+	}
+
+	public void dump() {
+		predicates.dump();
+		//constants.dump();
+
 	}
 }

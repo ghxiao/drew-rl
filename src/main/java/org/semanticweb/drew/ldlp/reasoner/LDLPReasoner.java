@@ -9,6 +9,7 @@ import org.semanticweb.drew.datalog.XSBDatalogReasoner;
 import org.semanticweb.drew.datalog.DatalogReasoner.TYPE;
 import org.semanticweb.drew.dlprogram.Clause;
 import org.semanticweb.drew.dlprogram.Literal;
+import org.semanticweb.drew.sparql.SparqlCompiler;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
@@ -34,10 +35,10 @@ import org.semanticweb.owlapi.reasoner.UnsupportedEntailmentTypeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.hp.hpl.jena.query.Query;
 
 public class LDLPReasoner extends OWLReasonerAdapter {
-	final static Logger logger = LoggerFactory
-			.getLogger(LDLPClosureCompiler.class);
+	final static Logger logger = LoggerFactory.getLogger(LDLPClosureCompiler.class);
 
 	List<Clause> program;
 
@@ -49,8 +50,7 @@ public class LDLPReasoner extends OWLReasonerAdapter {
 
 	DatalogReasoner datalogReasoner;
 
-	protected LDLPReasoner(OWLOntology rootOntology,
-			OWLReasonerConfiguration configuration, BufferingMode bufferingMode) {
+	protected LDLPReasoner(OWLOntology rootOntology, OWLReasonerConfiguration configuration, BufferingMode bufferingMode) {
 		super(rootOntology, configuration, bufferingMode);
 		ontologyCompiler = new LDLPOntologyCompiler();
 		// datalogReasoner = new XSBDatalogReasoner();
@@ -74,15 +74,13 @@ public class LDLPReasoner extends OWLReasonerAdapter {
 	// program = compiler.complile(this.getRootOntology());
 	// final String predicate =
 	// LDLPCompilerManager.getInstance().getPredicate(cls);
-	//		
+	//
 	//
 	// }
 
 	@Override
-	public boolean isEntailed(OWLAxiom axiom)
-			throws ReasonerInterruptedException,
-			UnsupportedEntailmentTypeException, TimeOutException,
-			AxiomNotInProfileException, FreshEntitiesException {
+	public boolean isEntailed(OWLAxiom axiom) throws ReasonerInterruptedException, UnsupportedEntailmentTypeException,
+			TimeOutException, AxiomNotInProfileException, FreshEntitiesException {
 
 		if (!(axiom instanceof OWLClassAssertionAxiom))
 			throw new UnsupportedOperationException();
@@ -115,7 +113,7 @@ public class LDLPReasoner extends OWLReasonerAdapter {
 	 * 
 	 * @param q
 	 *            The conjunctive query
-	 * @return 
+	 * @return
 	 */
 	public List<Literal> query(Clause q) {
 		program = ontologyCompiler.complile(this.getRootOntology());
@@ -126,9 +124,9 @@ public class LDLPReasoner extends OWLReasonerAdapter {
 		program.add(query);
 
 		List<Literal> queryResult = datalogReasoner.query(program, query.getHead());
-		
+
 		LDLPQueryResultDecompiler decompiler = new LDLPQueryResultDecompiler();
-		
+
 		List<Literal> result = decompiler.decompileLiterals(queryResult);
 		return result;
 	}
@@ -213,6 +211,23 @@ public class LDLPReasoner extends OWLReasonerAdapter {
 		return null;
 	}
 
-	
+	/**
+	 * answer SPARQL queries
+	 * 
+	 * @param query
+	 * @return 
+	 */
+	public List<Literal> executeQuery(Query query) {
+		if (!compiled) {
+			logger.debug("Program Compiling Started");
+			program = ontologyCompiler.complile(this.getRootOntology());
+			logger.debug("Program Compiling Finished");
+			compiled = true;
+		}
+
+		SparqlCompiler sparqlCompiler = new SparqlCompiler();
+		Clause datalogQuery = sparqlCompiler.compileQuery(query);
+		return query(datalogQuery);
+	}
 
 }

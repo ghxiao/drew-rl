@@ -30,6 +30,9 @@ public class SparqlCompilerTest {
 
 		Clause clause = sparqlCompiler.compileQuery(query3);
 		System.out.println(clause);
+		
+		LDLPCompilerManager m = LDLPCompilerManager.getInstance();
+		m.dump();
 
 		// System.out.println(query1);
 	}
