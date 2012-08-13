@@ -75,10 +75,10 @@ public class SparqlCompiler {
 	private Literal complileTriple(Triple triple) {
 
 		if (triple.getPredicate().getURI().equals(OWLRDFVocabulary.RDF_TYPE.toString())) {
-			return new Literal(compilePredicate(triple.getObject()), //
+			return new Literal(compilePredicate(triple.getObject(), 1), //
 					compileTerm(triple.getSubject()));
 		} else {
-			return new Literal(compilePredicate(triple.getPredicate()), //
+			return new Literal(compilePredicate(triple.getPredicate(), 2), //
 					compileTerm(triple.getSubject()), //
 					compileTerm(triple.getObject()));
 		}
@@ -89,12 +89,11 @@ public class SparqlCompiler {
 	 * @param predicate
 	 * @return
 	 */
-	private String compilePredicate(Node predicate) {
+	private NormalPredicate compilePredicate(Node predicate, int arity) {
 
 		if (predicate.isURI()) {
 			String uri = predicate.getURI();
-			LDLPCompilerManager manager = LDLPCompilerManager.getInstance();
-			return quote(uri);
+			return CacheManager.getInstance().getPredicate(quote(uri), arity);
 		} else {
 			throw new IllegalArgumentException();
 		}
@@ -106,7 +105,10 @@ public class SparqlCompiler {
 			return CacheManager.getInstance().getConstant(quote(uri));
 		} else if (node.isLiteral()) {
 			String uri = node.getLiteralDatatypeURI();
-			return CacheManager.getInstance().getConstant(quote(uri));
+			if (uri != null)
+				return CacheManager.getInstance().getConstant(quote(uri));
+			else
+				return CacheManager.getInstance().getConstant(node.toString());
 		} else if (node.isVariable()) {
 			String name = node.getName();
 			return CacheManager.getInstance().getVariable(name);

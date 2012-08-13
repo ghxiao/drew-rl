@@ -227,6 +227,7 @@ public class LDLPReasoner extends OWLReasonerAdapter {
 
 		SparqlCompiler sparqlCompiler = new SparqlCompiler();
 		Clause datalogQuery = sparqlCompiler.compileQuery(query);
+		System.out.println(datalogQuery);
 		return query(datalogQuery);
 	}
 

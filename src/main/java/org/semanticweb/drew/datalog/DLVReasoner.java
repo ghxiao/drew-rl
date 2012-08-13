@@ -142,6 +142,11 @@ public class DLVReasoner implements DatalogReasoner {
 
 	@Override
 	public List<Literal> query(List<Clause> program, Literal query) {
+		
+//		for(Clause clause: program){
+//			System.out.println(clause);
+//		}
+		
 		DLVWrapper dlv = initialize(program);
 
 		String queryText = query.toString();

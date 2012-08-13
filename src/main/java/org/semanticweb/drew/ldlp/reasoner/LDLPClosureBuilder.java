@@ -20,16 +20,23 @@ import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLClassExpressionVisitor;
 import org.semanticweb.owlapi.model.OWLDataAllValuesFrom;
+import org.semanticweb.owlapi.model.OWLDataComplementOf;
 import org.semanticweb.owlapi.model.OWLDataExactCardinality;
 import org.semanticweb.owlapi.model.OWLDataHasValue;
+import org.semanticweb.owlapi.model.OWLDataIntersectionOf;
 import org.semanticweb.owlapi.model.OWLDataMaxCardinality;
 import org.semanticweb.owlapi.model.OWLDataMinCardinality;
+import org.semanticweb.owlapi.model.OWLDataOneOf;
 import org.semanticweb.owlapi.model.OWLDataProperty;
 import org.semanticweb.owlapi.model.OWLDataPropertyAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLDataPropertyDomainAxiom;
 import org.semanticweb.owlapi.model.OWLDataPropertyRangeAxiom;
 import org.semanticweb.owlapi.model.OWLDataSomeValuesFrom;
+import org.semanticweb.owlapi.model.OWLDataUnionOf;
+import org.semanticweb.owlapi.model.OWLDataVisitor;
+import org.semanticweb.owlapi.model.OWLDatatype;
 import org.semanticweb.owlapi.model.OWLDatatypeDefinitionAxiom;
+import org.semanticweb.owlapi.model.OWLDatatypeRestriction;
 import org.semanticweb.owlapi.model.OWLDeclarationAxiom;
 import org.semanticweb.owlapi.model.OWLDifferentIndividualsAxiom;
 import org.semanticweb.owlapi.model.OWLDisjointClassesAxiom;
@@ -39,6 +46,7 @@ import org.semanticweb.owlapi.model.OWLDisjointUnionAxiom;
 import org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom;
 import org.semanticweb.owlapi.model.OWLEquivalentDataPropertiesAxiom;
 import org.semanticweb.owlapi.model.OWLEquivalentObjectPropertiesAxiom;
+import org.semanticweb.owlapi.model.OWLFacetRestriction;
 import org.semanticweb.owlapi.model.OWLFunctionalDataPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLFunctionalObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLHasKeyAxiom;
@@ -47,6 +55,7 @@ import org.semanticweb.owlapi.model.OWLIndividualVisitor;
 import org.semanticweb.owlapi.model.OWLInverseFunctionalObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLInverseObjectPropertiesAxiom;
 import org.semanticweb.owlapi.model.OWLIrreflexiveObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLNegativeDataPropertyAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLNegativeObjectPropertyAssertionAxiom;
@@ -91,7 +100,8 @@ import org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter;
  * TODO describe this class please.
  */
 
-public class LDLPClosureBuilder extends OWLAxiomVisitorAdapter implements OWLClassExpressionVisitor, OWLPropertyExpressionVisitor, OWLIndividualVisitor {
+public class LDLPClosureBuilder extends OWLAxiomVisitorAdapter implements OWLClassExpressionVisitor,
+		OWLPropertyExpressionVisitor, OWLIndividualVisitor, OWLDataVisitor {
 
 	LDLPClosure closure = new LDLPClosure();
 
@@ -250,11 +260,11 @@ public class LDLPClosureBuilder extends OWLAxiomVisitorAdapter implements OWLCla
 		throw new UnsupportedOperationException();
 	}
 
-	//TODO:
 	@Override
 	public void visit(OWLDataHasValue ce) {
-		System.err.println("skiping " + ce + "...");
-		// throw new UnsupportedOperationException();
+		closure.addComplexClass(ce);
+		ce.getProperty().accept(this);
+		ce.getValue().accept(this);
 	}
 
 	@Override
@@ -286,39 +296,39 @@ public class LDLPClosureBuilder extends OWLAxiomVisitorAdapter implements OWLCla
 
 	@Override
 	public void visit(OWLDataProperty property) {
-		throw new UnsupportedOperationException();
+		closure.addNamedDataProperty(property);
 	}
 
-//	@Override
-//	public void visit(LDLObjectPropertyIntersectionOf property) {
-//		closure.addComplexProperty(property);
-//		for (OWLObjectPropertyExpression operand : property.getOperands()) {
-//			operand.accept(this);
-//		}
-//	}
-//
-//	@Override
-//	public void visit(LDLObjectPropertyUnionOf property) {
-//		closure.addComplexProperty(property);
-//		for (OWLObjectPropertyExpression operand : property.getOperands()) {
-//			operand.accept(this);
-//		}
-//	}
-//
-//	@Override
-//	public void visit(LDLObjectPropertyTransitiveClosureOf property) {
-//		closure.addComplexProperty(property);
-//		property.getOperand().accept(this);
-//
-//	}
-//
-//	@Override
-//	public void visit(LDLObjectPropertyChainOf property) {
-//		closure.addComplexProperty(property);
-//		for (OWLObjectPropertyExpression operand : property.getOperands()) {
-//			operand.accept(this);
-//		}
-//	}
+	// @Override
+	// public void visit(LDLObjectPropertyIntersectionOf property) {
+	// closure.addComplexProperty(property);
+	// for (OWLObjectPropertyExpression operand : property.getOperands()) {
+	// operand.accept(this);
+	// }
+	// }
+	//
+	// @Override
+	// public void visit(LDLObjectPropertyUnionOf property) {
+	// closure.addComplexProperty(property);
+	// for (OWLObjectPropertyExpression operand : property.getOperands()) {
+	// operand.accept(this);
+	// }
+	// }
+	//
+	// @Override
+	// public void visit(LDLObjectPropertyTransitiveClosureOf property) {
+	// closure.addComplexProperty(property);
+	// property.getOperand().accept(this);
+	//
+	// }
+	//
+	// @Override
+	// public void visit(LDLObjectPropertyChainOf property) {
+	// closure.addComplexProperty(property);
+	// for (OWLObjectPropertyExpression operand : property.getOperands()) {
+	// operand.accept(this);
+	// }
+	// }
 
 	@Override
 	public void visit(OWLNamedIndividual individual) {
@@ -332,20 +342,23 @@ public class LDLPClosureBuilder extends OWLAxiomVisitorAdapter implements OWLCla
 		throw new UnsupportedOperationException();
 	}
 
-//	@Override
-//	public void visit(LDLObjectPropertyOneOf property) {
-//		closure.addComplexProperty(property);
-//		
-//	}
+	// @Override
+	// public void visit(LDLObjectPropertyOneOf property) {
+	// closure.addComplexProperty(property);
+	//
+	// }
 
-	
 	@Override
 	public void visit(OWLTransitiveObjectPropertyAxiom axiom) {
-		axiom.getProperty().accept(this);		
+		axiom.getProperty().accept(this);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLAnnotationAssertionAxiom)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+	 * .owlapi.model.OWLAnnotationAssertionAxiom)
 	 */
 	@Override
 	public void visit(OWLAnnotationAssertionAxiom axiom) {
@@ -353,8 +366,12 @@ public class LDLPClosureBuilder extends OWLAxiomVisitorAdapter implements OWLCla
 		super.visit(axiom);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLAnnotationPropertyDomainAxiom)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+	 * .owlapi.model.OWLAnnotationPropertyDomainAxiom)
 	 */
 	@Override
 	public void visit(OWLAnnotationPropertyDomainAxiom axiom) {
@@ -362,8 +379,12 @@ public class LDLPClosureBuilder extends OWLAxiomVisitorAdapter implements OWLCla
 		super.visit(axiom);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLAnnotationPropertyRangeAxiom)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+	 * .owlapi.model.OWLAnnotationPropertyRangeAxiom)
 	 */
 	@Override
 	public void visit(OWLAnnotationPropertyRangeAxiom axiom) {
@@ -371,8 +392,12 @@ public class LDLPClosureBuilder extends OWLAxiomVisitorAdapter implements OWLCla
 		super.visit(axiom);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLAsymmetricObjectPropertyAxiom)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+	 * .owlapi.model.OWLAsymmetricObjectPropertyAxiom)
 	 */
 	@Override
 	public void visit(OWLAsymmetricObjectPropertyAxiom axiom) {
@@ -380,8 +405,12 @@ public class LDLPClosureBuilder extends OWLAxiomVisitorAdapter implements OWLCla
 		super.visit(axiom);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLDataPropertyAssertionAxiom)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+	 * .owlapi.model.OWLDataPropertyAssertionAxiom)
 	 */
 	@Override
 	public void visit(OWLDataPropertyAssertionAxiom axiom) {
@@ -389,8 +418,12 @@ public class LDLPClosureBuilder extends OWLAxiomVisitorAdapter implements OWLCla
 		super.visit(axiom);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLDataPropertyDomainAxiom)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+	 * .owlapi.model.OWLDataPropertyDomainAxiom)
 	 */
 	@Override
 	public void visit(OWLDataPropertyDomainAxiom axiom) {
@@ -398,8 +431,12 @@ public class LDLPClosureBuilder extends OWLAxiomVisitorAdapter implements OWLCla
 		super.visit(axiom);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLDataPropertyRangeAxiom)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+	 * .owlapi.model.OWLDataPropertyRangeAxiom)
 	 */
 	@Override
 	public void visit(OWLDataPropertyRangeAxiom axiom) {
@@ -407,8 +444,12 @@ public class LDLPClosureBuilder extends OWLAxiomVisitorAdapter implements OWLCla
 		super.visit(axiom);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLDatatypeDefinitionAxiom)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+	 * .owlapi.model.OWLDatatypeDefinitionAxiom)
 	 */
 	@Override
 	public void visit(OWLDatatypeDefinitionAxiom axiom) {
@@ -416,8 +457,12 @@ public class LDLPClosureBuilder extends OWLAxiomVisitorAdapter implements OWLCla
 		super.visit(axiom);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLDeclarationAxiom)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+	 * .owlapi.model.OWLDeclarationAxiom)
 	 */
 	@Override
 	public void visit(OWLDeclarationAxiom axiom) {
@@ -425,8 +470,12 @@ public class LDLPClosureBuilder extends OWLAxiomVisitorAdapter implements OWLCla
 		super.visit(axiom);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLDifferentIndividualsAxiom)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+	 * .owlapi.model.OWLDifferentIndividualsAxiom)
 	 */
 	@Override
 	public void visit(OWLDifferentIndividualsAxiom axiom) {
@@ -434,8 +483,12 @@ public class LDLPClosureBuilder extends OWLAxiomVisitorAdapter implements OWLCla
 		super.visit(axiom);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLDisjointClassesAxiom)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+	 * .owlapi.model.OWLDisjointClassesAxiom)
 	 */
 	@Override
 	public void visit(OWLDisjointClassesAxiom axiom) {
@@ -443,8 +496,12 @@ public class LDLPClosureBuilder extends OWLAxiomVisitorAdapter implements OWLCla
 		super.visit(axiom);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLDisjointDataPropertiesAxiom)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+	 * .owlapi.model.OWLDisjointDataPropertiesAxiom)
 	 */
 	@Override
 	public void visit(OWLDisjointDataPropertiesAxiom axiom) {
@@ -452,8 +509,12 @@ public class LDLPClosureBuilder extends OWLAxiomVisitorAdapter implements OWLCla
 		super.visit(axiom);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLDisjointObjectPropertiesAxiom)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+	 * .owlapi.model.OWLDisjointObjectPropertiesAxiom)
 	 */
 	@Override
 	public void visit(OWLDisjointObjectPropertiesAxiom axiom) {
@@ -461,8 +522,12 @@ public class LDLPClosureBuilder extends OWLAxiomVisitorAdapter implements OWLCla
 		super.visit(axiom);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLDisjointUnionAxiom)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+	 * .owlapi.model.OWLDisjointUnionAxiom)
 	 */
 	@Override
 	public void visit(OWLDisjointUnionAxiom axiom) {
@@ -470,20 +535,28 @@ public class LDLPClosureBuilder extends OWLAxiomVisitorAdapter implements OWLCla
 		super.visit(axiom);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+	 * .owlapi.model.OWLEquivalentClassesAxiom)
 	 */
 	@Override
 	public void visit(OWLEquivalentClassesAxiom axiom) {
-		//FIXME: More cases should be considered
-		for(OWLClassExpression cls:axiom.getClassExpressions()) {
+		// FIXME: More cases should be considered
+		for (OWLClassExpression cls : axiom.getClassExpressions()) {
 			cls.accept(this);
 		}
 		super.visit(axiom);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLEquivalentDataPropertiesAxiom)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+	 * .owlapi.model.OWLEquivalentDataPropertiesAxiom)
 	 */
 	@Override
 	public void visit(OWLEquivalentDataPropertiesAxiom axiom) {
@@ -491,8 +564,12 @@ public class LDLPClosureBuilder extends OWLAxiomVisitorAdapter implements OWLCla
 		super.visit(axiom);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLEquivalentObjectPropertiesAxiom)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+	 * .owlapi.model.OWLEquivalentObjectPropertiesAxiom)
 	 */
 	@Override
 	public void visit(OWLEquivalentObjectPropertiesAxiom axiom) {
@@ -500,8 +577,12 @@ public class LDLPClosureBuilder extends OWLAxiomVisitorAdapter implements OWLCla
 		super.visit(axiom);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLFunctionalDataPropertyAxiom)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+	 * .owlapi.model.OWLFunctionalDataPropertyAxiom)
 	 */
 	@Override
 	public void visit(OWLFunctionalDataPropertyAxiom axiom) {
@@ -509,8 +590,12 @@ public class LDLPClosureBuilder extends OWLAxiomVisitorAdapter implements OWLCla
 		super.visit(axiom);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLFunctionalObjectPropertyAxiom)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+	 * .owlapi.model.OWLFunctionalObjectPropertyAxiom)
 	 */
 	@Override
 	public void visit(OWLFunctionalObjectPropertyAxiom axiom) {
@@ -518,8 +603,12 @@ public class LDLPClosureBuilder extends OWLAxiomVisitorAdapter implements OWLCla
 		super.visit(axiom);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLHasKeyAxiom)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+	 * .owlapi.model.OWLHasKeyAxiom)
 	 */
 	@Override
 	public void visit(OWLHasKeyAxiom axiom) {
@@ -527,8 +616,12 @@ public class LDLPClosureBuilder extends OWLAxiomVisitorAdapter implements OWLCla
 		super.visit(axiom);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLInverseFunctionalObjectPropertyAxiom)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+	 * .owlapi.model.OWLInverseFunctionalObjectPropertyAxiom)
 	 */
 	@Override
 	public void visit(OWLInverseFunctionalObjectPropertyAxiom axiom) {
@@ -536,8 +629,12 @@ public class LDLPClosureBuilder extends OWLAxiomVisitorAdapter implements OWLCla
 		super.visit(axiom);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLInverseObjectPropertiesAxiom)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+	 * .owlapi.model.OWLInverseObjectPropertiesAxiom)
 	 */
 	@Override
 	public void visit(OWLInverseObjectPropertiesAxiom axiom) {
@@ -545,8 +642,12 @@ public class LDLPClosureBuilder extends OWLAxiomVisitorAdapter implements OWLCla
 		super.visit(axiom);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLIrreflexiveObjectPropertyAxiom)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+	 * .owlapi.model.OWLIrreflexiveObjectPropertyAxiom)
 	 */
 	@Override
 	public void visit(OWLIrreflexiveObjectPropertyAxiom axiom) {
@@ -554,8 +655,12 @@ public class LDLPClosureBuilder extends OWLAxiomVisitorAdapter implements OWLCla
 		super.visit(axiom);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLNegativeDataPropertyAssertionAxiom)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+	 * .owlapi.model.OWLNegativeDataPropertyAssertionAxiom)
 	 */
 	@Override
 	public void visit(OWLNegativeDataPropertyAssertionAxiom axiom) {
@@ -563,8 +668,12 @@ public class LDLPClosureBuilder extends OWLAxiomVisitorAdapter implements OWLCla
 		super.visit(axiom);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLNegativeObjectPropertyAssertionAxiom)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+	 * .owlapi.model.OWLNegativeObjectPropertyAssertionAxiom)
 	 */
 	@Override
 	public void visit(OWLNegativeObjectPropertyAssertionAxiom axiom) {
@@ -572,8 +681,12 @@ public class LDLPClosureBuilder extends OWLAxiomVisitorAdapter implements OWLCla
 		super.visit(axiom);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLObjectPropertyDomainAxiom)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+	 * .owlapi.model.OWLObjectPropertyDomainAxiom)
 	 */
 	@Override
 	public void visit(OWLObjectPropertyDomainAxiom axiom) {
@@ -581,8 +694,12 @@ public class LDLPClosureBuilder extends OWLAxiomVisitorAdapter implements OWLCla
 		super.visit(axiom);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLObjectPropertyRangeAxiom)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+	 * .owlapi.model.OWLObjectPropertyRangeAxiom)
 	 */
 	@Override
 	public void visit(OWLObjectPropertyRangeAxiom axiom) {
@@ -590,8 +707,12 @@ public class LDLPClosureBuilder extends OWLAxiomVisitorAdapter implements OWLCla
 		super.visit(axiom);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLReflexiveObjectPropertyAxiom)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+	 * .owlapi.model.OWLReflexiveObjectPropertyAxiom)
 	 */
 	@Override
 	public void visit(OWLReflexiveObjectPropertyAxiom axiom) {
@@ -599,8 +720,12 @@ public class LDLPClosureBuilder extends OWLAxiomVisitorAdapter implements OWLCla
 		super.visit(axiom);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLSameIndividualAxiom)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+	 * .owlapi.model.OWLSameIndividualAxiom)
 	 */
 	@Override
 	public void visit(OWLSameIndividualAxiom axiom) {
@@ -608,8 +733,12 @@ public class LDLPClosureBuilder extends OWLAxiomVisitorAdapter implements OWLCla
 		super.visit(axiom);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLSubAnnotationPropertyOfAxiom)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+	 * .owlapi.model.OWLSubAnnotationPropertyOfAxiom)
 	 */
 	@Override
 	public void visit(OWLSubAnnotationPropertyOfAxiom axiom) {
@@ -617,8 +746,12 @@ public class LDLPClosureBuilder extends OWLAxiomVisitorAdapter implements OWLCla
 		super.visit(axiom);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLSubDataPropertyOfAxiom)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+	 * .owlapi.model.OWLSubDataPropertyOfAxiom)
 	 */
 	@Override
 	public void visit(OWLSubDataPropertyOfAxiom axiom) {
@@ -626,8 +759,12 @@ public class LDLPClosureBuilder extends OWLAxiomVisitorAdapter implements OWLCla
 		super.visit(axiom);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLSubPropertyChainOfAxiom)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+	 * .owlapi.model.OWLSubPropertyChainOfAxiom)
 	 */
 	@Override
 	public void visit(OWLSubPropertyChainOfAxiom axiom) {
@@ -635,22 +772,70 @@ public class LDLPClosureBuilder extends OWLAxiomVisitorAdapter implements OWLCla
 		super.visit(axiom);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.OWLSymmetricObjectPropertyAxiom)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+	 * .owlapi.model.OWLSymmetricObjectPropertyAxiom)
 	 */
 	@Override
 	public void visit(OWLSymmetricObjectPropertyAxiom axiom) {
 		axiom.getProperty().accept(this);
-		
+
 		super.visit(axiom);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb.owlapi.model.SWRLRule)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+	 * .owlapi.model.SWRLRule)
 	 */
 	@Override
 	public void visit(SWRLRule rule) {
 		// TODO Auto-generated method stub
 		super.visit(rule);
+	}
+
+	@Override
+	public void visit(OWLDatatype node) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public void visit(OWLDataOneOf node) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public void visit(OWLDataComplementOf node) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public void visit(OWLDataIntersectionOf node) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public void visit(OWLDataUnionOf node) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public void visit(OWLDatatypeRestriction node) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public void visit(OWLLiteral node) {
+		closure.addLiteral(node);
+	}
+
+	@Override
+	public void visit(OWLFacetRestriction node) {
+		throw new UnsupportedOperationException();
 	}
 }

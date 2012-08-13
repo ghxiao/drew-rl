@@ -12,14 +12,16 @@ import java.util.Set;
 
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
+import org.semanticweb.owlapi.model.OWLDataProperty;
 import org.semanticweb.owlapi.model.OWLIndividual;
+import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * TODO describe this class please.
+ * Concepts, properites, indviduals in the ontology
  */
 public class LDLPClosure {
 
@@ -30,13 +32,18 @@ public class LDLPClosure {
 	private Set<OWLObjectProperty> namedProperties;
 	private Set<OWLClassExpression> complexClassExpressions;
 	private Set<OWLObjectPropertyExpression> complexPropertyExpressions;
+	private Set<OWLDataProperty> namedDataProperties;
+	private Set<OWLLiteral> literals;
 
 	public LDLPClosure() {
 		namedClasses = new HashSet<OWLClass>();
 		namedIndividuals = new HashSet<OWLIndividual>();
 		namedProperties = new HashSet<OWLObjectProperty>();
+		namedDataProperties = new HashSet<OWLDataProperty>();
+		literals = new HashSet<OWLLiteral>();
 		complexClassExpressions = new HashSet<OWLClassExpression>();
 		complexPropertyExpressions = new HashSet<OWLObjectPropertyExpression>();
+		
 	}
 
 	/**
@@ -98,10 +105,21 @@ public class LDLPClosure {
 		return this;
 	}
 
-	public LDLPClosure addComplexProperty(
-			OWLObjectPropertyExpression propertyExpression) {
+	public LDLPClosure addComplexProperty(OWLObjectPropertyExpression propertyExpression) {
 		this.complexPropertyExpressions.add(propertyExpression);
 		logger.debug("propertyExpression {} added to the closure", propertyExpression);
+		return this;
+	}
+
+	public LDLPClosure addNamedDataProperty(OWLDataProperty property) {
+		this.namedDataProperties.add(property);
+		logger.debug("Property {} added to the closure", property);
+		return this;
+	}
+
+	public LDLPClosure addLiteral(OWLLiteral literal) {
+		this.literals.add(literal);
+		logger.debug("Literal {} added to the closure", literal);
 		return this;
 	}
 }
