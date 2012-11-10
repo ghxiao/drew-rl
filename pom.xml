@@ -58,6 +58,12 @@
 			<artifactId>jena-arq</artifactId>
 			<version>2.9.3</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.dlvsystem</groupId>
+			<artifactId>DLVWrapper</artifactId>
+			<version>4.2</version>
+		</dependency>
 	</dependencies>
 
 	<scm>
