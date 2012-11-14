@@ -2,9 +2,9 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.semanticweb.drew</groupId>
-	<artifactId>drew</artifactId>
+	<artifactId>DReW-RL</artifactId>
 	<version>0.2-SNAPSHOT</version>
-	<name>DReW Reasoner</name>
+	<name>DReW Reasoner (for OWL 2 RL)</name>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.version>0.2-SNAPSHOT</project.version>
@@ -67,9 +67,9 @@
 	</dependencies>
 
 	<scm>
-		<connection>scm:git:https://github.com/ghxiao/drew.git</connection>
-		<developerConnection>scm:git:ssh://git@github.com/ghxiao/drew.git</developerConnection>
-		<url>https://github.com/ghxiao/drew</url>
+		<connection>scm:git:https://github.com/ghxiao/DReW-RL.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com/ghxiao/DReW-RL.git</developerConnection>
+		<url>https://github.com/ghxiao/DReW-RL</url>
 	</scm>
 
 	<distributionManagement>
