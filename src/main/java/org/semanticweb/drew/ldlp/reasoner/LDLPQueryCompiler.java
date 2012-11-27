@@ -19,7 +19,7 @@ public class LDLPQueryCompiler {
 	final static Logger logger = LoggerFactory
 			.getLogger(LDLPQueryCompiler.class);
 
-	Clause compileQuery(Clause query) {
+	public Clause compileQuery(Clause query) {
 
 		Clause newQuery = new Clause();
 
